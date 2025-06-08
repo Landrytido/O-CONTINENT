@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import emailjs from 'emailjs-com';
 import { translations } from '../../utils/translations';
 
 interface ReservationProps {
@@ -21,43 +22,48 @@ const Reservation: React.FC<ReservationProps> = ({ language }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
-  
+
   const { register, handleSubmit, reset, formState: { errors } } = useForm<ReservationFormInputs>();
-  
+
   const onSubmit: SubmitHandler<ReservationFormInputs> = async (data) => {
     setIsSubmitting(true);
     setIsError(false);
-    
+
     try {
-      // In a real implementation, this would integrate with an SMS API
-      // For now, we'll simulate a successful submission after a delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      console.log('Reservation data:', data);
-      // Simulated SMS message
-      const smsMessage = `Nouvelle réservation O CONTINENT - Nom: ${data.name}, Tel: ${data.phone}, Date: ${data.date}, Heure: ${data.time}, Personnes: ${data.people}${data.message ? ', Message: ' + data.message : ''}`;
-      console.log('SMS message:', smsMessage);
-      
+      const result = await emailjs.send(
+        'service_2qvd91m',
+        'template_i02f3hj',
+        {
+          name: data.name,
+          phone: data.phone,
+          date: data.date,
+          time: data.time,
+          people: data.people,
+          message: data.message || ''
+        },
+        'C64H7rZW7_3deLQw_'
+      );
+
+      console.log('EmailJS result:', result.status);
+
       setIsSubmitting(false);
       setIsSuccess(true);
       reset();
-      
-      // Reset success message after 5 seconds
+
       setTimeout(() => {
         setIsSuccess(false);
       }, 5000);
     } catch (error) {
-      console.error('Error submitting reservation:', error);
+      console.error('Error sending email:', error);
       setIsSubmitting(false);
       setIsError(true);
     }
   };
-  
-  // Get tomorrow's date in YYYY-MM-DD format for min date attribute
+
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   const tomorrowFormatted = tomorrow.toISOString().split('T')[0];
-  
+
   return (
     <section id="reservation" className="section-padding bg-neutral-100">
       <div className="container-custom">
@@ -75,20 +81,20 @@ const Reservation: React.FC<ReservationProps> = ({ language }) => {
             {t.description}
           </p>
         </motion.div>
-        
+
         <div className="max-w-2xl mx-auto bg-white rounded-sm shadow-custom p-8">
           {isSuccess && (
             <div className="mb-6 p-4 bg-success-100 text-success-700 rounded-sm">
               {t.successMessage}
             </div>
           )}
-          
+
           {isError && (
             <div className="mb-6 p-4 bg-error-100 text-error-700 rounded-sm">
               {t.errorMessage}
             </div>
           )}
-          
+
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-neutral-700 mb-1">
@@ -104,7 +110,7 @@ const Reservation: React.FC<ReservationProps> = ({ language }) => {
               />
               {errors.name && <p className="mt-1 text-sm text-error-500">{t.form.nameRequired}</p>}
             </div>
-            
+
             <div>
               <label htmlFor="phone" className="block text-sm font-medium text-neutral-700 mb-1">
                 {t.form.phone} <span className="text-error-500">*</span>
@@ -119,7 +125,7 @@ const Reservation: React.FC<ReservationProps> = ({ language }) => {
               />
               {errors.phone && <p className="mt-1 text-sm text-error-500">{t.form.phoneRequired}</p>}
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label htmlFor="date" className="block text-sm font-medium text-neutral-700 mb-1">
@@ -135,7 +141,7 @@ const Reservation: React.FC<ReservationProps> = ({ language }) => {
                 />
                 {errors.date && <p className="mt-1 text-sm text-error-500">{t.form.dateRequired}</p>}
               </div>
-              
+
               <div>
                 <label htmlFor="time" className="block text-sm font-medium text-neutral-700 mb-1">
                   {t.form.time} <span className="text-error-500">*</span>
@@ -150,7 +156,7 @@ const Reservation: React.FC<ReservationProps> = ({ language }) => {
                 {errors.time && <p className="mt-1 text-sm text-error-500">{t.form.timeRequired}</p>}
               </div>
             </div>
-            
+
             <div>
               <label htmlFor="people" className="block text-sm font-medium text-neutral-700 mb-1">
                 {t.form.people} <span className="text-error-500">*</span>
@@ -167,7 +173,7 @@ const Reservation: React.FC<ReservationProps> = ({ language }) => {
               />
               {errors.people && <p className="mt-1 text-sm text-error-500">{t.form.peopleRequired}</p>}
             </div>
-            
+
             <div>
               <label htmlFor="message" className="block text-sm font-medium text-neutral-700 mb-1">
                 {t.form.message}
@@ -181,7 +187,7 @@ const Reservation: React.FC<ReservationProps> = ({ language }) => {
                 disabled={isSubmitting}
               ></textarea>
             </div>
-            
+
             <div className="text-center">
               <motion.button
                 type="submit"
