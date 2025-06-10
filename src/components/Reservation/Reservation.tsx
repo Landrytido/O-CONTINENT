@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import emailjs from 'emailjs-com';
+import { MessageCircle } from 'lucide-react';
 import { translations } from '../../utils/translations';
 
 interface ReservationProps {
@@ -23,14 +24,14 @@ const Reservation: React.FC<ReservationProps> = ({ language }) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<ReservationFormInputs>();
+  const { register, handleSubmit, reset, watch, formState: { errors } } = useForm<ReservationFormInputs>();
 
   const onSubmit: SubmitHandler<ReservationFormInputs> = async (data) => {
     setIsSubmitting(true);
     setIsError(false);
 
     try {
-      const result = await emailjs.send(
+      await emailjs.send(
         'service_2qvd91m',
         'template_i02f3hj',
         {
@@ -43,8 +44,6 @@ const Reservation: React.FC<ReservationProps> = ({ language }) => {
         },
         'C64H7rZW7_3deLQw_'
       );
-
-      console.log('EmailJS result:', result.status);
 
       setIsSubmitting(false);
       setIsSuccess(true);
@@ -63,6 +62,18 @@ const Reservation: React.FC<ReservationProps> = ({ language }) => {
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   const tomorrowFormatted = tomorrow.toISOString().split('T')[0];
+
+  // Watch values for WhatsApp link
+  const name = watch('name');
+  const phone = watch('phone');
+  const date = watch('date');
+  const time = watch('time');
+  const people = watch('people');
+  const msg = watch('message');
+
+  const whatsappMessage = encodeURIComponent(
+    `Bonjour, je souhaite faire une réservation au restaurant O CONTINENT.\nNom: ${name || ''}\nTéléphone: ${phone || ''}\nDate: ${date || ''}\nHeure: ${time || ''}\nPersonnes: ${people || ''}\nMessage: ${msg || ''}`
+  );
 
   return (
     <section id="reservation" className="section-padding bg-neutral-100">
@@ -96,6 +107,7 @@ const Reservation: React.FC<ReservationProps> = ({ language }) => {
           )}
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {/* Nom */}
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-neutral-700 mb-1">
                 {t.form.name} <span className="text-error-500">*</span>
@@ -104,13 +116,14 @@ const Reservation: React.FC<ReservationProps> = ({ language }) => {
                 id="name"
                 type="text"
                 {...register('name', { required: true })}
-                className={`w-full p-3 border ${errors.name ? 'border-error-500' : 'border-neutral-300'} rounded-sm focus:outline-none focus:ring-2 focus:ring-gold`}
+                className={`w-full p-3 border ${errors.name ? 'border-error-500' : 'border-neutral-300'} rounded-sm`}
                 placeholder={t.form.namePlaceholder}
                 disabled={isSubmitting}
               />
               {errors.name && <p className="mt-1 text-sm text-error-500">{t.form.nameRequired}</p>}
             </div>
 
+            {/* Téléphone */}
             <div>
               <label htmlFor="phone" className="block text-sm font-medium text-neutral-700 mb-1">
                 {t.form.phone} <span className="text-error-500">*</span>
@@ -119,13 +132,14 @@ const Reservation: React.FC<ReservationProps> = ({ language }) => {
                 id="phone"
                 type="tel"
                 {...register('phone', { required: true })}
-                className={`w-full p-3 border ${errors.phone ? 'border-error-500' : 'border-neutral-300'} rounded-sm focus:outline-none focus:ring-2 focus:ring-gold`}
+                className={`w-full p-3 border ${errors.phone ? 'border-error-500' : 'border-neutral-300'} rounded-sm`}
                 placeholder={t.form.phonePlaceholder}
                 disabled={isSubmitting}
               />
               {errors.phone && <p className="mt-1 text-sm text-error-500">{t.form.phoneRequired}</p>}
             </div>
 
+            {/* Date & Heure */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label htmlFor="date" className="block text-sm font-medium text-neutral-700 mb-1">
@@ -136,7 +150,7 @@ const Reservation: React.FC<ReservationProps> = ({ language }) => {
                   type="date"
                   {...register('date', { required: true })}
                   min={tomorrowFormatted}
-                  className={`w-full p-3 border ${errors.date ? 'border-error-500' : 'border-neutral-300'} rounded-sm focus:outline-none focus:ring-2 focus:ring-gold`}
+                  className={`w-full p-3 border ${errors.date ? 'border-error-500' : 'border-neutral-300'} rounded-sm`}
                   disabled={isSubmitting}
                 />
                 {errors.date && <p className="mt-1 text-sm text-error-500">{t.form.dateRequired}</p>}
@@ -150,13 +164,14 @@ const Reservation: React.FC<ReservationProps> = ({ language }) => {
                   id="time"
                   type="time"
                   {...register('time', { required: true })}
-                  className={`w-full p-3 border ${errors.time ? 'border-error-500' : 'border-neutral-300'} rounded-sm focus:outline-none focus:ring-2 focus:ring-gold`}
+                  className={`w-full p-3 border ${errors.time ? 'border-error-500' : 'border-neutral-300'} rounded-sm`}
                   disabled={isSubmitting}
                 />
                 {errors.time && <p className="mt-1 text-sm text-error-500">{t.form.timeRequired}</p>}
               </div>
             </div>
 
+            {/* Personnes */}
             <div>
               <label htmlFor="people" className="block text-sm font-medium text-neutral-700 mb-1">
                 {t.form.people} <span className="text-error-500">*</span>
@@ -166,14 +181,15 @@ const Reservation: React.FC<ReservationProps> = ({ language }) => {
                 type="number"
                 min="1"
                 max="20"
-                {...register('people', { required: true, min: 1, max: 20 })}
-                className={`w-full p-3 border ${errors.people ? 'border-error-500' : 'border-neutral-300'} rounded-sm focus:outline-none focus:ring-2 focus:ring-gold`}
+                {...register('people', { required: true })}
+                className={`w-full p-3 border ${errors.people ? 'border-error-500' : 'border-neutral-300'} rounded-sm`}
                 placeholder={t.form.peoplePlaceholder}
                 disabled={isSubmitting}
               />
               {errors.people && <p className="mt-1 text-sm text-error-500">{t.form.peopleRequired}</p>}
             </div>
 
+            {/* Message */}
             <div>
               <label htmlFor="message" className="block text-sm font-medium text-neutral-700 mb-1">
                 {t.form.message}
@@ -182,13 +198,14 @@ const Reservation: React.FC<ReservationProps> = ({ language }) => {
                 id="message"
                 {...register('message')}
                 rows={3}
-                className="w-full p-3 border border-neutral-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-gold resize-none"
+                className="w-full p-3 border border-neutral-300 rounded-sm resize-none"
                 placeholder={t.form.messagePlaceholder}
                 disabled={isSubmitting}
               ></textarea>
             </div>
 
-            <div className="text-center">
+            {/* Boutons */}
+            <div className="flex flex-col md:flex-row justify-center items-center gap-4 pt-4">
               <motion.button
                 type="submit"
                 disabled={isSubmitting}
@@ -198,6 +215,16 @@ const Reservation: React.FC<ReservationProps> = ({ language }) => {
               >
                 {isSubmitting ? t.form.submitting : t.form.submit}
               </motion.button>
+
+              <a
+                href={`https://wa.me/32484925191?text=${whatsappMessage}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-md min-w-[200px]"
+              >
+                <MessageCircle className="w-5 h-5" />
+                WhatsApp
+              </a>
             </div>
           </form>
         </div>
