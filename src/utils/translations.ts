@@ -40,7 +40,7 @@ export const translations = {
         "Nos ingrédients sont soigneusement sélectionnés, privilégiant les produits locaux et de saison, tout en respectant les techniques de préparation traditionnelles de chaque pays.",
       missionTitle: "Notre Mission",
       missionParagraph1:
-        "Chez O CONTINENT, nous croyons que la nourriture est un langage universel qui rassemble les gens. Notre mission est de célébrer la diversité culinaire mondiale tout en créant un lieu de partage et de découverte.",
+        "Chez O' CONTINENT, nous croyons que la nourriture est un langage universel qui rassemble les gens. Notre mission est de célébrer la diversité culinaire mondiale tout en créant un lieu de partage et de découverte.",
       missionParagraph2:
         "Chaque mois, nous mettons en lumière une région différente du monde à travers des plats spéciaux et des événements thématiques, permettant ainsi à nos clients de voyager par les papilles sans quitter Bruxelles.",
     },
