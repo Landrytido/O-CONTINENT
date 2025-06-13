@@ -74,8 +74,8 @@ const Header: React.FC<HeaderProps> = ({ language = 'fr', onLanguageChange = () 
       <motion.header 
         className={`fixed w-full z-50 transition-all duration-500 ease-out ${
           isScrolled 
-            ? 'backdrop-blur-xl bg-black/80 border-b border-white/10 py-3 shadow-2xl shadow-black/50' 
-            : 'bg-gradient-to-b from-black/60 via-black/40 to-transparent backdrop-blur-sm py-4'
+            ? 'backdrop-blur-xl bg-black/80 border-b border-white/10 py-2 shadow-2xl shadow-black/50' 
+            : 'bg-gradient-to-b from-black/60 via-black/40 to-transparent backdrop-blur-sm py-2'
         }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -165,7 +165,7 @@ const Header: React.FC<HeaderProps> = ({ language = 'fr', onLanguageChange = () 
               
               <motion.a 
                 href="#reservation" 
-                className="relative group bg-gradient-to-r from-yellow-400 to-amber-500 text-black px-6 py-2 rounded-full hover:from-yellow-300 hover:to-amber-400 transition-all duration-300 font-bold shadow-lg hover:shadow-yellow-400/25"
+                className="relative group bg-gradient-to-r from-yellow-400 to-amber-500 text-black px-3 py-2 rounded-full hover:from-yellow-300 hover:to-amber-400 transition-all duration-300 font-bold shadow-lg hover:shadow-yellow-400/25"
                 style={{ fontFamily: 'Inter, sans-serif' }}
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.98 }}

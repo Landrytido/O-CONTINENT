@@ -6,7 +6,7 @@ import { Facebook, Instagram, Twitter, MapPin, Phone, Star, Sparkles, Heart } fr
 const translations = {
   fr: {
     footer: {
-      tagline: "Saveurs authentiques d'Afrique dans un cadre moderne et chaleureux",
+      tagline: "Saveurs authentiques d'Afrique et d'Europe dans un cadre moderne et chaleureux",
       contact: {
         title: "Contact"
       },

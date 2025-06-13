@@ -6,7 +6,7 @@ import { ChevronDown, MapPin, Clock, BookOpen, Star } from 'lucide-react';
 const translations = {
   fr: {
     hero: {
-      subtitle: "Saveurs Authentiques d'Afrique",
+      subtitle: "Saveurs Authentiques d'Afrique et d'Europe",
       seeMenu: "Voir le Menu",
       reserve: "Réserver"
     }
@@ -139,7 +139,7 @@ const Hero: React.FC<HeroProps> = ({ language = 'fr' }) => {
       {/* Glassmorphism overlay pour le contenu */}
       <div className="absolute inset-0 z-10 flex items-center justify-center">
         <motion.div 
-          className="backdrop-blur-lg bg-gradient-to-br from-black/20 to-black/30 rounded-3xl border border-white/30 shadow-2xl p-6 md:p-12 lg:p-16 mx-4 max-w-5xl relative overflow-hidden"
+          className="backdrop-blur-lg bg-gradient-to-br from-black/20 to-black/30 rounded-3xl border border-white/30 shadow-2xl p-12 md:p-12 lg:p-16 mx-4 max-w-5xl relative overflow-hidden"
           initial={{ opacity: 0, scale: 0.9, y: 50 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
@@ -348,7 +348,7 @@ const Hero: React.FC<HeroProps> = ({ language = 'fr' }) => {
             nextSection.scrollIntoView({ behavior: 'smooth' });
           }}
         >
-          <motion.div
+          {/* <motion.div
             className="bg-white/10 backdrop-blur-sm border border-white/30 rounded-full p-3 group-hover:bg-white/20 transition-all duration-300"
             animate={{ y: [0, -5, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
@@ -363,12 +363,12 @@ const Hero: React.FC<HeroProps> = ({ language = 'fr' }) => {
             DÉCOUVRIR
           </motion.span>
           
-          {/* Ligne animée */}
+          {/* Ligne animée 
           <motion.div 
             className="w-0.5 h-8 bg-gradient-to-b from-white/60 to-transparent mx-auto"
             animate={{ scaleY: [1, 0.5, 1] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-          />
+          /> */}
         </motion.div>
       </motion.div>
     </section>

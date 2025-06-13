@@ -24,7 +24,7 @@ function App() {
         <Story language={language} />
         <Testimonials language={language} />
         <Reservation language={language} />
-        <Location language={language} />
+        {/* <Location language={language} /> */}
       </main>
       <Footer language={language} />
     </div>
