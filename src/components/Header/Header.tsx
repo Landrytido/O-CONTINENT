@@ -121,7 +121,7 @@ const Header: React.FC<HeaderProps> = ({ language = 'fr', onLanguageChange = () 
           <nav className="hidden lg:flex items-center space-x-8">
             {[
               { href: "#menu", label: t.menu },
-              { href: "Photos", label: t.story }
+              { href: "story", label: t.story }
             ].map((item, index) => (
               <motion.a
                 key={item.href}
@@ -145,7 +145,7 @@ const Header: React.FC<HeaderProps> = ({ language = 'fr', onLanguageChange = () 
             
             <div className="flex space-x-4">
               <motion.a 
-                href="#contact" 
+                href="#reservation" 
                 className="relative group text-yellow-400 border border-yellow-400/50 px-6 py-2 rounded-full hover:bg-yellow-400/10 hover:border-yellow-400 transition-all duration-300 font-medium backdrop-blur-sm"
                 style={{ fontFamily: 'Inter, sans-serif' }}
                 whileHover={{ scale: 1.05, y: -2 }}
@@ -284,7 +284,7 @@ const Header: React.FC<HeaderProps> = ({ language = 'fr', onLanguageChange = () 
                 {[
                   { href: "#menu", label: t.menu },
                   { href: "#story", label: t.story },
-                  { href: "#contact", label: t.contact }
+                  { href: "#reservation", label: t.contact }
                 ].map((item, index) => (
                   <motion.a 
                     key={item.href}

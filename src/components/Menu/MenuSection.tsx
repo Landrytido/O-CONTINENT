@@ -33,12 +33,6 @@ const menuCategories = [
     description: { fr: 'Poissons frais et savoureux', en: 'Fresh and flavorful fish' }
   },
   {
-    id: 'Sauces',
-    image: 'https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    menuImage: 'https://images.pexels.com/photos/1410235/pexels-photo-1410235.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    description: { fr: 'Sautés de tomates savoureux', en: 'Savory tomato sautés' }
-  },
-  {
     id: 'desserts',
     name: { fr: 'Desserts', en: 'Desserts' },
     image: '/dessert.jpg',
@@ -52,12 +46,27 @@ const menuCategories = [
     menuImage: '/boisons.jpg',
     description: { fr: 'Boissons rafraîchissantes', en: 'Refreshing beverages' }
   },
-   {
+  {
     id: 'liqueurs',
+    name: { fr: 'liqueurs', en: 'liqueurs' },
     image: 'https://images.pexels.com/photos/1283219/pexels-photo-1283219.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
     menuImage: 'https://images.pexels.com/photos/3566120/pexels-photo-3566120.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-  description: { fr: 'liqueurs rafraîchissantes', en: 'Refreshing beverages' }
-   },
+    description: { fr: 'Cocktails créatifs et rafraîchissants', en: 'Creative and refreshing cocktails' }
+  },
+  {
+    id: 'Sauces',
+    name: { fr: 'Sauces', en: 'Sautes' },
+     image: 'https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    menuImage: 'https://images.pexels.com/photos/1410235/pexels-photo-1410235.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    description: { fr: 'Plats  savoureux', en: 'Delicious  dishes' }
+  },
+  {
+    id: 'Poulet',
+    name: { fr: 'Poulet', en: 'Chicken' },
+    image: 'https://images.pexels.com/photos/2338407/pexels-photo-2338407.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    menuImage: 'https://images.pexels.com/photos/616354/pexels-photo-616354.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    description: { fr: 'Poulet tendre et juteux', en: 'Tender and juicy chicken' }
+  },
 ];
 
 const translations = {
@@ -326,7 +335,7 @@ const MenuSection: React.FC<MenuSectionProps> = ({ language = 'fr' }) => {
             >
               <span className="relative z-10 flex items-center space-x-2">
                 <span>{t.viewFullMenu}</span>
-                <Sparkles className="w-4 h-4" />
+  
               </span>
               <motion.div
                 className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 rounded-full"

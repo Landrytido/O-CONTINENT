@@ -14,7 +14,7 @@ const translations = {
         title: "Liens Rapides",
         menu: "Menu",
         reservation: "Réservation", 
-        story: "Notre Histoire",
+   
         contact: "Contact"
       },
       social: {
@@ -34,7 +34,7 @@ const translations = {
         title: "Quick Links",
         menu: "Menu",
         reservation: "Reservation",
-        story: "Our Story",
+        
         contact: "Contact"
       },
       social: {
@@ -299,8 +299,8 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
                 {[
                   { href: "#menu", label: t.quickLinks.menu },
                   { href: "#reservation", label: t.quickLinks.reservation },
-                  { href: "#story", label: t.quickLinks.story },
-                  { href: "#contact", label: t.quickLinks.contact }
+  
+                  { href: "#reservation", label: t.quickLinks.contact }
                 ].map((link, index) => (
                   <motion.li
                     key={link.href}
