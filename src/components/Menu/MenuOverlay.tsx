@@ -39,12 +39,12 @@ const MenuOverlay: React.FC<MenuOverlayProps> = ({ onClose, categories, language
           {categories.map((category) => (
             <div key={category.id} className="bg-black bg-opacity-50 p-6 rounded-sm">
               <h3 className="text-gold text-2xl font-bold mb-4 font-playfair">
-                {t.categories[category.id] || category.id}
+                {t.categories[category.id as keyof typeof t.categories] || category.id}
               </h3>
               <div className="aspect-w-16 aspect-h-9">
                 <img
                   src={category.menuImage}
-                  alt={`${t.categories[category.id] || category.id} menu`}
+                  alt={`${t.categories[category.id as keyof typeof t.categories] || category.id} menu`}
                   className="w-full h-auto object-contain"
                 />
               </div>

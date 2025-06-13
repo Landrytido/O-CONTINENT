@@ -32,7 +32,9 @@ const Hero: React.FC<HeroProps> = ({ language = 'fr' }) => {
   const backgroundImages = [
     '/image2.jpg',
     '/plat2.jpeg',
-    '/image6.jpg'
+    '/image6.jpg',
+    'https://images.pexels.com/photos/1640772/pexels-photo-1640772.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=2',
+    'https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=2'
   ];
 
   // Carousel automatique toutes les 4 secondes

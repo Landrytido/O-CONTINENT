@@ -25,12 +25,12 @@ const MenuCategory: React.FC<MenuCategoryProps> = ({ category, onClick, language
       <div className="relative overflow-hidden rounded-sm">
         <img
           src={category.image}
-          alt={t.categories[category.id] || category.id}
+          alt={t.categories[category.id as keyof typeof t.categories] || category.id}
           className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center transition-opacity duration-300 group-hover:bg-opacity-60">
           <h3 className="text-gold text-xl md:text-2xl font-playfair font-bold">
-            {t.categories[category.id] || category.id}
+            {t.categories[category.id as keyof typeof t.categories] || category.id}
           </h3>
         </div>
       </div>
