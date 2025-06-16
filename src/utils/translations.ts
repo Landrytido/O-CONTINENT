@@ -33,14 +33,14 @@ export const translations = {
     story: {
       title: "Notre Histoire",
       paragraph1:
-        "O CONTINENT est né d'une passion pour la cuisine du monde et d'un désir de faire voyager les clients à travers les saveurs authentiques des quatre coins de la planète.",
+        "O CONTINENG est né d'une passion pour la cuisine du monde et d'un désir de faire voyager les clients à travers les saveurs authentiques des quatre coins de la planète.",
       paragraph2:
         "Fondé en 2018 par une équipe de chefs internationaux, notre restaurant s'est donné pour mission de créer une expérience culinaire unique où chaque plat raconte une histoire, une tradition, une culture.",
       paragraph3:
         "Nos ingrédients sont soigneusement sélectionnés, privilégiant les produits locaux et de saison, tout en respectant les techniques de préparation traditionnelles de chaque pays.",
       missionTitle: "Notre Mission",
       missionParagraph1:
-        "Chez O' CONTINENT, nous croyons que la nourriture est un langage universel qui rassemble les gens. Notre mission est de célébrer la diversité culinaire mondiale tout en créant un lieu de partage et de découverte.",
+        "Chez O' CONTINENG, nous croyons que la nourriture est un langage universel qui rassemble les gens. Notre mission est de célébrer la diversité culinaire mondiale tout en créant un lieu de partage et de découverte.",
       missionParagraph2:
         "Chaque mois, nous mettons en lumière une région différente du monde à travers des plats spéciaux et des événements thématiques, permettant ainsi à nos clients de voyager par les papilles sans quitter Bruxelles.",
     },
@@ -145,14 +145,14 @@ export const translations = {
     story: {
       title: "Our Story",
       paragraph1:
-        "O CONTINENT was born from a passion for world cuisine and a desire to take customers on a journey through authentic flavors from around the globe.",
+        "O CONTINENG was born from a passion for world cuisine and a desire to take customers on a journey through authentic flavors from around the globe.",
       paragraph2:
         "Founded in 2018 by a team of international chefs, our restaurant has made it its mission to create a unique culinary experience where each dish tells a story, a tradition, a culture.",
       paragraph3:
         "Our ingredients are carefully selected, favoring local and seasonal products, while respecting the traditional preparation techniques of each country.",
       missionTitle: "Our Mission",
       missionParagraph1:
-        "At O CONTINENT, we believe that food is a universal language that brings people together. Our mission is to celebrate global culinary diversity while creating a place for sharing and discovery.",
+        "At O CONTINENG, we believe that food is a universal language that brings people together. Our mission is to celebrate global culinary diversity while creating a place for sharing and discovery.",
       missionParagraph2:
         "Each month, we highlight a different region of the world through special dishes and themed events, allowing our customers to travel through taste without leaving Brussels.",
     },

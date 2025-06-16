@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Globe, Menu, X, Star } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Globe, Menu, X, Star } from "lucide-react";
 
 // Simulation du composant Logo et des translations
 const Logo = () => (
-  <motion.div 
+  <motion.div
     className="flex items-center space-x-2"
     whileHover={{ scale: 1.05 }}
     transition={{ type: "spring", stiffness: 400, damping: 17 }}
   >
     <div className="text-2xl font-bold">
       <span className="text-yellow-400">O '</span>
-      <span className="text-red-500 ml-1">CONTINENT</span>
+      <span className="text-red-500 ml-1">CONTINENG</span>
     </div>
   </motion.div>
 );
@@ -20,31 +20,34 @@ const translations = {
   fr: {
     header: {
       menu: "Menu",
-      story: "Photos",
+      story: "Nous",
       contact: "Contact",
-      reservation: "Réserver"
-    }
+      reservation: "Réserver",
+    },
   },
   en: {
     header: {
       menu: "Menu",
-      story: "Photos", 
+      story: "Our Story",
       contact: "Contact",
-      reservation: "Reserve"
-    }
-  }
+      reservation: "Reserve",
+    },
+  },
 };
 
 interface HeaderProps {
-  language: 'fr' | 'en';
-  onLanguageChange: (lang: 'fr' | 'en') => void;
+  language: "fr" | "en";
+  onLanguageChange: (lang: "fr" | "en") => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ language = 'fr', onLanguageChange = () => {} }) => {
+const Header: React.FC<HeaderProps> = ({
+  language = "fr",
+  onLanguageChange = () => {},
+}) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
-  
+
   const t = translations[language].header;
 
   useEffect(() => {
@@ -52,8 +55,8 @@ const Header: React.FC<HeaderProps> = ({ language = 'fr', onLanguageChange = () 
       setIsScrolled(window.scrollY > 50);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const toggleMobileMenu = () => {
@@ -67,15 +70,15 @@ const Header: React.FC<HeaderProps> = ({ language = 'fr', onLanguageChange = () 
   return (
     <>
       {/* Import de Google Fonts */}
-      <style >{`
+      <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
       `}</style>
 
-      <motion.header 
+      <motion.header
         className={`fixed w-full z-50 transition-all duration-500 ease-out ${
-          isScrolled 
-            ? 'backdrop-blur-xl bg-black/80 border-b border-white/10 py-2 shadow-2xl shadow-black/50' 
-            : 'bg-gradient-to-b from-black/60 via-black/40 to-transparent backdrop-blur-sm py-2'
+          isScrolled
+            ? "backdrop-blur-xl bg-black/80 border-b border-white/10 py-2 shadow-2xl shadow-black/50"
+            : "bg-gradient-to-b from-black/60 via-black/40 to-transparent backdrop-blur-sm py-2"
         }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -104,11 +107,11 @@ const Header: React.FC<HeaderProps> = ({ language = 'fr', onLanguageChange = () 
                 duration: 4,
                 repeat: Infinity,
                 delay: i * 1.5,
-                ease: "easeInOut"
+                ease: "easeInOut",
               }}
               style={{
                 left: `${20 + i * 30}%`,
-                top: '50%',
+                top: "50%",
               }}
             />
           ))}
@@ -116,18 +119,18 @@ const Header: React.FC<HeaderProps> = ({ language = 'fr', onLanguageChange = () 
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between relative">
           <Logo />
-          
+
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
             {[
               { href: "#menu", label: t.menu },
-              { href: "story", label: t.story }
+              { href: "story", label: t.story },
             ].map((item, index) => (
               <motion.a
                 key={item.href}
                 href={item.href}
                 className="relative text-white/90 hover:text-white transition-colors duration-300 font-medium tracking-wide"
-                style={{ fontFamily: 'Inter, sans-serif' }}
+                style={{ fontFamily: "Inter, sans-serif" }}
                 whileHover={{ y: -2 }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -142,12 +145,12 @@ const Header: React.FC<HeaderProps> = ({ language = 'fr', onLanguageChange = () 
                 />
               </motion.a>
             ))}
-            
+
             <div className="flex space-x-4">
-              <motion.a 
-                href="#reservation" 
+              <motion.a
+                href="#reservation"
                 className="relative group text-yellow-400 border border-yellow-400/50 px-6 py-2 rounded-full hover:bg-yellow-400/10 hover:border-yellow-400 transition-all duration-300 font-medium backdrop-blur-sm"
-                style={{ fontFamily: 'Inter, sans-serif' }}
+                style={{ fontFamily: "Inter, sans-serif" }}
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 initial={{ opacity: 0, x: 20 }}
@@ -157,16 +160,16 @@ const Header: React.FC<HeaderProps> = ({ language = 'fr', onLanguageChange = () 
                 <span className="relative z-10">{t.contact}</span>
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-r from-yellow-400/0 via-yellow-400/20 to-yellow-400/0 rounded-full"
-                  initial={{ x: '-100%' }}
-                  whileHover={{ x: '100%' }}
+                  initial={{ x: "-100%" }}
+                  whileHover={{ x: "100%" }}
                   transition={{ duration: 0.6 }}
                 />
               </motion.a>
-              
-              <motion.a 
-                href="#reservation" 
+
+              <motion.a
+                href="#reservation"
                 className="relative group bg-gradient-to-r from-yellow-400 to-amber-500 text-black px-3 py-2 rounded-full hover:from-yellow-300 hover:to-amber-400 transition-all duration-300 font-bold shadow-lg hover:shadow-yellow-400/25"
-                style={{ fontFamily: 'Inter, sans-serif' }}
+                style={{ fontFamily: "Inter, sans-serif" }}
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 initial={{ opacity: 0, x: 20 }}
@@ -179,13 +182,13 @@ const Header: React.FC<HeaderProps> = ({ language = 'fr', onLanguageChange = () 
                 </span>
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 rounded-full"
-                  initial={{ x: '-100%' }}
-                  whileHover={{ x: '100%' }}
+                  initial={{ x: "-100%" }}
+                  whileHover={{ x: "100%" }}
                   transition={{ duration: 0.8 }}
                 />
               </motion.a>
             </div>
-            
+
             {/* Language Selector */}
             <div className="relative">
               <motion.button
@@ -200,19 +203,19 @@ const Header: React.FC<HeaderProps> = ({ language = 'fr', onLanguageChange = () 
                 <Globe size={18} className="mr-2 text-yellow-400" />
                 {language.toUpperCase()}
               </motion.button>
-              
+
               <AnimatePresence>
                 {isLanguageDropdownOpen && (
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
                     className="absolute right-0 mt-2 w-28 bg-black/90 backdrop-blur-xl border border-white/20 rounded-xl shadow-2xl overflow-hidden"
                   >
-                    <motion.button 
+                    <motion.button
                       onClick={() => {
-                        onLanguageChange('fr');
+                        onLanguageChange("fr");
                         setIsLanguageDropdownOpen(false);
                       }}
                       className="w-full text-left px-4 py-3 text-white/90 hover:bg-white/10 hover:text-white flex items-center transition-all duration-200"
@@ -220,9 +223,9 @@ const Header: React.FC<HeaderProps> = ({ language = 'fr', onLanguageChange = () 
                     >
                       <span className="mr-2">🇫🇷</span> FR
                     </motion.button>
-                    <motion.button 
+                    <motion.button
                       onClick={() => {
-                        onLanguageChange('en');
+                        onLanguageChange("en");
                         setIsLanguageDropdownOpen(false);
                       }}
                       className="w-full text-left px-4 py-3 text-white/90 hover:bg-white/10 hover:text-white flex items-center transition-all duration-200"
@@ -235,10 +238,10 @@ const Header: React.FC<HeaderProps> = ({ language = 'fr', onLanguageChange = () 
               </AnimatePresence>
             </div>
           </nav>
-          
+
           {/* Mobile Menu Button */}
-          <motion.button 
-            className="lg:hidden text-white p-3 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300" 
+          <motion.button
+            className="lg:hidden text-white p-3 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300"
             onClick={toggleMobileMenu}
             aria-label="Toggle menu"
             whileHover={{ scale: 1.1 }}
@@ -269,13 +272,13 @@ const Header: React.FC<HeaderProps> = ({ language = 'fr', onLanguageChange = () 
             </AnimatePresence>
           </motion.button>
         </div>
-        
+
         {/* Mobile Menu */}
         <AnimatePresence>
           {isMobileMenuOpen && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
+              animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
               className="lg:hidden bg-black/95 backdrop-blur-xl border-t border-white/10"
@@ -284,13 +287,13 @@ const Header: React.FC<HeaderProps> = ({ language = 'fr', onLanguageChange = () 
                 {[
                   { href: "#menu", label: t.menu },
                   { href: "#story", label: t.story },
-                  { href: "#reservation", label: t.contact }
+                  { href: "#reservation", label: t.contact },
                 ].map((item, index) => (
-                  <motion.a 
+                  <motion.a
                     key={item.href}
-                    href={item.href} 
+                    href={item.href}
                     className="text-white/90 hover:text-yellow-400 py-3 transition-colors duration-300 font-medium text-lg border-b border-white/10 last:border-b-0"
-                    style={{ fontFamily: 'Inter, sans-serif' }}
+                    style={{ fontFamily: "Inter, sans-serif" }}
                     onClick={() => setIsMobileMenuOpen(false)}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -300,11 +303,11 @@ const Header: React.FC<HeaderProps> = ({ language = 'fr', onLanguageChange = () 
                     {item.label}
                   </motion.a>
                 ))}
-                
-                <motion.a 
-                  href="#reservation" 
+
+                <motion.a
+                  href="#reservation"
                   className="bg-gradient-to-r from-yellow-400 to-amber-500 text-black px-6 py-3 rounded-full text-center font-bold text-lg hover:from-yellow-300 hover:to-amber-400 transition-all duration-300 mt-4"
-                  style={{ fontFamily: 'Inter, sans-serif' }}
+                  style={{ fontFamily: "Inter, sans-serif" }}
                   onClick={() => setIsMobileMenuOpen(false)}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -314,11 +317,11 @@ const Header: React.FC<HeaderProps> = ({ language = 'fr', onLanguageChange = () 
                 >
                   {t.reservation}
                 </motion.a>
-                
+
                 <div className="flex justify-center space-x-6 py-4 border-t border-white/10 mt-4">
-                  <motion.button 
+                  <motion.button
                     onClick={() => {
-                      onLanguageChange('fr');
+                      onLanguageChange("fr");
                       setIsMobileMenuOpen(false);
                     }}
                     className="flex items-center text-white/90 hover:text-yellow-400 transition-colors duration-300 bg-white/5 px-4 py-2 rounded-full"
@@ -329,9 +332,9 @@ const Header: React.FC<HeaderProps> = ({ language = 'fr', onLanguageChange = () 
                   >
                     🇫🇷 FR
                   </motion.button>
-                  <motion.button 
+                  <motion.button
                     onClick={() => {
-                      onLanguageChange('en');
+                      onLanguageChange("en");
                       setIsMobileMenuOpen(false);
                     }}
                     className="flex items-center text-white/90 hover:text-yellow-400 transition-colors duration-300 bg-white/5 px-4 py-2 rounded-full"

@@ -1,49 +1,59 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Facebook, Instagram, Twitter, MapPin, Phone, Star, Sparkles, Heart } from "lucide-react";
+import {
+  Facebook,
+  Instagram,
+  Twitter,
+  MapPin,
+  Phone,
+  Star,
+  Sparkles,
+  Heart,
+} from "lucide-react";
 
 // Simulation des translations pour la démo
 const translations = {
   fr: {
     footer: {
-      tagline: "Saveurs authentiques d'Afrique et d'Europe dans un cadre moderne et chaleureux",
+      tagline:
+        "Saveurs authentiques d'Afrique et d'Europe dans un cadre moderne et chaleureux",
       contact: {
-        title: "Contact"
+        title: "Contact",
       },
       quickLinks: {
         title: "Liens Rapides",
         menu: "Menu",
-        reservation: "Réservation", 
-   
-        contact: "Contact"
+        reservation: "Réservation",
+
+        contact: "Contact",
       },
       social: {
         title: "Suivez-nous",
-        followUs: "Restez connectés pour nos dernières actualités"
+        followUs: "Restez connectés pour nos dernières actualités",
       },
-      copyright: "Tous droits réservés"
-    }
+      copyright: "Tous droits réservés",
+    },
   },
   en: {
     footer: {
       tagline: "Authentic African flavors in a modern and warm setting",
       contact: {
-        title: "Contact"
+        title: "Contact",
       },
       quickLinks: {
         title: "Quick Links",
         menu: "Menu",
         reservation: "Reservation",
-        
-        contact: "Contact"
+
+        contact: "Contact",
       },
       social: {
         title: "Follow us",
-        followUs: "Stay connected for our latest news"
+        followUs: "Stay connected for our latest news",
       },
-      copyright: "All rights reserved"
-    }
-  }
+      copyright: "All rights reserved",
+    },
+  },
 };
 
 interface FooterProps {
@@ -60,9 +70,9 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
       opacity: 1,
       transition: {
         duration: 0.6,
-        staggerChildren: 0.1
-      }
-    }
+        staggerChildren: 0.1,
+      },
+    },
   };
 
   const itemVariants = {
@@ -70,14 +80,14 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6 }
-    }
+      transition: { duration: 0.6 },
+    },
   };
 
   return (
     <>
       {/* Import de Google Fonts */}
-      <style >{`
+      <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Dancing+Script:wght@400;500;600&display=swap');
       `}</style>
 
@@ -94,7 +104,7 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
             transition={{
               duration: 8,
               repeat: Infinity,
-              ease: "easeInOut"
+              ease: "easeInOut",
             }}
           />
           <motion.div
@@ -107,7 +117,7 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
               duration: 10,
               repeat: Infinity,
               ease: "easeInOut",
-              delay: 3
+              delay: 3,
             }}
           />
 
@@ -126,7 +136,7 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
                 duration: Math.random() * 6 + 4,
                 repeat: Infinity,
                 delay: Math.random() * 3,
-                ease: "easeInOut"
+                ease: "easeInOut",
               }}
               style={{
                 left: `${Math.random() * 100}%`,
@@ -166,17 +176,17 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <h2 
+                <h2
                   className="text-3xl font-bold mb-2 relative"
-                  style={{ fontFamily: 'Playfair Display, serif' }}
+                  style={{ fontFamily: "Playfair Display, serif" }}
                 >
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-amber-500">
                     O '
                   </span>
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-600 ml-2">
-                    CONTINENT
+                    CONTINENG
                   </span>
-                  
+
                   {/* Effet de brillance
                   <motion.div
                     className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
@@ -191,10 +201,10 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
                   /> */}
                 </h2>
               </motion.div>
-              
-              <motion.p 
+
+              <motion.p
                 className="text-gray-300 leading-relaxed"
-                style={{ fontFamily: 'Inter, sans-serif' }}
+                style={{ fontFamily: "Inter, sans-serif" }}
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
@@ -217,7 +227,7 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
                       duration: 4,
                       repeat: Infinity,
                       delay: i * 0.2,
-                      ease: "linear"
+                      ease: "linear",
                     }}
                   >
                     <Star className="w-3 h-3 text-yellow-400/60" />
@@ -228,9 +238,9 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
 
             {/* Contact avec icônes */}
             <motion.div variants={itemVariants}>
-              <h3 
+              <h3
                 className="text-xl font-bold mb-6 flex items-center space-x-2"
-                style={{ fontFamily: 'Playfair Display, serif' }}
+                style={{ fontFamily: "Playfair Display, serif" }}
               >
                 <motion.div
                   className="p-2 rounded-full bg-gradient-to-r from-yellow-400/20 to-amber-500/20 border border-yellow-400/30"
@@ -243,8 +253,11 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
                   {t.contact.title}
                 </span>
               </h3>
-              
-              <address className="not-italic space-y-3" style={{ fontFamily: 'Inter, sans-serif' }}>
+
+              <address
+                className="not-italic space-y-3"
+                style={{ fontFamily: "Inter, sans-serif" }}
+              >
                 <motion.div
                   className="flex items-start space-x-3 group"
                   whileHover={{ x: 5 }}
@@ -260,7 +273,7 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
                     </p>
                   </div>
                 </motion.div>
-                
+
                 <motion.div
                   className="flex items-center space-x-3 group"
                   whileHover={{ x: 5 }}
@@ -279,9 +292,9 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
 
             {/* Liens rapides */}
             <motion.div variants={itemVariants}>
-              <h3 
+              <h3
                 className="text-xl font-bold mb-6 flex items-center space-x-2"
-                style={{ fontFamily: 'Playfair Display, serif' }}
+                style={{ fontFamily: "Playfair Display, serif" }}
               >
                 <motion.div
                   className="p-2 rounded-full bg-gradient-to-r from-yellow-400/20 to-amber-500/20 border border-yellow-400/30"
@@ -294,13 +307,16 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
                   {t.quickLinks.title}
                 </span>
               </h3>
-              
-              <ul className="space-y-3" style={{ fontFamily: 'Inter, sans-serif' }}>
+
+              <ul
+                className="space-y-3"
+                style={{ fontFamily: "Inter, sans-serif" }}
+              >
                 {[
                   { href: "#menu", label: t.quickLinks.menu },
                   { href: "#reservation", label: t.quickLinks.reservation },
-  
-                  { href: "#reservation", label: t.quickLinks.contact }
+
+                  { href: "#reservation", label: t.quickLinks.contact },
                 ].map((link, index) => (
                   <motion.li
                     key={link.href}
@@ -332,9 +348,9 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
 
             {/* Réseaux sociaux */}
             <motion.div variants={itemVariants}>
-              <h3 
+              <h3
                 className="text-xl font-bold mb-6 flex items-center space-x-2"
-                style={{ fontFamily: 'Playfair Display, serif' }}
+                style={{ fontFamily: "Playfair Display, serif" }}
               >
                 <motion.div
                   className="p-2 rounded-full bg-gradient-to-r from-yellow-400/20 to-amber-500/20 border border-yellow-400/30"
@@ -347,12 +363,24 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
                   {t.social.title}
                 </span>
               </h3>
-              
+
               <div className="flex space-x-4 mb-6">
                 {[
-                  { Icon: Facebook, href: "https://facebook.com", color: "hover:text-blue-400" },
-                  { Icon: Instagram, href: "https://instagram.com", color: "hover:text-pink-400" },
-                  { Icon: Twitter, href: "https://twitter.com", color: "hover:text-cyan-400" }
+                  {
+                    Icon: Facebook,
+                    href: "https://facebook.com",
+                    color: "hover:text-blue-400",
+                  },
+                  {
+                    Icon: Instagram,
+                    href: "https://instagram.com",
+                    color: "hover:text-pink-400",
+                  },
+                  {
+                    Icon: Twitter,
+                    href: "https://twitter.com",
+                    color: "hover:text-cyan-400",
+                  },
                 ].map((social, index) => (
                   <motion.a
                     key={social.href}
@@ -376,10 +404,10 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
                   </motion.a>
                 ))}
               </div>
-              
-              <motion.p 
+
+              <motion.p
                 className="text-gray-400 text-sm leading-relaxed"
-                style={{ fontFamily: 'Inter, sans-serif' }}
+                style={{ fontFamily: "Inter, sans-serif" }}
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
@@ -412,12 +440,13 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <p 
+            <p
               className="text-gray-500 flex items-center justify-center space-x-2"
-              style={{ fontFamily: 'Inter, sans-serif' }}
+              style={{ fontFamily: "Inter, sans-serif" }}
             >
-              <span>&copy; {currentYear} O CONTINENT - {t.copyright}</span>
-              
+              <span>
+                &copy; {currentYear} O CONTINENG - {t.copyright}
+              </span>
             </p>
           </motion.div>
         </div>

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { ChevronDown, MapPin, Clock, BookOpen, Star } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { ChevronDown, MapPin, Clock, BookOpen, Star } from "lucide-react";
 
 // Simulation des translations pour la démo
 const translations = {
@@ -8,48 +8,48 @@ const translations = {
     hero: {
       subtitle: "Saveurs Authentiques d'Afrique et d'Europe",
       seeMenu: "Voir le Menu",
-      reserve: "Réserver"
-    }
+      reserve: "Réserver",
+    },
   },
   en: {
     hero: {
       subtitle: "Authentic Flavors of Africa",
       seeMenu: "See Menu",
-      reserve: "Reserve"
-    }
-  }
+      reserve: "Reserve",
+    },
+  },
 };
 
 interface HeroProps {
-  language: 'fr' | 'en';
+  language: "fr" | "en";
 }
 
-const Hero: React.FC<HeroProps> = ({ language = 'fr' }) => {
+const Hero: React.FC<HeroProps> = ({ language = "fr" }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const t = translations[language].hero;
-  
+
   // Images de fond pour le carousel
   const backgroundImages = [
-    '/image2.jpg',
-    '/plat2.jpeg',
-    '/image6.jpg',
-    'https://images.pexels.com/photos/1640772/pexels-photo-1640772.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=2',
-    'https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=2'
+    "/image2.jpg",
+    "/plat2.jpeg",
+    "/image6.jpg",
+    "https://images.pexels.com/photos/1640772/pexels-photo-1640772.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=2",
+    "https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=2",
   ];
 
   // Carousel automatique toutes les 4 secondes
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => 
+      setCurrentImageIndex((prevIndex) =>
         prevIndex === backgroundImages.length - 1 ? 0 : prevIndex + 1
       );
     }, 6000);
 
     return () => clearInterval(interval);
   }, [backgroundImages.length]);
-  
+
   return (
-    <section 
+    <section
       className="h-screen flex items-center justify-center relative overflow-hidden"
       id="home"
     >
@@ -64,10 +64,12 @@ const Hero: React.FC<HeroProps> = ({ language = 'fr' }) => {
           <div
             key={index}
             className={`absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transition-all duration-1000 ease-in-out ${
-              index === currentImageIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
+              index === currentImageIndex
+                ? "opacity-100 scale-100"
+                : "opacity-0 scale-105"
             }`}
             style={{
-              backgroundImage: `linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.4) 100%), url(${image})`
+              backgroundImage: `linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.4) 100%), url(${image})`,
             }}
           />
         ))}
@@ -79,23 +81,29 @@ const Hero: React.FC<HeroProps> = ({ language = 'fr' }) => {
           <motion.div
             key={i}
             className="absolute"
-            initial={{ 
-              x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1920),
-              y: (typeof window !== 'undefined' ? window.innerHeight : 1080) + 20,
+            initial={{
+              x:
+                Math.random() *
+                (typeof window !== "undefined" ? window.innerWidth : 1920),
+              y:
+                (typeof window !== "undefined" ? window.innerHeight : 1080) +
+                20,
               opacity: 0,
-              rotate: 0
+              rotate: 0,
             }}
-            animate={{ 
+            animate={{
               y: -20,
               opacity: [0, 1, 1, 0],
               rotate: 360,
-              x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1920)
+              x:
+                Math.random() *
+                (typeof window !== "undefined" ? window.innerWidth : 1920),
             }}
-            transition={{ 
+            transition={{
               duration: Math.random() * 4 + 3,
               repeat: Infinity,
               delay: Math.random() * 3,
-              ease: "linear"
+              ease: "linear",
             }}
           >
             {i % 3 === 0 ? (
@@ -120,7 +128,7 @@ const Hero: React.FC<HeroProps> = ({ language = 'fr' }) => {
           transition={{
             duration: 6,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: "easeInOut",
           }}
         />
         <motion.div
@@ -133,14 +141,14 @@ const Hero: React.FC<HeroProps> = ({ language = 'fr' }) => {
             duration: 8,
             repeat: Infinity,
             ease: "easeInOut",
-            delay: 2
+            delay: 2,
           }}
         />
       </div>
 
       {/* Glassmorphism overlay pour le contenu */}
       <div className="absolute inset-0 z-10 flex items-center justify-center">
-        <motion.div 
+        <motion.div
           className="backdrop-blur-lg bg-gradient-to-br from-black/20 to-black/30 rounded-3xl border border-white/30 shadow-2xl p-12 md:p-12 lg:p-16 mx-4 max-w-5xl relative overflow-hidden"
           initial={{ opacity: 0, scale: 0.9, y: 50 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -159,7 +167,7 @@ const Hero: React.FC<HeroProps> = ({ language = 'fr' }) => {
             animate={{ rotate: 360 }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
           />
-          
+
           <div className="relative z-10 text-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -168,28 +176,28 @@ const Hero: React.FC<HeroProps> = ({ language = 'fr' }) => {
               className="max-w-4xl mx-auto"
             >
               {/* Logo principal avec typographie améliorée */}
-              <motion.h1 
+              <motion.h1
                 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 relative"
-                style={{ fontFamily: 'Playfair Display, serif' }}
+                style={{ fontFamily: "Playfair Display, serif" }}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1.2, delay: 0.5 }}
               >
-                <motion.span 
+                <motion.span
                   className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-yellow-500 to-amber-500 drop-shadow-2xl"
                   whileHover={{ scale: 1.05, rotate: [0, -2, 2, 0] }}
                   transition={{ type: "spring", stiffness: 300, damping: 10 }}
                 >
                   O '
                 </motion.span>
-                <motion.span 
+                <motion.span
                   className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-red-700 drop-shadow-2xl ml-2"
                   whileHover={{ scale: 1.05, rotate: [0, 2, -2, 0] }}
                   transition={{ type: "spring", stiffness: 300, damping: 10 }}
                 >
-                  CONTINENT
+                  CONTINENG
                 </motion.span>
-                
+
                 {/* Effet de brillance animé amélioré */}
                 {/* <motion.div
                   className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
@@ -204,11 +212,11 @@ const Hero: React.FC<HeroProps> = ({ language = 'fr' }) => {
                   }}
                 /> */}
               </motion.h1>
-              
+
               {/* Sous-titre avec meilleure typographie */}
-              <motion.p 
+              <motion.p
                 className="text-white text-xl md:text-2xl lg:text-3xl xl:text-4xl mb-8 font-light drop-shadow-lg leading-relaxed tracking-wide"
-                style={{ fontFamily: 'Dancing Script, cursive' }}
+                style={{ fontFamily: "Dancing Script, cursive" }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.8 }}
@@ -219,42 +227,52 @@ const Hero: React.FC<HeroProps> = ({ language = 'fr' }) => {
               {/* Informations avec icônes */}
               <motion.div
                 className="text-white/95 text-base md:text-lg lg:text-xl mb-12 space-y-4"
-                style={{ fontFamily: 'Inter, sans-serif' }}
+                style={{ fontFamily: "Inter, sans-serif" }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 1.0 }}
               >
-                <motion.div 
+                <motion.div
                   className="flex items-center justify-center space-x-3 group"
                   whileHover={{ scale: 1.02 }}
                 >
                   <motion.div
                     className="p-2 rounded-full bg-white/10 backdrop-blur-sm"
-                    whileHover={{ rotate: 360, backgroundColor: "rgba(255, 215, 0, 0.2)" }}
+                    whileHover={{
+                      rotate: 360,
+                      backgroundColor: "rgba(255, 215, 0, 0.2)",
+                    }}
                     transition={{ duration: 0.6 }}
                   >
                     <MapPin className="w-5 h-5 text-yellow-400" />
                   </motion.div>
-                  <span className="font-medium tracking-wide">Chaussé de Mons 1081, 1070 Anderlecht</span>
+                  <span className="font-medium tracking-wide">
+                    Chaussé de Mons 1081, 1070 Anderlecht
+                  </span>
                 </motion.div>
-                
-                <motion.div 
+
+                <motion.div
                   className="flex items-center justify-center space-x-3 group"
                   whileHover={{ scale: 1.02 }}
                 >
                   <motion.div
                     className="p-2 rounded-full bg-white/10 backdrop-blur-sm"
-                    whileHover={{ rotate: 360, backgroundColor: "rgba(255, 215, 0, 0.2)" }}
+                    whileHover={{
+                      rotate: 360,
+                      backgroundColor: "rgba(255, 215, 0, 0.2)",
+                    }}
                     transition={{ duration: 0.6 }}
                   >
                     <Clock className="w-5 h-5 text-yellow-400" />
                   </motion.div>
-                  <span className="font-medium tracking-wide">Lundi - Vendredi : 11h - 23h</span>
+                  <span className="font-medium tracking-wide">
+                    Lundi - Vendredi : 11h - 23h
+                  </span>
                 </motion.div>
               </motion.div>
-              
+
               {/* Boutons avec effets améliorés */}
-              <motion.div 
+              <motion.div
                 className="flex flex-col sm:flex-row justify-center gap-6"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -263,7 +281,7 @@ const Hero: React.FC<HeroProps> = ({ language = 'fr' }) => {
                 <motion.a
                   href="#menu"
                   className="group relative overflow-hidden bg-gradient-to-r from-yellow-400 to-amber-500 text-black px-10 py-4 rounded-full text-lg font-bold transition-all duration-300 hover:shadow-2xl hover:shadow-yellow-400/25"
-                  style={{ fontFamily: 'Inter, sans-serif' }}
+                  style={{ fontFamily: "Inter, sans-serif" }}
                   whileHover={{ y: -3, scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -273,16 +291,16 @@ const Hero: React.FC<HeroProps> = ({ language = 'fr' }) => {
                   </span>
                   <motion.div
                     className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/40 to-white/0"
-                    initial={{ x: '-100%' }}
-                    whileHover={{ x: '100%' }}
+                    initial={{ x: "-100%" }}
+                    whileHover={{ x: "100%" }}
                     transition={{ duration: 0.8 }}
                   />
                 </motion.a>
-                
+
                 <motion.a
                   href="#reservation"
                   className="group relative overflow-hidden bg-transparent border-2 border-white/50 text-white px-10 py-4 rounded-full text-lg font-bold backdrop-blur-sm hover:bg-white/10 hover:border-yellow-400 hover:text-yellow-400 transition-all duration-300 hover:shadow-2xl hover:shadow-white/20"
-                  style={{ fontFamily: 'Inter, sans-serif' }}
+                  style={{ fontFamily: "Inter, sans-serif" }}
                   whileHover={{ y: -3, scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -292,8 +310,8 @@ const Hero: React.FC<HeroProps> = ({ language = 'fr' }) => {
                   </span>
                   <motion.div
                     className="absolute inset-0 bg-gradient-to-r from-transparent via-yellow-400/20 to-transparent"
-                    initial={{ x: '-100%' }}
-                    whileHover={{ x: '100%' }}
+                    initial={{ x: "-100%" }}
+                    whileHover={{ x: "100%" }}
                     transition={{ duration: 0.8 }}
                   />
                 </motion.a>
@@ -304,7 +322,7 @@ const Hero: React.FC<HeroProps> = ({ language = 'fr' }) => {
       </div>
 
       {/* Indicateurs de carousel améliorés */}
-      <motion.div 
+      <motion.div
         className="absolute bottom-8 right-8 z-20 flex space-x-3 bg-black/20 backdrop-blur-sm rounded-full p-3"
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -315,9 +333,9 @@ const Hero: React.FC<HeroProps> = ({ language = 'fr' }) => {
             key={index}
             onClick={() => setCurrentImageIndex(index)}
             className={`relative w-3 h-3 rounded-full transition-all duration-300 ${
-              index === currentImageIndex 
-                ? 'bg-gradient-to-r from-yellow-400 to-amber-500 shadow-lg shadow-yellow-400/50' 
-                : 'bg-white/40 hover:bg-white/70'
+              index === currentImageIndex
+                ? "bg-gradient-to-r from-yellow-400 to-amber-500 shadow-lg shadow-yellow-400/50"
+                : "bg-white/40 hover:bg-white/70"
             }`}
             whileHover={{ scale: 1.3 }}
             whileTap={{ scale: 0.9 }}
@@ -341,13 +359,14 @@ const Hero: React.FC<HeroProps> = ({ language = 'fr' }) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 2.2 }}
       >
-        <motion.div 
+        <motion.div
           className="flex flex-col items-center space-y-2 cursor-pointer group"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => {
-            const nextSection = document.querySelector('#menu') || document.body;
-            nextSection.scrollIntoView({ behavior: 'smooth' });
+            const nextSection =
+              document.querySelector("#menu") || document.body;
+            nextSection.scrollIntoView({ behavior: "smooth" });
           }}
         >
           {/* <motion.div

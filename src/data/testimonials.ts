@@ -12,8 +12,8 @@ export const testimonials: Testimonial[] = [
   {
     name: "Amara Diallo",
     text: {
-      fr: "Une expérience culinaire extraordinaire! J'ai voyagé à travers les continents sans quitter Bruxelles. Les plats sont authentiques et les saveurs explosives. Le service est impeccable et l'ambiance chaleureuse. À essayer absolument!",
-      en: "An extraordinary culinary experience! I traveled across continents without leaving Brussels. The dishes are authentic and the flavors are explosive. The service is impeccable and the atmosphere is warm. A must try!",
+      fr: "Une expérience culinaire extraordinaire! J'ai voyagé à travers les continengs sans quitter Bruxelles. Les plats sont authentiques et les saveurs explosives. Le service est impeccable et l'ambiance chaleureuse. À essayer absolument!",
+      en: "An extraordinary culinary experience! I traveled across continengs without leaving Brussels. The dishes are authentic and the flavors are explosive. The service is impeccable and the atmosphere is warm. A must try!",
     },
     rating: 5,
     date: "15/02/2025",
@@ -21,8 +21,8 @@ export const testimonials: Testimonial[] = [
   {
     name: "Kwame Mensah",
     text: {
-      fr: "Le meilleur restaurant de cuisine du monde à Bruxelles! La qualité des ingrédients est exceptionnelle et chaque plat raconte une histoire. Le chef maîtrise parfaitement les saveurs de chaque continent. Je recommande vivement les spécialités maison.",
-      en: "The best world cuisine restaurant in Brussels! The quality of the ingredients is exceptional and each dish tells a story. The chef perfectly masters the flavors of each continent. I highly recommend the house specialties.",
+      fr: "Le meilleur restaurant de cuisine du monde à Bruxelles! La qualité des ingrédients est exceptionnelle et chaque plat raconte une histoire. Le chef maîtrise parfaitement les saveurs de chaque contineng. Je recommande vivement les spécialités maison.",
+      en: "The best world cuisine restaurant in Brussels! The quality of the ingredients is exceptional and each dish tells a story. The chef perfectly masters the flavors of each contineng. I highly recommend the house specialties.",
     },
     rating: 5,
     date: "03/01/2025",
@@ -48,8 +48,8 @@ export const testimonials: Testimonial[] = [
   {
     name: "Aïsha Kamara",
     text: {
-      fr: "O CONTINENT est devenu mon restaurant préféré! L'ambiance est chaleureuse et le personnel très accueillant. Les plats africains sont authentiques et me rappellent la cuisine de ma grand-mère. Un vrai voyage culinaire!",
-      en: "O CONTINENT has become my favorite restaurant! The atmosphere is warm and the staff very welcoming. The African dishes are authentic and remind me of my grandmother's cooking. A real culinary journey!",
+      fr: "O CONTINENG est devenu mon restaurant préféré! L'ambiance est chaleureuse et le personnel très accueillant. Les plats africains sont authentiques et me rappellent la cuisine de ma grand-mère. Un vrai voyage culinaire!",
+      en: "O CONTINENG has become my favorite restaurant! The atmosphere is warm and the staff very welcoming. The African dishes are authentic and remind me of my grandmother's cooking. A real culinary journey!",
     },
     rating: 5,
     date: "22/01/2025",

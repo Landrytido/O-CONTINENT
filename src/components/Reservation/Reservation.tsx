@@ -1,6 +1,19 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, User, Phone, Calendar, Clock, Users, MessageSquare, Send, CheckCircle, AlertCircle, Sparkles, MapPin } from 'lucide-react';
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  MessageCircle,
+  User,
+  Phone,
+  Calendar,
+  Clock,
+  Users,
+  MessageSquare,
+  Send,
+  CheckCircle,
+  AlertCircle,
+  Sparkles,
+  MapPin,
+} from "lucide-react";
 
 // Simulation des translations
 type Translation = {
@@ -44,11 +57,12 @@ type Translation = {
   };
 };
 
-const translations: Record<'fr' | 'en', Translation> = {
+const translations: Record<"fr" | "en", Translation> = {
   fr: {
     reservation: {
       title: "Réserver une Table",
-      description: "Réservez votre table pour une expérience culinaire inoubliable.",
+      description:
+        "Réservez votre table pour une expérience culinaire inoubliable.",
       successMessage: "Votre réservation a été envoyée avec succès !",
       errorMessage: "Une erreur s'est produite. Veuillez réessayer.",
       form: {
@@ -68,22 +82,22 @@ const translations: Record<'fr' | 'en', Translation> = {
         message: "Message (optionnel)",
         messagePlaceholder: "Demandes spéciales, allergies...",
         submit: "Envoyer la Réservation",
-        submitting: "Envoi en cours..."
-      }
+        submitting: "Envoi en cours...",
+      },
     },
     location: {
       title: "Nous Trouver",
       contactInfo: "Informations de Contact",
       address: "Adresse",
-      phone: "Téléphone", 
+      phone: "Téléphone",
       hours: "Horaires d'Ouverture",
       days: {
         mondayFriday: "Lun - Ven",
         saturday: "Samedi",
-        sunday: "Dimanche"
+        sunday: "Dimanche",
       },
-      closed: "Fermé"
-    }
+      closed: "Fermé",
+    },
   },
   en: {
     reservation: {
@@ -108,8 +122,8 @@ const translations: Record<'fr' | 'en', Translation> = {
         message: "",
         messagePlaceholder: "",
         submit: "",
-        submitting: ""
-      }
+        submitting: "",
+      },
     },
     location: {
       title: "",
@@ -120,11 +134,11 @@ const translations: Record<'fr' | 'en', Translation> = {
       days: {
         mondayFriday: "",
         saturday: "",
-        sunday: ""
+        sunday: "",
       },
-      closed: ""
-    }
-  }
+      closed: "",
+    },
+  },
 };
 
 // Simulation des hooks de formulaire
@@ -133,7 +147,7 @@ const useForm = () => ({
     name,
     onChange: () => {},
     onBlur: () => {},
-    ref: () => {}
+    ref: () => {},
   }),
   handleSubmit: (fn: any) => (e: any) => {
     e.preventDefault();
@@ -143,26 +157,26 @@ const useForm = () => ({
       date: "2025-06-15",
       time: "19:30",
       people: 4,
-      message: "Table près de la fenêtre"
+      message: "Table près de la fenêtre",
     });
   },
   reset: () => {},
   watch: (field: string) => {
     const values: any = {
       name: "Jean Dupont",
-      phone: "+32 123 456 789", 
+      phone: "+32 123 456 789",
       date: "2025-06-15",
       time: "19:30",
       people: 4,
-      message: "Table près de la fenêtre"
+      message: "Table près de la fenêtre",
     };
-    return values[field] || '';
+    return values[field] || "";
   },
-  formState: { errors: {} }
+  formState: { errors: {} },
 });
 
 interface ReservationLocationProps {
-  language: 'fr' | 'en';
+  language: "fr" | "en";
 }
 
 interface ReservationFormInputs {
@@ -174,13 +188,21 @@ interface ReservationFormInputs {
   message?: string;
 }
 
-const ReservationLocation: React.FC<ReservationLocationProps> = ({ language = 'fr' }) => {
+const ReservationLocation: React.FC<ReservationLocationProps> = ({
+  language = "fr",
+}) => {
   const t = translations[language];
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const { register, handleSubmit, reset, watch, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm();
 
   const onSubmit = async (data: ReservationFormInputs) => {
     setIsSubmitting(true);
@@ -196,28 +218,35 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({ language = 'f
 
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
-  const tomorrowFormatted = tomorrow.toISOString().split('T')[0];
+  const tomorrowFormatted = tomorrow.toISOString().split("T")[0];
 
   // Watch values for WhatsApp link
-  const name = watch('name');
-  const phone = watch('phone');
-  const date = watch('date');
-  const time = watch('time');
-  const people = watch('people');
-  const msg = watch('message');
+  const name = watch("name");
+  const phone = watch("phone");
+  const date = watch("date");
+  const time = watch("time");
+  const people = watch("people");
+  const msg = watch("message");
 
   const whatsappMessage = encodeURIComponent(
-    `Bonjour, je souhaite faire une réservation au restaurant O CONTINENT.\nNom: ${name || ''}\nTéléphone: ${phone || ''}\nDate: ${date || ''}\nHeure: ${time || ''}\nPersonnes: ${people || ''}\nMessage: ${msg || ''}`
+    `Bonjour, je souhaite faire une réservation au restaurant O CONTINENG.\nNom: ${
+      name || ""
+    }\nTéléphone: ${phone || ""}\nDate: ${date || ""}\nHeure: ${
+      time || ""
+    }\nPersonnes: ${people || ""}\nMessage: ${msg || ""}`
   );
 
   return (
     <>
       {/* Import de Google Fonts */}
-      <style >{`
+      <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
       `}</style>
 
-      <section id="reservation" className="relative py-12 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
+      <section
+        id="reservation"
+        className="relative py-12 bg-gradient-to-b from-gray-50 to-white overflow-hidden"
+      >
         {/* Effets de fond subtils */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <motion.div
@@ -229,7 +258,7 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({ language = 'f
             transition={{
               duration: 8,
               repeat: Infinity,
-              ease: "easeInOut"
+              ease: "easeInOut",
             }}
           />
           <motion.div
@@ -242,7 +271,7 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({ language = 'f
               duration: 10,
               repeat: Infinity,
               ease: "easeInOut",
-              delay: 3
+              delay: 3,
             }}
           />
         </div>
@@ -255,18 +284,18 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({ language = 'f
             viewport={{ once: true }}
             className="text-center mb-10"
           >
-            <motion.h2 
+            <motion.h2
               className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3"
-              style={{ fontFamily: 'Playfair Display, serif' }}
+              style={{ fontFamily: "Playfair Display, serif" }}
               whileHover={{ scale: 1.02 }}
             >
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-800 to-black">
                 {t.reservation.title}
               </span>
             </motion.h2>
-            <p 
+            <p
               className="max-w-2xl mx-auto text-gray-600"
-              style={{ fontFamily: 'Inter, sans-serif' }}
+              style={{ fontFamily: "Inter, sans-serif" }}
             >
               {t.reservation.description}
             </p>
@@ -281,7 +310,7 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({ language = 'f
 
           <div className="grid md:grid-cols-2 gap-8">
             {/* Colonne 1: Formulaire de réservation */}
-            <motion.div 
+            <motion.div
               className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-gray-200/50"
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -291,26 +320,30 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({ language = 'f
               {/* Messages de succès/erreur */}
               <AnimatePresence>
                 {isSuccess && (
-                  <motion.div 
+                  <motion.div
                     className="mb-4 p-3 bg-green-50 border border-green-200 text-green-700 rounded-xl flex items-center space-x-2"
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                   >
                     <CheckCircle className="w-4 h-4" />
-                    <span className="text-sm">{t.reservation.successMessage}</span>
+                    <span className="text-sm">
+                      {t.reservation.successMessage}
+                    </span>
                   </motion.div>
                 )}
 
                 {isError && (
-                  <motion.div 
+                  <motion.div
                     className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-xl flex items-center space-x-2"
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                   >
                     <AlertCircle className="w-4 h-4" />
-                    <span className="text-sm">{t.reservation.errorMessage}</span>
+                    <span className="text-sm">
+                      {t.reservation.errorMessage}
+                    </span>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -318,13 +351,14 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({ language = 'f
               <div className="space-y-4">
                 {/* Nom */}
                 <div>
-                  <label 
-                    htmlFor="name" 
+                  <label
+                    htmlFor="name"
                     className="flex items-center text-sm font-medium text-gray-700 mb-1"
-                    style={{ fontFamily: 'Inter, sans-serif' }}
+                    style={{ fontFamily: "Inter, sans-serif" }}
                   >
                     <User className="w-4 h-4 text-yellow-500 mr-2" />
-                    {t.reservation.form.name} <span className="text-red-500 ml-1">*</span>
+                    {t.reservation.form.name}{" "}
+                    <span className="text-red-500 ml-1">*</span>
                   </label>
                   <motion.input
                     id="name"
@@ -338,13 +372,14 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({ language = 'f
 
                 {/* Téléphone */}
                 <div>
-                  <label 
-                    htmlFor="phone" 
+                  <label
+                    htmlFor="phone"
                     className="flex items-center text-sm font-medium text-gray-700 mb-1"
-                    style={{ fontFamily: 'Inter, sans-serif' }}
+                    style={{ fontFamily: "Inter, sans-serif" }}
                   >
                     <Phone className="w-4 h-4 text-yellow-500 mr-2" />
-                    {t.reservation.form.phone} <span className="text-red-500 ml-1">*</span>
+                    {t.reservation.form.phone}{" "}
+                    <span className="text-red-500 ml-1">*</span>
                   </label>
                   <motion.input
                     id="phone"
@@ -359,13 +394,14 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({ language = 'f
                 {/* Date & Heure */}
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label 
-                      htmlFor="date" 
+                    <label
+                      htmlFor="date"
                       className="flex items-center text-sm font-medium text-gray-700 mb-1"
-                      style={{ fontFamily: 'Inter, sans-serif' }}
+                      style={{ fontFamily: "Inter, sans-serif" }}
                     >
                       <Calendar className="w-4 h-4 text-yellow-500 mr-2" />
-                      {t.reservation.form.date} <span className="text-red-500 ml-1">*</span>
+                      {t.reservation.form.date}{" "}
+                      <span className="text-red-500 ml-1">*</span>
                     </label>
                     <motion.input
                       id="date"
@@ -378,13 +414,14 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({ language = 'f
                   </div>
 
                   <div>
-                    <label 
-                      htmlFor="time" 
+                    <label
+                      htmlFor="time"
                       className="flex items-center text-sm font-medium text-gray-700 mb-1"
-                      style={{ fontFamily: 'Inter, sans-serif' }}
+                      style={{ fontFamily: "Inter, sans-serif" }}
                     >
                       <Clock className="w-4 h-4 text-yellow-500 mr-2" />
-                      {t.reservation.form.time} <span className="text-red-500 ml-1">*</span>
+                      {t.reservation.form.time}{" "}
+                      <span className="text-red-500 ml-1">*</span>
                     </label>
                     <motion.input
                       id="time"
@@ -398,13 +435,14 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({ language = 'f
 
                 {/* Personnes */}
                 <div>
-                  <label 
-                    htmlFor="people" 
+                  <label
+                    htmlFor="people"
                     className="flex items-center text-sm font-medium text-gray-700 mb-1"
-                    style={{ fontFamily: 'Inter, sans-serif' }}
+                    style={{ fontFamily: "Inter, sans-serif" }}
                   >
                     <Users className="w-4 h-4 text-yellow-500 mr-2" />
-                    {t.reservation.form.people} <span className="text-red-500 ml-1">*</span>
+                    {t.reservation.form.people}{" "}
+                    <span className="text-red-500 ml-1">*</span>
                   </label>
                   <motion.input
                     id="people"
@@ -420,10 +458,10 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({ language = 'f
 
                 {/* Message */}
                 <div>
-                  <label 
-                    htmlFor="message" 
+                  <label
+                    htmlFor="message"
                     className="flex items-center text-sm font-medium text-gray-700 mb-1"
-                    style={{ fontFamily: 'Inter, sans-serif' }}
+                    style={{ fontFamily: "Inter, sans-serif" }}
                   >
                     <MessageSquare className="w-4 h-4 text-yellow-500 mr-2" />
                     {t.reservation.form.message}
@@ -442,27 +480,33 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({ language = 'f
                 <div className="flex flex-col gap-3 pt-4">
                   <motion.button
                     type="button"
-                    onClick={() => onSubmit({
-                      name: "Jean Dupont",
-                      phone: "+32 123 456 789",
-                      date: "2025-06-15",
-                      time: "19:30",
-                      people: 4,
-                      message: "Table près de la fenêtre"
-                    })}
+                    onClick={() =>
+                      onSubmit({
+                        name: "Jean Dupont",
+                        phone: "+32 123 456 789",
+                        date: "2025-06-15",
+                        time: "19:30",
+                        people: 4,
+                        message: "Table près de la fenêtre",
+                      })
+                    }
                     disabled={isSubmitting}
                     className="relative group w-full bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-yellow-400/25 transition-all duration-300 disabled:opacity-50"
-                    style={{ fontFamily: 'Inter, sans-serif' }}
+                    style={{ fontFamily: "Inter, sans-serif" }}
                     whileHover={!isSubmitting ? { scale: 1.02, y: -1 } : {}}
                     whileTap={!isSubmitting ? { scale: 0.98 } : {}}
                   >
                     <span className="relative z-10 flex items-center justify-center space-x-2">
                       {isSubmitting ? (
                         <>
-                          <motion.div 
+                          <motion.div
                             className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full"
                             animate={{ rotate: 360 }}
-                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                            transition={{
+                              duration: 1,
+                              repeat: Infinity,
+                              ease: "linear",
+                            }}
                           />
                           <span>{t.reservation.form.submitting}</span>
                         </>
@@ -475,8 +519,8 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({ language = 'f
                     </span>
                     <motion.div
                       className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 rounded-full"
-                      initial={{ x: '-100%' }}
-                      whileHover={{ x: '100%' }}
+                      initial={{ x: "-100%" }}
+                      whileHover={{ x: "100%" }}
                       transition={{ duration: 0.6 }}
                     />
                   </motion.button>
@@ -486,7 +530,7 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({ language = 'f
                     target="_blank"
                     rel="noopener noreferrer"
                     className="relative group w-full bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-green-500/25 transition-all duration-300"
-                    style={{ fontFamily: 'Inter, sans-serif' }}
+                    style={{ fontFamily: "Inter, sans-serif" }}
                     whileHover={{ scale: 1.02, y: -1 }}
                     whileTap={{ scale: 0.98 }}
                   >
@@ -496,8 +540,8 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({ language = 'f
                     </span>
                     <motion.div
                       className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 rounded-full"
-                      initial={{ x: '-100%' }}
-                      whileHover={{ x: '100%' }}
+                      initial={{ x: "-100%" }}
+                      whileHover={{ x: "100%" }}
                       transition={{ duration: 0.6 }}
                     />
                   </motion.a>
@@ -523,15 +567,15 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({ language = 'f
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Restaurant O-Continent location"
+                  title="Restaurant O-Contineng location"
                 />
               </div>
 
               {/* Informations de contact */}
               <div className="bg-white/90 backdrop-blur-sm p-16 rounded-2xl shadow-lg border border-gray-200/50">
-                <motion.h3 
+                <motion.h3
                   className="text-xl font-bold mb-5 flex items-center space-x-2"
-                  style={{ fontFamily: 'Playfair Display, serif' }}
+                  style={{ fontFamily: "Playfair Display, serif" }}
                   whileHover={{ scale: 1.02 }}
                 >
                   <motion.div
@@ -541,12 +585,14 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({ language = 'f
                   >
                     <Sparkles className="w-4 h-4 text-yellow-500" />
                   </motion.div>
-                  <span className="text-gray-800">{t.location.contactInfo}</span>
+                  <span className="text-gray-800">
+                    {t.location.contactInfo}
+                  </span>
                 </motion.h3>
 
                 <div className="space-y-4">
                   {/* Adresse */}
-                  <motion.div 
+                  <motion.div
                     className="flex items-start group"
                     whileHover={{ x: 3 }}
                     transition={{ duration: 0.2 }}
@@ -555,27 +601,31 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({ language = 'f
                       className="p-2 rounded-full bg-yellow-400/10 group-hover:bg-yellow-400/20 transition-colors mr-3 mt-0.5"
                       whileHover={{ scale: 1.1 }}
                     >
-                      <MapPin size={18} className="text-yellow-600 flex-shrink-0" />
+                      <MapPin
+                        size={18}
+                        className="text-yellow-600 flex-shrink-0"
+                      />
                     </motion.div>
                     <div>
-                      <h4 
+                      <h4
                         className="font-semibold mb-1 text-gray-800"
-                        style={{ fontFamily: 'Inter, sans-serif' }}
+                        style={{ fontFamily: "Inter, sans-serif" }}
                       >
                         {t.location.address}
                       </h4>
-                      <p 
+                      <p
                         className="text-gray-600 text-sm leading-relaxed"
-                        style={{ fontFamily: 'Inter, sans-serif' }}
+                        style={{ fontFamily: "Inter, sans-serif" }}
                       >
-                        Chaussée de Mons 1081<br />
+                        Chaussée de Mons 1081
+                        <br />
                         1070 Anderlecht, Belgique
                       </p>
                     </div>
                   </motion.div>
 
                   {/* Téléphone */}
-                  <motion.div 
+                  <motion.div
                     className="flex items-start group"
                     whileHover={{ x: 3 }}
                     transition={{ duration: 0.2 }}
@@ -584,19 +634,22 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({ language = 'f
                       className="p-2 rounded-full bg-yellow-400/10 group-hover:bg-yellow-400/20 transition-colors mr-3 mt-0.5"
                       whileHover={{ scale: 1.1 }}
                     >
-                      <Phone size={18} className="text-yellow-600 flex-shrink-0" />
+                      <Phone
+                        size={18}
+                        className="text-yellow-600 flex-shrink-0"
+                      />
                     </motion.div>
                     <div>
-                      <h4 
+                      <h4
                         className="font-semibold mb-1 text-gray-800"
-                        style={{ fontFamily: 'Inter, sans-serif' }}
+                        style={{ fontFamily: "Inter, sans-serif" }}
                       >
                         {t.location.phone}
                       </h4>
                       <motion.a
                         href="tel:+32466468778"
                         className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
-                        style={{ fontFamily: 'Inter, sans-serif' }}
+                        style={{ fontFamily: "Inter, sans-serif" }}
                         whileHover={{ scale: 1.02 }}
                       >
                         +32 466 468 778
@@ -605,7 +658,7 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({ language = 'f
                   </motion.div>
 
                   {/* Horaires */}
-                  <motion.div 
+                  <motion.div
                     className="flex items-start group"
                     whileHover={{ x: 3 }}
                     transition={{ duration: 0.2 }}
@@ -614,30 +667,41 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({ language = 'f
                       className="p-2 rounded-full bg-yellow-400/10 group-hover:bg-yellow-400/20 transition-colors mr-3 mt-0.5"
                       whileHover={{ scale: 1.1 }}
                     >
-                      <Clock size={18} className="text-yellow-600 flex-shrink-0" />
+                      <Clock
+                        size={18}
+                        className="text-yellow-600 flex-shrink-0"
+                      />
                     </motion.div>
                     <div>
-                      <h4 
+                      <h4
                         className="font-semibold mb-2 text-gray-800"
-                        style={{ fontFamily: 'Inter, sans-serif' }}
+                        style={{ fontFamily: "Inter, sans-serif" }}
                       >
                         {t.location.hours}
                       </h4>
-                      <ul 
+                      <ul
                         className="text-gray-600 text-sm space-y-1"
-                        style={{ fontFamily: 'Inter, sans-serif' }}
+                        style={{ fontFamily: "Inter, sans-serif" }}
                       >
                         <li className="flex justify-between">
-                          <span className="font-medium text-gray-700">{t.location.days.mondayFriday}:</span>
+                          <span className="font-medium text-gray-700">
+                            {t.location.days.mondayFriday}:
+                          </span>
                           <span>11:30 - 14:30, 18:00 - 22:30</span>
                         </li>
                         <li className="flex justify-between">
-                          <span className="font-medium text-gray-700">{t.location.days.saturday}:</span>
+                          <span className="font-medium text-gray-700">
+                            {t.location.days.saturday}:
+                          </span>
                           <span>18:00 - 23:00</span>
                         </li>
                         <li className="flex justify-between">
-                          <span className="font-medium text-gray-700">{t.location.days.sunday}:</span>
-                          <span className="text-red-500">{t.location.closed}</span>
+                          <span className="font-medium text-gray-700">
+                            {t.location.days.sunday}:
+                          </span>
+                          <span className="text-red-500">
+                            {t.location.closed}
+                          </span>
                         </li>
                       </ul>
                     </div>

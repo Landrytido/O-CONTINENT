@@ -9,16 +9,16 @@ const translations = {
       title: "Nous Trouver",
       contactInfo: "Informations de Contact",
       address: "Adresse",
-      phone: "Téléphone", 
+      phone: "Téléphone",
       hours: "Horaires d'Ouverture",
       days: {
         mondayFriday: "Lun - Ven",
         saturday: "Samedi",
-        sunday: "Dimanche"
+        sunday: "Dimanche",
       },
       closed: "Fermé",
-      makeReservation: "Réserver une Table"
-    }
+      makeReservation: "Réserver une Table",
+    },
   },
   en: {
     location: {
@@ -30,12 +30,12 @@ const translations = {
       days: {
         mondayFriday: "Mon - Fri",
         saturday: "Saturday",
-        sunday: "Sunday"
+        sunday: "Sunday",
       },
       closed: "Closed",
-      makeReservation: "Book a Table"
-    }
-  }
+      makeReservation: "Book a Table",
+    },
+  },
 };
 
 interface LocationProps {
@@ -48,11 +48,14 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
   return (
     <>
       {/* Import de Google Fonts */}
-      <style >{`
+      <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
       `}</style>
 
-      <section id="contact" className="relative py-16 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
+      <section
+        id="contact"
+        className="relative py-16 bg-gradient-to-b from-gray-50 to-white overflow-hidden"
+      >
         {/* Effets de fond subtils */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {/* Orbes légers */}
@@ -65,7 +68,7 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
             transition={{
               duration: 8,
               repeat: Infinity,
-              ease: "easeInOut"
+              ease: "easeInOut",
             }}
           />
           <motion.div
@@ -78,7 +81,7 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
               duration: 10,
               repeat: Infinity,
               ease: "easeInOut",
-              delay: 3
+              delay: 3,
             }}
           />
 
@@ -96,7 +99,7 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
                 duration: Math.random() * 6 + 4,
                 repeat: Infinity,
                 delay: Math.random() * 3,
-                ease: "easeInOut"
+                ease: "easeInOut",
               }}
               style={{
                 left: `${Math.random() * 100}%`,
@@ -125,29 +128,29 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
               whileHover={{ scale: 1.02 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
-              <h2 
+              <h2
                 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3 relative"
-                style={{ fontFamily: 'Playfair Display, serif' }}
+                style={{ fontFamily: "Playfair Display, serif" }}
               >
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-800 via-black to-gray-700">
                   {t.title}
                 </span>
-                
+
                 {/* Effet de brillance subtil */}
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-r from-transparent via-yellow-400/20 to-transparent"
-                  initial={{ x: '-100%' }}
-                  animate={{ x: '200%' }}
+                  initial={{ x: "-100%" }}
+                  animate={{ x: "200%" }}
                   transition={{
                     duration: 3,
                     repeat: Infinity,
                     repeatDelay: 8,
-                    ease: "easeInOut"
+                    ease: "easeInOut",
                   }}
                 />
               </h2>
             </motion.div>
-            
+
             {/* Ligne décorative */}
             <motion.div
               className="h-0.5 w-16 mx-auto bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full"
@@ -174,9 +177,9 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Restaurant O-Continent location"
+                title="Restaurant O-Contineng location"
               />
-              
+
               {/* Overlay décoratif */}
               <motion.div
                 className="absolute inset-0 bg-gradient-to-br from-yellow-400/5 to-transparent pointer-events-none"
@@ -203,9 +206,9 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
               />
 
               <div className="relative z-10">
-                <motion.h3 
+                <motion.h3
                   className="text-xl font-bold mb-5 flex items-center space-x-2"
-                  style={{ fontFamily: 'Playfair Display, serif' }}
+                  style={{ fontFamily: "Playfair Display, serif" }}
                   whileHover={{ scale: 1.02 }}
                 >
                   <motion.div
@@ -220,7 +223,7 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
 
                 <div className="space-y-4">
                   {/* Adresse */}
-                  <motion.div 
+                  <motion.div
                     className="flex items-start group"
                     whileHover={{ x: 3 }}
                     transition={{ duration: 0.2 }}
@@ -229,27 +232,31 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
                       className="p-2 rounded-full bg-yellow-400/10 group-hover:bg-yellow-400/20 transition-colors mr-3 mt-0.5"
                       whileHover={{ scale: 1.1 }}
                     >
-                      <MapPin size={18} className="text-yellow-600 flex-shrink-0" />
+                      <MapPin
+                        size={18}
+                        className="text-yellow-600 flex-shrink-0"
+                      />
                     </motion.div>
                     <div>
-                      <h4 
+                      <h4
                         className="font-semibold mb-1 text-gray-800"
-                        style={{ fontFamily: 'Inter, sans-serif' }}
+                        style={{ fontFamily: "Inter, sans-serif" }}
                       >
                         {t.address}
                       </h4>
-                      <p 
+                      <p
                         className="text-gray-600 text-sm leading-relaxed"
-                        style={{ fontFamily: 'Inter, sans-serif' }}
+                        style={{ fontFamily: "Inter, sans-serif" }}
                       >
-                        Chaussée de Mons 1081<br />
+                        Chaussée de Mons 1081
+                        <br />
                         1070 Anderlecht, Belgique
                       </p>
                     </div>
                   </motion.div>
 
                   {/* Téléphone */}
-                  <motion.div 
+                  <motion.div
                     className="flex items-start group"
                     whileHover={{ x: 3 }}
                     transition={{ duration: 0.2 }}
@@ -258,19 +265,22 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
                       className="p-2 rounded-full bg-yellow-400/10 group-hover:bg-yellow-400/20 transition-colors mr-3 mt-0.5"
                       whileHover={{ scale: 1.1 }}
                     >
-                      <Phone size={18} className="text-yellow-600 flex-shrink-0" />
+                      <Phone
+                        size={18}
+                        className="text-yellow-600 flex-shrink-0"
+                      />
                     </motion.div>
                     <div>
-                      <h4 
+                      <h4
                         className="font-semibold mb-1 text-gray-800"
-                        style={{ fontFamily: 'Inter, sans-serif' }}
+                        style={{ fontFamily: "Inter, sans-serif" }}
                       >
                         {t.phone}
                       </h4>
                       <motion.a
                         href="tel:+32466468778"
                         className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
-                        style={{ fontFamily: 'Inter, sans-serif' }}
+                        style={{ fontFamily: "Inter, sans-serif" }}
                         whileHover={{ scale: 1.02 }}
                       >
                         +32 466 468 778
@@ -279,7 +289,7 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
                   </motion.div>
 
                   {/* Horaires */}
-                  <motion.div 
+                  <motion.div
                     className="flex items-start group"
                     whileHover={{ x: 3 }}
                     transition={{ duration: 0.2 }}
@@ -288,29 +298,38 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
                       className="p-2 rounded-full bg-yellow-400/10 group-hover:bg-yellow-400/20 transition-colors mr-3 mt-0.5"
                       whileHover={{ scale: 1.1 }}
                     >
-                      <Clock size={18} className="text-yellow-600 flex-shrink-0" />
+                      <Clock
+                        size={18}
+                        className="text-yellow-600 flex-shrink-0"
+                      />
                     </motion.div>
                     <div>
-                      <h4 
+                      <h4
                         className="font-semibold mb-2 text-gray-800"
-                        style={{ fontFamily: 'Inter, sans-serif' }}
+                        style={{ fontFamily: "Inter, sans-serif" }}
                       >
                         {t.hours}
                       </h4>
-                      <ul 
+                      <ul
                         className="text-gray-600 text-sm space-y-1"
-                        style={{ fontFamily: 'Inter, sans-serif' }}
+                        style={{ fontFamily: "Inter, sans-serif" }}
                       >
                         <li className="flex justify-between">
-                          <span className="font-medium text-gray-700">{t.days.mondayFriday}:</span>
+                          <span className="font-medium text-gray-700">
+                            {t.days.mondayFriday}:
+                          </span>
                           <span>11:30 - 14:30, 18:00 - 22:30</span>
                         </li>
                         <li className="flex justify-between">
-                          <span className="font-medium text-gray-700">{t.days.saturday}:</span>
+                          <span className="font-medium text-gray-700">
+                            {t.days.saturday}:
+                          </span>
                           <span>18:00 - 23:00</span>
                         </li>
                         <li className="flex justify-between">
-                          <span className="font-medium text-gray-700">{t.days.sunday}:</span>
+                          <span className="font-medium text-gray-700">
+                            {t.days.sunday}:
+                          </span>
                           <span className="text-red-500">{t.closed}</span>
                         </li>
                       </ul>
@@ -322,7 +341,7 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
                     <motion.a
                       href="#reservation"
                       className="block w-full bg-gradient-to-r from-yellow-400 to-amber-500 text-black text-center px-6 py-3 rounded-full font-semibold hover:from-yellow-300 hover:to-amber-400 transition-all duration-300 shadow-lg hover:shadow-yellow-400/25"
-                      style={{ fontFamily: 'Inter, sans-serif' }}
+                      style={{ fontFamily: "Inter, sans-serif" }}
                       whileHover={{ scale: 1.02, y: -2 }}
                       whileTap={{ scale: 0.98 }}
                     >
@@ -351,11 +370,11 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
                       duration: 4,
                       repeat: Infinity,
                       delay: i * 1.2,
-                      ease: "easeInOut"
+                      ease: "easeInOut",
                     }}
                     style={{
-                      left: `${20 + (i * 20)}%`,
-                      top: `${30 + (i * 15)}%`,
+                      left: `${20 + i * 20}%`,
+                      top: `${30 + i * 15}%`,
                     }}
                   />
                 ))}
