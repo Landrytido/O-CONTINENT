@@ -283,7 +283,7 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
                         style={{ fontFamily: "Inter, sans-serif" }}
                         whileHover={{ scale: 1.02 }}
                       >
-                        +32 466 468 778
+                        +32 465 412 732
                       </motion.a>
                     </div>
                   </motion.div>

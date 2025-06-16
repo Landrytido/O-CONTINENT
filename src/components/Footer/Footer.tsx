@@ -284,7 +284,7 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
                     href="tel:+32466468778"
                     className="text-gray-300 hover:text-yellow-400 transition-colors"
                   >
-                    +32 466 468 778
+                    +32 465 412 732
                   </a>
                 </motion.div>
               </address>

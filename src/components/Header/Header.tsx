@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Globe, Menu, X, Star } from "lucide-react";
+import { Menu, X, Star } from "lucide-react";
 
 // Simulation du composant Logo et des translations
 const Logo = () => (
@@ -124,7 +124,7 @@ const Header: React.FC<HeaderProps> = ({
           <nav className="hidden lg:flex items-center space-x-8">
             {[
               { href: "#menu", label: t.menu },
-              { href: "story", label: t.story },
+              { href: "#mission", label: t.story },
             ].map((item, index) => (
               <motion.a
                 key={item.href}
@@ -200,7 +200,15 @@ const Header: React.FC<HeaderProps> = ({
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
               >
-                <Globe size={18} className="mr-2 text-yellow-400" />
+                <img
+                  src={
+                    language === "fr"
+                      ? "https://flagcdn.com/w20/fr.png"
+                      : "https://flagcdn.com/w20/gb.png"
+                  }
+                  alt={language === "fr" ? "Français" : "English"}
+                  className="w-4 h-3 mr-2"
+                />
                 {language.toUpperCase()}
               </motion.button>
 
@@ -211,7 +219,7 @@ const Header: React.FC<HeaderProps> = ({
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute right-0 mt-2 w-28 bg-black/90 backdrop-blur-xl border border-white/20 rounded-xl shadow-2xl overflow-hidden"
+                    className="absolute right-0 mt-2 w-32 bg-black/90 backdrop-blur-xl border border-white/20 rounded-xl shadow-2xl overflow-hidden"
                   >
                     <motion.button
                       onClick={() => {
@@ -221,7 +229,12 @@ const Header: React.FC<HeaderProps> = ({
                       className="w-full text-left px-4 py-3 text-white/90 hover:bg-white/10 hover:text-white flex items-center transition-all duration-200"
                       whileHover={{ x: 4 }}
                     >
-                      <span className="mr-2">🇫🇷</span> FR
+                      <img
+                        src="https://flagcdn.com/w20/fr.png"
+                        alt="Français"
+                        className="w-4 h-3 mr-2"
+                      />
+                      FR
                     </motion.button>
                     <motion.button
                       onClick={() => {
@@ -231,7 +244,12 @@ const Header: React.FC<HeaderProps> = ({
                       className="w-full text-left px-4 py-3 text-white/90 hover:bg-white/10 hover:text-white flex items-center transition-all duration-200"
                       whileHover={{ x: 4 }}
                     >
-                      <span className="mr-2">🇬🇧</span> EN
+                      <img
+                        src="https://flagcdn.com/w20/gb.png"
+                        alt="English"
+                        className="w-4 h-3 mr-2"
+                      />
+                      EN
                     </motion.button>
                   </motion.div>
                 )}
@@ -286,7 +304,7 @@ const Header: React.FC<HeaderProps> = ({
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col space-y-4">
                 {[
                   { href: "#menu", label: t.menu },
-                  { href: "#story", label: t.story },
+                  { href: "#mission", label: t.story },
                   { href: "#reservation", label: t.contact },
                 ].map((item, index) => (
                   <motion.a
@@ -324,26 +342,34 @@ const Header: React.FC<HeaderProps> = ({
                       onLanguageChange("fr");
                       setIsMobileMenuOpen(false);
                     }}
-                    className="flex items-center text-white/90 hover:text-yellow-400 transition-colors duration-300 bg-white/5 px-4 py-2 rounded-full"
+                    className="flex items-center justify-center text-white/90 hover:text-yellow-400 transition-colors duration-300 bg-white/5 px-4 py-2 rounded-full"
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.3, delay: 0.5 }}
                     whileHover={{ scale: 1.05 }}
                   >
-                    🇫🇷 FR
+                    <img
+                      src="https://flagcdn.com/w20/fr.png"
+                      alt="Français"
+                      className="w-5 h-4"
+                    />
                   </motion.button>
                   <motion.button
                     onClick={() => {
                       onLanguageChange("en");
                       setIsMobileMenuOpen(false);
                     }}
-                    className="flex items-center text-white/90 hover:text-yellow-400 transition-colors duration-300 bg-white/5 px-4 py-2 rounded-full"
+                    className="flex items-center justify-center text-white/90 hover:text-yellow-400 transition-colors duration-300 bg-white/5 px-4 py-2 rounded-full"
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.3, delay: 0.6 }}
                     whileHover={{ scale: 1.05 }}
                   >
-                    🇬🇧 EN
+                    <img
+                      src="https://flagcdn.com/w20/gb.png"
+                      alt="English"
+                      className="w-5 h-4"
+                    />
                   </motion.button>
                 </div>
               </div>

@@ -101,93 +101,154 @@ const translations: Record<"fr" | "en", Translation> = {
   },
   en: {
     reservation: {
-      title: "",
-      description: "",
-      successMessage: "",
-      errorMessage: "",
+      title: "Book a Table",
+      description:
+        "Reserve your table for an unforgettable culinary experience.",
+      successMessage: "Your reservation has been sent successfully!",
+      errorMessage: "An error occurred. Please try again.",
       form: {
-        name: "",
-        namePlaceholder: "",
-        nameRequired: "",
-        phone: "",
-        phonePlaceholder: "",
-        phoneRequired: "",
-        date: "",
-        dateRequired: "",
-        time: "",
-        timeRequired: "",
-        people: "",
-        peoplePlaceholder: "",
-        peopleRequired: "",
-        message: "",
-        messagePlaceholder: "",
-        submit: "",
-        submitting: "",
+        name: "Name",
+        namePlaceholder: "Your full name",
+        nameRequired: "Name is required",
+        phone: "Phone",
+        phonePlaceholder: "+32 XXX XXX XXX",
+        phoneRequired: "Phone is required",
+        date: "Date",
+        dateRequired: "Date is required",
+        time: "Time",
+        timeRequired: "Time is required",
+        people: "Number of people",
+        peoplePlaceholder: "Ex: 4",
+        peopleRequired: "Number of people is required",
+        message: "Message (optional)",
+        messagePlaceholder: "Special requests, allergies...",
+        submit: "Send Reservation",
+        submitting: "Sending...",
       },
     },
     location: {
-      title: "",
-      contactInfo: "",
-      address: "",
-      phone: "",
-      hours: "",
+      title: "Find Us",
+      contactInfo: "Contact Information",
+      address: "Address",
+      phone: "Phone",
+      hours: "Opening Hours",
       days: {
-        mondayFriday: "",
-        saturday: "",
-        sunday: "",
+        mondayFriday: "Mon - Fri",
+        saturday: "Saturday",
+        sunday: "Sunday",
       },
-      closed: "",
+      closed: "Closed",
     },
   },
 };
 
-// Simulation des hooks de formulaire
-const useForm = () => ({
-  register: (name: string, options?: any) => ({
+// Hook de formulaire avec validation réelle
+const useForm = () => {
+  const [formData, setFormData] = useState<FormData>({
+    name: "",
+    phone: "",
+    date: "",
+    time: "",
+    people: "",
+    message: "",
+  });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const register = (name: string) => ({
     name,
-    onChange: () => {},
+    value: formData[name as keyof typeof formData] || "",
+    onChange: (
+      e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+      setFormData((prev) => ({ ...prev, [name]: e.target.value }));
+      // Clear error when user starts typing
+      if (errors[name]) {
+        setErrors((prev) => ({ ...prev, [name]: "" }));
+      }
+    },
     onBlur: () => {},
-    ref: () => {},
-  }),
-  handleSubmit: (fn: any) => (e: any) => {
-    e.preventDefault();
-    fn({
-      name: "Jean Dupont",
-      phone: "+32 123 456 789",
-      date: "2025-06-15",
-      time: "19:30",
-      people: 4,
-      message: "Table près de la fenêtre",
-    });
-  },
-  reset: () => {},
-  watch: (field: string) => {
-    const values: any = {
-      name: "Jean Dupont",
-      phone: "+32 123 456 789",
-      date: "2025-06-15",
-      time: "19:30",
-      people: 4,
-      message: "Table près de la fenêtre",
+  });
+
+  const handleSubmit =
+    (fn: (data: SubmittedData) => void | Promise<void>) =>
+    (e: React.FormEvent) => {
+      e.preventDefault();
+
+      const newErrors: Record<string, string> = {};
+
+      if (!formData.name.trim()) {
+        newErrors.name = "Le nom est obligatoire";
+      }
+      if (!formData.phone.trim()) {
+        newErrors.phone = "Le téléphone est obligatoire";
+      } else if (!/^[+]?[\d\s\-()]+$/.test(formData.phone)) {
+        newErrors.phone = "Format de téléphone invalide";
+      }
+      if (!formData.date) {
+        newErrors.date = "La date est obligatoire";
+      }
+      if (!formData.time) {
+        newErrors.time = "L'heure est obligatoire";
+      }
+      if (!formData.people || parseInt(formData.people) < 1) {
+        newErrors.people = "Le nombre de personnes est obligatoire";
+      }
+
+      setErrors(newErrors);
+
+      if (Object.keys(newErrors).length === 0) {
+        fn({
+          ...formData,
+          people: parseInt(formData.people),
+        });
+      }
     };
-    return values[field] || "";
-  },
-  formState: { errors: {} },
-});
+
+  const reset = () => {
+    setFormData({
+      name: "",
+      phone: "",
+      date: "",
+      time: "",
+      people: "",
+      message: "",
+    });
+    setErrors({});
+  };
+
+  const watch = (field: string) => {
+    return formData[field as keyof typeof formData] || "";
+  };
+
+  return {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors },
+  };
+};
 
 interface ReservationLocationProps {
   language: "fr" | "en";
 }
 
-interface ReservationFormInputs {
+interface FormData {
+  name: string;
+  phone: string;
+  date: string;
+  time: string;
+  people: string;
+  message: string;
+}
+interface SubmittedData {
   name: string;
   phone: string;
   date: string;
   time: string;
   people: number;
-  message?: string;
+  message: string;
 }
-
 const ReservationLocation: React.FC<ReservationLocationProps> = ({
   language = "fr",
 }) => {
@@ -204,16 +265,26 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data: ReservationFormInputs) => {
+  const onSubmit = async (data: SubmittedData) => {
+    // Changer ReservationFormInputs -> SubmittedData
     setIsSubmitting(true);
     setIsError(false);
 
-    // Simulation d'envoi
-    setTimeout(() => {
+    try {
+      console.log("Données de réservation:", data);
+
+      setTimeout(() => {
+        setIsSubmitting(false);
+        setIsSuccess(true);
+        reset();
+        setTimeout(() => setIsSuccess(false), 5000);
+      }, 2000);
+    } catch (error) {
+      console.error("Erreur lors de l'envoi de la réservation:", error);
       setIsSubmitting(false);
-      setIsSuccess(true);
-      setTimeout(() => setIsSuccess(false), 5000);
-    }, 2000);
+      setIsError(true);
+      setTimeout(() => setIsError(false), 5000);
+    }
   };
 
   const tomorrow = new Date();
@@ -348,7 +419,7 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
                 )}
               </AnimatePresence>
 
-              <div className="space-y-4">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 {/* Nom */}
                 <div>
                   <label
@@ -361,13 +432,27 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
                     <span className="text-red-500 ml-1">*</span>
                   </label>
                   <motion.input
+                    {...register("name")}
                     id="name"
                     type="text"
-                    className="w-full p-3 border border-gray-200 rounded-lg bg-gray-50/50 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 focus:bg-white transition-all duration-200"
+                    className={`w-full p-3 border rounded-lg bg-gray-50/50 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 focus:bg-white transition-all duration-200 ${
+                      errors.name
+                        ? "border-red-300 focus:border-red-400 focus:ring-red-400/20"
+                        : "border-gray-200"
+                    }`}
                     placeholder={t.reservation.form.namePlaceholder}
                     disabled={isSubmitting}
                     whileFocus={{ scale: 1.01 }}
                   />
+                  {errors.name && (
+                    <motion.p
+                      className="text-red-500 text-xs mt-1"
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      {errors.name}
+                    </motion.p>
+                  )}
                 </div>
 
                 {/* Téléphone */}
@@ -382,13 +467,27 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
                     <span className="text-red-500 ml-1">*</span>
                   </label>
                   <motion.input
+                    {...register("phone")}
                     id="phone"
                     type="tel"
-                    className="w-full p-3 border border-gray-200 rounded-lg bg-gray-50/50 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 focus:bg-white transition-all duration-200"
+                    className={`w-full p-3 border rounded-lg bg-gray-50/50 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 focus:bg-white transition-all duration-200 ${
+                      errors.phone
+                        ? "border-red-300 focus:border-red-400 focus:ring-red-400/20"
+                        : "border-gray-200"
+                    }`}
                     placeholder={t.reservation.form.phonePlaceholder}
                     disabled={isSubmitting}
                     whileFocus={{ scale: 1.01 }}
                   />
+                  {errors.phone && (
+                    <motion.p
+                      className="text-red-500 text-xs mt-1"
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      {errors.phone}
+                    </motion.p>
+                  )}
                 </div>
 
                 {/* Date & Heure */}
@@ -404,13 +503,27 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
                       <span className="text-red-500 ml-1">*</span>
                     </label>
                     <motion.input
+                      {...register("date")}
                       id="date"
                       type="date"
                       min={tomorrowFormatted}
-                      className="w-full p-3 border border-gray-200 rounded-lg bg-gray-50/50 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 focus:bg-white transition-all duration-200"
+                      className={`w-full p-3 border rounded-lg bg-gray-50/50 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 focus:bg-white transition-all duration-200 ${
+                        errors.date
+                          ? "border-red-300 focus:border-red-400 focus:ring-red-400/20"
+                          : "border-gray-200"
+                      }`}
                       disabled={isSubmitting}
                       whileFocus={{ scale: 1.01 }}
                     />
+                    {errors.date && (
+                      <motion.p
+                        className="text-red-500 text-xs mt-1"
+                        initial={{ opacity: 0, y: -5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                      >
+                        {errors.date}
+                      </motion.p>
+                    )}
                   </div>
 
                   <div>
@@ -424,12 +537,26 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
                       <span className="text-red-500 ml-1">*</span>
                     </label>
                     <motion.input
+                      {...register("time")}
                       id="time"
                       type="time"
-                      className="w-full p-3 border border-gray-200 rounded-lg bg-gray-50/50 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 focus:bg-white transition-all duration-200"
+                      className={`w-full p-3 border rounded-lg bg-gray-50/50 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 focus:bg-white transition-all duration-200 ${
+                        errors.time
+                          ? "border-red-300 focus:border-red-400 focus:ring-red-400/20"
+                          : "border-gray-200"
+                      }`}
                       disabled={isSubmitting}
                       whileFocus={{ scale: 1.01 }}
                     />
+                    {errors.time && (
+                      <motion.p
+                        className="text-red-500 text-xs mt-1"
+                        initial={{ opacity: 0, y: -5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                      >
+                        {errors.time}
+                      </motion.p>
+                    )}
                   </div>
                 </div>
 
@@ -445,15 +572,29 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
                     <span className="text-red-500 ml-1">*</span>
                   </label>
                   <motion.input
+                    {...register("people")}
                     id="people"
                     type="number"
                     min="1"
                     max="20"
-                    className="w-full p-3 border border-gray-200 rounded-lg bg-gray-50/50 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 focus:bg-white transition-all duration-200"
+                    className={`w-full p-3 border rounded-lg bg-gray-50/50 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 focus:bg-white transition-all duration-200 ${
+                      errors.people
+                        ? "border-red-300 focus:border-red-400 focus:ring-red-400/20"
+                        : "border-gray-200"
+                    }`}
                     placeholder={t.reservation.form.peoplePlaceholder}
                     disabled={isSubmitting}
                     whileFocus={{ scale: 1.01 }}
                   />
+                  {errors.people && (
+                    <motion.p
+                      className="text-red-500 text-xs mt-1"
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      {errors.people}
+                    </motion.p>
+                  )}
                 </div>
 
                 {/* Message */}
@@ -467,6 +608,7 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
                     {t.reservation.form.message}
                   </label>
                   <motion.textarea
+                    {...register("message")}
                     id="message"
                     rows={3}
                     className="w-full p-3 border border-gray-200 rounded-lg bg-gray-50/50 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 focus:bg-white transition-all duration-200 resize-none"
@@ -479,17 +621,7 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
                 {/* Boutons */}
                 <div className="flex flex-col gap-3 pt-4">
                   <motion.button
-                    type="button"
-                    onClick={() =>
-                      onSubmit({
-                        name: "Jean Dupont",
-                        phone: "+32 123 456 789",
-                        date: "2025-06-15",
-                        time: "19:30",
-                        people: 4,
-                        message: "Table près de la fenêtre",
-                      })
-                    }
+                    type="submit"
                     disabled={isSubmitting}
                     className="relative group w-full bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-yellow-400/25 transition-all duration-300 disabled:opacity-50"
                     style={{ fontFamily: "Inter, sans-serif" }}
@@ -546,7 +678,7 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
                     />
                   </motion.a>
                 </div>
-              </div>
+              </form>
             </motion.div>
 
             {/* Colonne 2: Informations de contact et carte */}
@@ -572,7 +704,7 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
               </div>
 
               {/* Informations de contact */}
-              <div className="bg-white/90 backdrop-blur-sm p-16 rounded-2xl shadow-lg border border-gray-200/50">
+              <div className="bg-white/90 backdrop-blur-sm p-6 rounded-2xl shadow-lg border border-gray-200/50">
                 <motion.h3
                   className="text-xl font-bold mb-5 flex items-center space-x-2"
                   style={{ fontFamily: "Playfair Display, serif" }}
@@ -652,7 +784,7 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
                         style={{ fontFamily: "Inter, sans-serif" }}
                         whileHover={{ scale: 1.02 }}
                       >
-                        +32 466 468 778
+                        +32 465 412 732
                       </motion.a>
                     </div>
                   </motion.div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ChevronDown, MapPin, Clock, BookOpen, Star } from "lucide-react";
+import { MapPin, Clock, BookOpen, Star } from "lucide-react";
 
 // Simulation des translations pour la démo
 const translations = {
