@@ -14,20 +14,20 @@ export const translations = {
     menu: {
       title: "Notre Menu",
       description:
-        "Découvrez notre sélection de plats authentiques venus des quatre coins du monde.",
-      viewFullMenu: "Voir tout le menu",
+        "Découvrez notre sélection de plats authentiques préparés avec passion et des ingrédients de qualité.",
+      viewFullMenu: "Voir le Menu Complet",
       fullMenuTitle: "Menu Complet",
       menuAlt: "Image du menu",
       categories: {
-        softDrinks: "Boissons Soft",
-        liqueurs: "Liqueurs",
-        grilledDishes: "Grillades",
-        fishMenu: "Menu Poisson",
         chickenMenu: "Menu Poulet",
-        meatMenu: "Menu Viande",
+        fishMenu: "Menu Poissons",
+        grilledDishes: "Menu Viande",
         specialties: "Spécialités Maison",
-        sideDishes: "Accompagnements",
-        tomatoSautes: "Nos Sautés avec Tomate",
+        sideDishes: "Compléments",
+        liqueurs: "Liqueurs",
+        softDrinks: "Softs & Eaux",
+        wines: "Vins",
+        beers: "Bières",
       },
     },
     story: {
@@ -124,22 +124,22 @@ export const translations = {
       reserve: "BOOK A TABLE",
     },
     menu: {
-      title: "Our Menu",
+      title: "Our Menu", // ✅ Corrigé en anglais
       description:
-        "Discover our selection of authentic dishes from around the world.",
-      viewFullMenu: "View full menu",
+        "Discover our selection of authentic dishes prepared with passion and quality ingredients.",
+      viewFullMenu: "View Full Menu",
       fullMenuTitle: "Complete Menu",
       menuAlt: "Menu image",
       categories: {
-        softDrinks: "Soft Drinks",
-        liqueurs: "Liqueurs",
-        grilledDishes: "Grilled Dishes",
-        fishMenu: "Fish Menu",
         chickenMenu: "Chicken Menu",
-        meatMenu: "Meat Menu",
+        fishMenu: "Fish Menu",
+        grilledDishes: "Meat Menu",
         specialties: "House Specialties",
         sideDishes: "Side Dishes",
-        tomatoSautes: "Sautéed with Tomato",
+        liqueurs: "Spirits",
+        softDrinks: "Soft Drinks & Water",
+        wines: "Wines",
+        beers: "Beers",
       },
     },
     story: {
@@ -157,7 +157,7 @@ export const translations = {
         "Each month, we highlight a different region of the world through special dishes and themed events, allowing our customers to travel through taste without leaving Brussels.",
     },
     testimonials: {
-      title: "Customer Testimonials",
+      title: "Customer Reviews",
     },
     reservation: {
       title: "Book Your Table",

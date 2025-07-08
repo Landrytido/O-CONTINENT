@@ -1,94 +1,9 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, Sparkles, Star } from 'lucide-react';
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { X, Sparkles, Star } from "lucide-react";
+import { menuCategories } from "../../data/menuData";
+import { translations } from "../../utils/translations";
 
-// Simulation des données de menu pour la démo
-const menuCategories = [
-  {
-    id: 'entrees',
-    name: { fr: 'Entrées', en: 'Appetizers' },
-    image: '/entree.jpg',
-    menuImage: '/entree.jpeg',
-    description: { fr: 'Découvrez nos délicieuses entrées', en: 'Discover our delicious appetizers' }
-  },
-  {
-    id: 'plats',
-    name: { fr: 'Plats Principaux', en: 'Main Courses' },
-    image: '/plat2.jpeg',
-    menuImage: '/plat2.jpeg',
-    description: { fr: 'Nos spécialités africaines authentiques', en: 'Our authentic African specialties' }
-  },
-  {
-    id: 'grillades',
-    name: { fr: 'Grillades', en: 'Grilled' },
-    image: 'https://images.pexels.com/photos/410648/pexels-photo-410648.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    menuImage: 'https://images.pexels.com/photos/1307658/pexels-photo-1307658.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', 
-    description: { fr: 'Viandes grillées à la perfection', en: 'Perfectly grilled meats' }
-  },
-  {
-    id: 'poissons',
-    name: { fr: 'Poissons', en: 'Fish' },
-    image: 'https://images.pexels.com/photos/8969237/pexels-photo-8969237.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    menuImage: 'https://images.pexels.com/photos/262959/pexels-photo-262959.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    description: { fr: 'Poissons frais et savoureux', en: 'Fresh and flavorful fish' }
-  },
-  {
-    id: 'desserts',
-    name: { fr: 'Desserts', en: 'Desserts' },
-    image: '/dessert.jpg',
-    menuImage: '/dessert.jpg',
-    description: { fr: 'Douceurs traditionnelles', en: 'Traditional sweets' }
-  },
-  {
-    id: 'boissons',
-    name: { fr: 'Boissons', en: 'Beverages' },
-    image: '/boisons.jpg',
-    menuImage: '/boisons.jpg',
-    description: { fr: 'Boissons rafraîchissantes', en: 'Refreshing beverages' }
-  },
-  {
-    id: 'liqueurs',
-    name: { fr: 'liqueurs', en: 'liqueurs' },
-    image: 'https://images.pexels.com/photos/1283219/pexels-photo-1283219.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    menuImage: 'https://images.pexels.com/photos/3566120/pexels-photo-3566120.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    description: { fr: 'Cocktails créatifs et rafraîchissants', en: 'Creative and refreshing cocktails' }
-  },
-  {
-    id: 'Sauces',
-    name: { fr: 'Sauces', en: 'Sautes' },
-     image: 'https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    menuImage: 'https://images.pexels.com/photos/1410235/pexels-photo-1410235.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    description: { fr: 'Plats  savoureux', en: 'Delicious  dishes' }
-  },
-  {
-    id: 'Poulet',
-    name: { fr: 'Poulet', en: 'Chicken' },
-    image: 'https://images.pexels.com/photos/2338407/pexels-photo-2338407.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    menuImage: 'https://images.pexels.com/photos/616354/pexels-photo-616354.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    description: { fr: 'Poulet tendre et juteux', en: 'Tender and juicy chicken' }
-  },
-];
-
-const translations = {
-  fr: {
-    menu: {
-      title: "Notre Menu",
-      description: "Découvrez notre sélection de plats authentiques préparés avec passion et des ingrédients de qualité.",
-      viewFullMenu: "Voir le Menu Complet",
-      menuAlt: "Menu de la catégorie"
-    }
-  },
-  en: {
-    menu: {
-      title: "Our Menu",
-      description: "Discover our selection of authentic dishes prepared with passion and quality ingredients.",
-      viewFullMenu: "View Full Menu",
-      menuAlt: "Category menu"
-    }
-  }
-};
-
-// Composant MenuCategory simplifié
 const MenuCategory: React.FC<{
   category: any;
   onClick: () => void;
@@ -104,106 +19,150 @@ const MenuCategory: React.FC<{
     onClick={onClick}
     whileHover={{ y: -4, scale: 1.02 }}
   >
-    <img 
-      src={category.image} 
-      alt={category.name[language as keyof typeof category.name]}
+    <img
+      src={category.image}
+      alt={
+        category.name?.[language as keyof typeof category.name] || category.id
+      }
       className="w-full h-40 object-cover transition-transform duration-500 group-hover:scale-110"
     />
     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
     <div className="absolute bottom-0 left-0 right-0 p-3">
-      <h3 
+      <h3
         className="text-white font-bold text-lg mb-1"
-        style={{ fontFamily: 'Inter, sans-serif' }}
+        style={{ fontFamily: "Inter, sans-serif" }}
       >
-        {category.name[language as keyof typeof category.name]}
+        {translations[language as keyof typeof translations]?.menu
+          ?.categories?.[
+          category.id as keyof typeof translations.fr.menu.categories
+        ] || category.id}
       </h3>
-      <p 
+      <p
         className="text-gray-300 text-sm"
-        style={{ fontFamily: 'Inter, sans-serif' }}
+        style={{ fontFamily: "Inter, sans-serif" }}
       >
-        {category.description[language as keyof typeof category.description]}
+        {category.description?.[
+          language as keyof typeof category.description
+        ] || ""}
       </p>
     </div>
     {/* Effet de brillance */}
-    <motion.div
-      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"
-    />
+    <motion.div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
   </motion.div>
 );
 
-// Composant MenuOverlay simplifié
+// ✅ GARDER le reste exactement pareil
 const MenuOverlay: React.FC<{
   onClose: () => void;
   categories: any[];
   language: string;
-}> = ({ onClose, categories, language }) => (
-  <motion.div 
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-    onClick={onClose}
-  >
+}> = ({ onClose, categories, language }) => {
+  // Images complètes (vos PDFs non rognés) pour le menu complet
+  const fullMenuPages = [
+    {
+      title:
+        language === "fr"
+          ? "Présentation du Restaurant"
+          : "Restaurant Presentation",
+      image: "/menu/pdf1-presentation-complete.jpg", // Votre PDF 1 complet
+    },
+    {
+      title:
+        language === "fr" ? "Menu Poulets & Poissons" : "Chicken & Fish Menu",
+      image: "/menu/pdf2-poulets-poissons-complete.jpg", // Votre PDF 2 complet
+    },
+    {
+      title:
+        language === "fr"
+          ? "Menu Viande & Spécialités"
+          : "Meat & Specialties Menu",
+      image: "/menu/pdf3-viande-specialites-complete.jpg", // Votre PDF 3 complet
+    },
+    {
+      title: language === "fr" ? "Boissons & Compléments" : "Drinks & Sides",
+      image: "/menu/pdf4-boissons-complements-complete.jpg", // Votre PDF 4 complet
+    },
+    {
+      title: language === "fr" ? "Bières" : "Beers",
+      image: "/menu/pdf5-bieres-complete.jpg", // Votre PDF 5 complet
+    },
+  ];
+
+  return (
     <motion.div
-      initial={{ scale: 0.8, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.8, opacity: 0 }}
-      className="relative max-w-6xl w-full max-h-[90vh] overflow-y-auto bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20"
-      onClick={(e) => e.stopPropagation()}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+      onClick={onClose}
     >
-      <div className="sticky top-0 bg-black/50 backdrop-blur-sm p-4 border-b border-white/20">
-        <div className="flex justify-between items-center">
-          <h2 
-            className="text-2xl font-bold text-white"
-            style={{ fontFamily: 'Playfair Display, serif' }}
-          >
-            Menu Complet
-          </h2>
-          <motion.button
-            onClick={onClose}
-            className="bg-white/20 hover:bg-white/30 rounded-full p-2 transition-all"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <X className="w-6 h-6 text-white" />
-          </motion.button>
-        </div>
-      </div>
-      <div className="p-6 grid md:grid-cols-2 gap-6">
-        {categories.map((category, index) => (
-          <motion.div
-            key={category.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-            className="space-y-3"
-          >
-            <h3 
-              className="text-xl font-bold text-yellow-400"
-              style={{ fontFamily: 'Playfair Display, serif' }}
+      <motion.div
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.8, opacity: 0 }}
+        className="relative max-w-6xl w-full max-h-[90vh] overflow-y-auto bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="sticky top-0 bg-black/50 backdrop-blur-sm p-4 border-b border-white/20">
+          <div className="flex justify-between items-center">
+            <h2
+              className="text-2xl font-bold text-white"
+              style={{ fontFamily: "Playfair Display, serif" }}
             >
-              {category.name[language as keyof typeof category.name]}
-            </h3>
-            <img 
-              src={category.menuImage} 
-              alt={category.name[language as keyof typeof category.name]}
-              className="w-full h-48 object-cover rounded-lg"
-            />
-          </motion.div>
-        ))}
-      </div>
+              Menu Complet
+            </h2>
+            <motion.button
+              onClick={onClose}
+              className="bg-white/20 hover:bg-white/30 rounded-full p-2 transition-all"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <X className="w-6 h-6 text-white" />
+            </motion.button>
+          </div>
+        </div>
+
+        {/* Pages complètes du menu */}
+        <div className="p-6 space-y-8">
+          {fullMenuPages.map((page, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="space-y-3"
+            >
+              <h3
+                className="text-xl font-bold text-yellow-400 text-center"
+                style={{ fontFamily: "Playfair Display, serif" }}
+              >
+                {page.title}
+              </h3>
+              <img
+                src={page.image}
+                alt={page.title}
+                className="w-full h-auto rounded-lg shadow-lg"
+                onError={(e) => {
+                  console.error("Erreur de chargement:", page.image);
+                }}
+              />
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
     </motion.div>
-  </motion.div>
-);
+  );
+};
 
 interface MenuSectionProps {
-  language: 'fr' | 'en';
+  language: "fr" | "en";
 }
 
-const MenuSection: React.FC<MenuSectionProps> = ({ language = 'fr' }) => {
+const MenuSection: React.FC<MenuSectionProps> = ({ language = "fr" }) => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [showFullMenu, setShowFullMenu] = useState(false);
-  
+
   const t = translations[language].menu;
 
   const handleCategoryClick = (category: string) => {
@@ -221,7 +180,10 @@ const MenuSection: React.FC<MenuSectionProps> = ({ language = 'fr' }) => {
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
       `}</style>
 
-      <section id="menu" className="py-12 bg-gradient-to-b from-black via-gray-900 to-black text-white overflow-hidden">
+      <section
+        id="menu"
+        className="py-12 bg-gradient-to-b from-black via-gray-900 to-black text-white overflow-hidden"
+      >
         {/* Effets de fond subtils */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <motion.div
@@ -233,7 +195,7 @@ const MenuSection: React.FC<MenuSectionProps> = ({ language = 'fr' }) => {
             transition={{
               duration: 8,
               repeat: Infinity,
-              ease: "easeInOut"
+              ease: "easeInOut",
             }}
           />
           <motion.div
@@ -246,7 +208,7 @@ const MenuSection: React.FC<MenuSectionProps> = ({ language = 'fr' }) => {
               duration: 10,
               repeat: Infinity,
               ease: "easeInOut",
-              delay: 3
+              delay: 3,
             }}
           />
 
@@ -264,7 +226,7 @@ const MenuSection: React.FC<MenuSectionProps> = ({ language = 'fr' }) => {
                 duration: Math.random() * 6 + 4,
                 repeat: Infinity,
                 delay: Math.random() * 3,
-                ease: "easeInOut"
+                ease: "easeInOut",
               }}
               style={{
                 left: `${Math.random() * 100}%`,
@@ -284,19 +246,19 @@ const MenuSection: React.FC<MenuSectionProps> = ({ language = 'fr' }) => {
             viewport={{ once: true }}
             className="text-center mb-8"
           >
-            <motion.h2 
+            <motion.h2
               className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3"
-              style={{ fontFamily: 'Playfair Display, serif' }}
+              style={{ fontFamily: "Playfair Display, serif" }}
               whileHover={{ scale: 1.02 }}
             >
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-600">
                 {t.title}
               </span>
             </motion.h2>
-            
-            <motion.p 
+
+            <motion.p
               className="max-w-2xl mx-auto text-gray-300"
-              style={{ fontFamily: 'Inter, sans-serif' }}
+              style={{ fontFamily: "Inter, sans-serif" }}
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
@@ -329,18 +291,18 @@ const MenuSection: React.FC<MenuSectionProps> = ({ language = 'fr' }) => {
             <motion.button
               onClick={handleShowFullMenu}
               className="relative group bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-yellow-400/25 transition-all duration-300"
-              style={{ fontFamily: 'Inter, sans-serif' }}
+              style={{ fontFamily: "Inter, sans-serif" }}
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
             >
               <span className="relative z-10 flex items-center space-x-2">
                 <span>{t.viewFullMenu}</span>
-  
+                <Sparkles className="w-5 h-5" />
               </span>
               <motion.div
                 className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 rounded-full"
-                initial={{ x: '-100%' }}
-                whileHover={{ x: '100%' }}
+                initial={{ x: "-100%" }}
+                whileHover={{ x: "100%" }}
                 transition={{ duration: 0.6 }}
               />
             </motion.button>
@@ -372,10 +334,13 @@ const MenuSection: React.FC<MenuSectionProps> = ({ language = 'fr' }) => {
                   >
                     <X className="w-5 h-5 text-gray-800" />
                   </motion.button>
-                  <img 
-                    src={menuCategories.find(c => c.id === selectedCategory)?.menuImage || ''} 
+                  <img
+                    src={
+                      menuCategories.find((c) => c.id === selectedCategory)
+                        ?.menuImage || ""
+                    }
                     alt={t.menuAlt}
-                    className="w-full h-auto rounded-2xl shadow-2xl" 
+                    className="w-full h-auto rounded-2xl shadow-2xl"
                   />
                 </motion.div>
               </motion.div>
@@ -385,8 +350,8 @@ const MenuSection: React.FC<MenuSectionProps> = ({ language = 'fr' }) => {
           {/* Modal menu complet */}
           <AnimatePresence>
             {showFullMenu && (
-              <MenuOverlay 
-                onClose={() => setShowFullMenu(false)} 
+              <MenuOverlay
+                onClose={() => setShowFullMenu(false)}
                 categories={menuCategories}
                 language={language}
               />
