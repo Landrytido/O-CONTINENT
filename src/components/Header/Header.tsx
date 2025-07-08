@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Star } from "lucide-react";
-
-// Simulation du composant Logo et des translations
 const Logo = () => (
   <motion.div
     className="flex items-center space-x-2"
@@ -69,7 +67,6 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <>
-      {/* Import de Google Fonts */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
       `}</style>
@@ -84,7 +81,6 @@ const Header: React.FC<HeaderProps> = ({
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
-        {/* Ligne décorative animée */}
         <motion.div
           className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-transparent via-yellow-400 to-transparent"
           initial={{ width: 0 }}
@@ -92,7 +88,6 @@ const Header: React.FC<HeaderProps> = ({
           transition={{ duration: 0.6, ease: "easeInOut" }}
         />
 
-        {/* Particules décoratives */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {[...Array(3)].map((_, i) => (
             <motion.div
@@ -120,7 +115,6 @@ const Header: React.FC<HeaderProps> = ({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between relative">
           <Logo />
 
-          {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
             {[
               { href: "#menu", label: t.menu },
@@ -189,7 +183,6 @@ const Header: React.FC<HeaderProps> = ({
               </motion.a>
             </div>
 
-            {/* Language Selector */}
             <div className="relative">
               <motion.button
                 onClick={toggleLanguageDropdown}
@@ -257,7 +250,6 @@ const Header: React.FC<HeaderProps> = ({
             </div>
           </nav>
 
-          {/* Mobile Menu Button */}
           <motion.button
             className="lg:hidden text-white p-3 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300"
             onClick={toggleMobileMenu}
@@ -291,7 +283,6 @@ const Header: React.FC<HeaderProps> = ({
           </motion.button>
         </div>
 
-        {/* Mobile Menu */}
         <AnimatePresence>
           {isMobileMenuOpen && (
             <motion.div

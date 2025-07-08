@@ -1,58 +1,56 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Star, Quote, Heart } from "lucide-react";
-
-// Simulation des données de témoignages pour la démo
 const testimonials = [
   {
     text: {
       fr: "Une expérience culinaire exceptionnelle ! Les saveurs sont authentiques et le service impeccable. Je recommande vivement !",
-      en: "An exceptional culinary experience! The flavors are authentic and the service impeccable. I highly recommend!"
+      en: "An exceptional culinary experience! The flavors are authentic and the service impeccable. I highly recommend!",
     },
     name: "Marie Dubois",
     date: "15 Mars 2024",
-    rating: 5
+    rating: 5,
   },
   {
     text: {
       fr: "Le meilleur restaurant africain de Bruxelles ! L'ambiance est chaleureuse et les plats délicieux. Une véritable découverte !",
-      en: "The best African restaurant in Brussels! The atmosphere is warm and the dishes delicious. A real discovery!"
+      en: "The best African restaurant in Brussels! The atmosphere is warm and the dishes delicious. A real discovery!",
     },
     name: "Jean Laurent",
     date: "8 Mars 2024",
-    rating: 5
+    rating: 5,
   },
   {
     text: {
       fr: "Des plats savoureux qui nous transportent directement en Afrique. Le personnel est très accueillant et professionnel.",
-      en: "Tasty dishes that transport us directly to Africa. The staff is very welcoming and professional."
+      en: "Tasty dishes that transport us directly to Africa. The staff is very welcoming and professional.",
     },
     name: "Sophie Martin",
     date: "22 Février 2024",
-    rating: 5
+    rating: 5,
   },
   {
     text: {
       fr: "Une cuisine authentique dans un cadre moderne et élégant. Chaque plat est une explosion de saveurs !",
-      en: "Authentic cuisine in a modern and elegant setting. Each dish is an explosion of flavors!"
+      en: "Authentic cuisine in a modern and elegant setting. Each dish is an explosion of flavors!",
     },
     name: "Ahmed Hassan",
     date: "10 Février 2024",
-    rating: 5
-  }
+    rating: 5,
+  },
 ];
 
 const translations = {
   fr: {
     testimonials: {
-      title: "Ce que disent nos clients"
-    }
+      title: "Ce que disent nos clients",
+    },
   },
   en: {
     testimonials: {
-      title: "What our customers say"
-    }
-  }
+      title: "What our customers say",
+    },
+  },
 };
 
 interface TestimonialsProps {
@@ -73,8 +71,6 @@ const Testimonials: React.FC<TestimonialsProps> = ({ language = "fr" }) => {
       (prev) => (prev - 1 + testimonials.length) % testimonials.length
     );
   };
-
-  // Auto-play carousel
   useEffect(() => {
     if (!isAutoPlaying) return;
 
@@ -84,8 +80,6 @@ const Testimonials: React.FC<TestimonialsProps> = ({ language = "fr" }) => {
 
     return () => clearInterval(interval);
   }, [currentIndex, isAutoPlaying]);
-
-  // Get the display order for cards
   const getCardPosition = (index: number) => {
     const diff =
       (index - currentIndex + testimonials.length) % testimonials.length;
@@ -141,15 +135,12 @@ const Testimonials: React.FC<TestimonialsProps> = ({ language = "fr" }) => {
 
   return (
     <>
-      {/* Import de Google Fonts */}
-      <style >{`
+      <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Dancing+Script:wght@400;500;600&display=swap');
       `}</style>
 
       <section className="relative py-12 bg-gradient-to-b from-gray-900 via-black to-gray-900 text-white overflow-hidden">
-        {/* Effets de fond subtils */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {/* Orbes lumineux discrets */}
           <motion.div
             className="absolute top-1/3 left-1/4 w-48 h-48 bg-gradient-to-r from-yellow-400/6 to-amber-500/6 rounded-full blur-3xl"
             animate={{
@@ -159,7 +150,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ language = "fr" }) => {
             transition={{
               duration: 10,
               repeat: Infinity,
-              ease: "easeInOut"
+              ease: "easeInOut",
             }}
           />
           <motion.div
@@ -172,11 +163,10 @@ const Testimonials: React.FC<TestimonialsProps> = ({ language = "fr" }) => {
               duration: 12,
               repeat: Infinity,
               ease: "easeInOut",
-              delay: 3
+              delay: 3,
             }}
           />
 
-          {/* Particules réduites */}
           {[...Array(8)].map((_, i) => (
             <motion.div
               key={i}
@@ -190,7 +180,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ language = "fr" }) => {
                 duration: Math.random() * 6 + 4,
                 repeat: Infinity,
                 delay: Math.random() * 3,
-                ease: "easeInOut"
+                ease: "easeInOut",
               }}
               style={{
                 left: `${Math.random() * 100}%`,
@@ -210,17 +200,16 @@ const Testimonials: React.FC<TestimonialsProps> = ({ language = "fr" }) => {
             viewport={{ once: true }}
             className="text-center mb-10"
           >
-            <motion.h2 
+            <motion.h2
               className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3"
-              style={{ fontFamily: 'Playfair Display, serif' }}
+              style={{ fontFamily: "Playfair Display, serif" }}
               whileHover={{ scale: 1.02 }}
             >
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-600">
                 {t.title}
               </span>
             </motion.h2>
-            
-            {/* Ligne décorative */}
+
             <motion.div
               className="h-0.5 w-16 mx-auto bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full"
               initial={{ scaleX: 0 }}
@@ -234,8 +223,10 @@ const Testimonials: React.FC<TestimonialsProps> = ({ language = "fr" }) => {
             onMouseEnter={() => setIsAutoPlaying(false)}
             onMouseLeave={() => setIsAutoPlaying(true)}
           >
-            {/* Cards Container avec perspective */}
-            <div className="relative w-full max-w-4xl mx-auto px-4 md:px-16" style={{ perspective: '800px' }}>
+            <div
+              className="relative w-full max-w-4xl mx-auto px-4 md:px-16"
+              style={{ perspective: "800px" }}
+            >
               <AnimatePresence mode="sync">
                 {testimonials.map((testimonial, index) => {
                   const position = getCardPosition(index);
@@ -259,21 +250,21 @@ const Testimonials: React.FC<TestimonialsProps> = ({ language = "fr" }) => {
                     >
                       <motion.div
                         className={`relative w-full max-w-md bg-white/8 backdrop-blur-lg rounded-2xl p-6 shadow-xl border border-white/10 ${
-                          position === "center"
-                            ? "hover:bg-white/12"
-                            : ""
+                          position === "center" ? "hover:bg-white/12" : ""
                         }`}
-                        whileHover={position === "center" ? { 
-                          scale: 1.02,
-                        } : {}}
+                        whileHover={
+                          position === "center"
+                            ? {
+                                scale: 1.02,
+                              }
+                            : {}
+                        }
                         transition={{ duration: 0.3 }}
                       >
-                        {/* Blur overlay pour les cartes latérales */}
                         {position !== "center" && (
                           <div className="absolute inset-0 bg-black/20 backdrop-blur-sm rounded-2xl z-0"></div>
                         )}
 
-                        {/* Bordure subtile pour la carte centrale */}
                         {position === "center" && (
                           <motion.div
                             className="absolute inset-0 rounded-2xl border border-yellow-400/30"
@@ -282,7 +273,6 @@ const Testimonials: React.FC<TestimonialsProps> = ({ language = "fr" }) => {
                           />
                         )}
 
-                        {/* Icône de citation */}
                         <div className="absolute top-4 left-4 opacity-15">
                           <Quote
                             size={32}
@@ -291,7 +281,6 @@ const Testimonials: React.FC<TestimonialsProps> = ({ language = "fr" }) => {
                           />
                         </div>
 
-                        {/* Étoiles */}
                         <div className="mb-5 flex justify-center relative z-10">
                           {Array.from({ length: 5 }).map((_, i) => (
                             <Star
@@ -306,10 +295,9 @@ const Testimonials: React.FC<TestimonialsProps> = ({ language = "fr" }) => {
                           ))}
                         </div>
 
-                        {/* Texte du témoignage */}
-                        <blockquote 
+                        <blockquote
                           className="text-base md:text-lg font-light italic mb-5 text-white text-center leading-relaxed relative z-10"
-                          style={{ fontFamily: 'Inter, sans-serif' }}
+                          style={{ fontFamily: "Inter, sans-serif" }}
                         >
                           <span className="text-yellow-400 text-xl">"</span>
                           {language === "fr"
@@ -318,19 +306,18 @@ const Testimonials: React.FC<TestimonialsProps> = ({ language = "fr" }) => {
                           <span className="text-yellow-400 text-xl">"</span>
                         </blockquote>
 
-                        {/* Informations sur l'auteur */}
                         <div className="text-center relative z-10">
-                          <div 
+                          <div
                             className="font-semibold text-lg mb-1"
-                            style={{ fontFamily: 'Inter, sans-serif' }}
+                            style={{ fontFamily: "Inter, sans-serif" }}
                           >
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-amber-500">
                               {testimonial.name}
                             </span>
                           </div>
-                          <div 
+                          <div
                             className="text-xs text-gray-300 opacity-80 flex items-center justify-center space-x-1"
-                            style={{ fontFamily: 'Inter, sans-serif' }}
+                            style={{ fontFamily: "Inter, sans-serif" }}
                           >
                             <Heart className="w-3 h-3 text-red-400" />
                             <span>{testimonial.date}</span>
@@ -343,7 +330,6 @@ const Testimonials: React.FC<TestimonialsProps> = ({ language = "fr" }) => {
               </AnimatePresence>
             </div>
 
-            {/* Boutons de navigation */}
             <motion.button
               className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 bg-white/8 backdrop-blur-sm text-white p-3 rounded-full hover:bg-yellow-400 hover:text-black transition-all duration-300 z-10 border border-white/20"
               onClick={prevSlide}
@@ -365,7 +351,6 @@ const Testimonials: React.FC<TestimonialsProps> = ({ language = "fr" }) => {
             </motion.button>
           </div>
 
-          {/* Indicateurs de points */}
           <div className="flex justify-center mt-8 gap-2">
             {testimonials.map((_, index) => (
               <motion.button

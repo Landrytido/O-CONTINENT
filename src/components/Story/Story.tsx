@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Camera, Sparkles } from "lucide-react";
-
-// Simulation des translations pour la démo
 const translations = {
   fr: {
     story: {
@@ -42,7 +40,6 @@ const Story: React.FC<StoryProps> = ({ language = "fr" }) => {
 
   return (
     <>
-      {/* Import de Google Fonts */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
       `}</style>
@@ -51,7 +48,6 @@ const Story: React.FC<StoryProps> = ({ language = "fr" }) => {
         id="mission"
         className="py-12 bg-gradient-to-b from-white to-gray-50"
       >
-        {/* Effets de fond subtils */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <motion.div
             className="absolute top-1/4 right-1/4 w-32 h-32 bg-gradient-to-r from-yellow-400/5 to-amber-500/5 rounded-full blur-3xl"
@@ -104,7 +100,7 @@ const Story: React.FC<StoryProps> = ({ language = "fr" }) => {
                     {t.missionTitle}
                   </span>
                 </motion.h2>
-                {/* Ligne décorative */}
+
                 <motion.div
                   className="h-0.5 w-12 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full"
                   initial={{ scaleX: 0 }}
@@ -151,7 +147,7 @@ const Story: React.FC<StoryProps> = ({ language = "fr" }) => {
                   alt="Restaurant ambiance"
                   className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                {/* Overlay avec icône */}
+
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
                   <motion.div
                     className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -185,7 +181,7 @@ const Story: React.FC<StoryProps> = ({ language = "fr" }) => {
                   alt={image.alt}
                   className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                {/* Overlay avec icône */}
+
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
                   <motion.div
                     className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -195,14 +191,12 @@ const Story: React.FC<StoryProps> = ({ language = "fr" }) => {
                   </motion.div>
                 </div>
 
-                {/* Effet de brillance */}
                 <motion.div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
               </motion.div>
             ))}
           </div>
         </div>
 
-        {/* Modal d'image agrandie */}
         <AnimatePresence>
           {selectedImg && (
             <motion.div
@@ -234,7 +228,6 @@ const Story: React.FC<StoryProps> = ({ language = "fr" }) => {
                   className="w-full h-auto object-contain rounded-2xl"
                 />
 
-                {/* Particules décoratives sur l'image agrandie */}
                 <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl">
                   {[...Array(4)].map((_, i) => (
                     <motion.div

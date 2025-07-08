@@ -46,8 +46,7 @@ const MenuCategory: React.FC<{
         ] || ""}
       </p>
     </div>
-    {/* Effet de brillance */}
-    <motion.div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
   </motion.div>
 );
 
@@ -56,59 +55,52 @@ const MenuOverlay: React.FC<{
   categories: any[];
   language: string;
 }> = ({ onClose, categories, language }) => {
-  // Gestion du body scroll et position
   useEffect(() => {
-    // Sauvegarder la position de scroll actuelle
     const originalScrollY = window.scrollY;
     const originalOverflow = document.body.style.overflow;
     const originalPaddingRight = document.body.style.paddingRight;
 
-    // Calculer la largeur de la scrollbar pour éviter le jump
     const scrollBarWidth =
       window.innerWidth - document.documentElement.clientWidth;
 
-    // Désactiver le scroll du body et forcer le retour en haut
     document.body.style.overflow = "hidden";
     document.body.style.paddingRight = `${scrollBarWidth}px`;
     window.scrollTo(0, 0);
 
-    // Restaurer le scroll du body et la position quand la modal se ferme
     return () => {
       document.body.style.overflow = originalOverflow;
       document.body.style.paddingRight = originalPaddingRight;
-      // Restaurer la position de scroll originale
       window.scrollTo(0, originalScrollY);
     };
   }, []);
 
-  // Images complètes (vos PDFs non rognés) pour le menu complet
   const fullMenuPages = [
     {
       title:
         language === "fr"
           ? "Présentation du Restaurant"
           : "Restaurant Presentation",
-      image: "/menu/pdf1-presentation-complete.jpg", // Votre PDF 1 complet
+      image: "/menu/pdf1-presentation-complete.jpg",
     },
     {
       title:
         language === "fr" ? "Menu Poulets & Poissons" : "Chicken & Fish Menu",
-      image: "/menu/pdf2-poulets-poissons-complete.jpg", // Votre PDF 2 complet
+      image: "/menu/pdf2-poulets-poissons-complete.jpg",
     },
     {
       title:
         language === "fr"
           ? "Menu Viande & Spécialités"
           : "Meat & Specialties Menu",
-      image: "/menu/pdf3-viande-specialites-complete.jpg", // Votre PDF 3 complet
+      image: "/menu/pdf3-viande-specialites-complete.jpg",
     },
     {
       title: language === "fr" ? "Boissons & Compléments" : "Drinks & Sides",
-      image: "/menu/pdf4-boissons-complements-complete.jpg", // Votre PDF 4 complet
+      image: "/menu/pdf4-boissons-complements-complete.jpg",
     },
     {
       title: language === "fr" ? "Bières" : "Beers",
-      image: "/menu/pdf5-bieres-complete.jpg", // Votre PDF 5 complet
+      image: "/menu/pdf5-bieres-complete.jpg",
     },
   ];
 
@@ -127,7 +119,6 @@ const MenuOverlay: React.FC<{
         className="relative max-w-6xl w-full max-h-[90vh] overflow-y-auto bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
         <div className="sticky top-0 bg-black/50 backdrop-blur-sm p-4 border-b border-white/20 z-10">
           <div className="flex justify-between items-center">
             <h2
@@ -147,7 +138,6 @@ const MenuOverlay: React.FC<{
           </div>
         </div>
 
-        {/* Pages complètes du menu */}
         <div className="p-6 space-y-8">
           {fullMenuPages.map((page, index) => (
             <motion.div
@@ -167,9 +157,7 @@ const MenuOverlay: React.FC<{
                 src={page.image}
                 alt={page.title}
                 className="w-full h-auto rounded-lg shadow-lg"
-                onError={(e) => {
-                  console.error("Erreur de chargement:", page.image);
-                }}
+                onError={() => {}}
               />
             </motion.div>
           ))}
@@ -189,19 +177,15 @@ const MenuSection: React.FC<MenuSectionProps> = ({ language = "fr" }) => {
 
   const t = translations[language].menu;
 
-  // Gestion du body scroll pour la modal de catégorie
   useEffect(() => {
     if (selectedCategory) {
-      // Sauvegarder la position de scroll actuelle
       const originalScrollY = window.scrollY;
       const originalOverflow = document.body.style.overflow;
       const originalPaddingRight = document.body.style.paddingRight;
 
-      // Calculer la largeur de la scrollbar pour éviter le jump
       const scrollBarWidth =
         window.innerWidth - document.documentElement.clientWidth;
 
-      // Désactiver le scroll du body et forcer le retour en haut
       document.body.style.overflow = "hidden";
       document.body.style.paddingRight = `${scrollBarWidth}px`;
       window.scrollTo(0, 0);
@@ -209,7 +193,6 @@ const MenuSection: React.FC<MenuSectionProps> = ({ language = "fr" }) => {
       return () => {
         document.body.style.overflow = originalOverflow;
         document.body.style.paddingRight = originalPaddingRight;
-        // Restaurer la position de scroll originale
         window.scrollTo(0, originalScrollY);
       };
     }
@@ -233,7 +216,6 @@ const MenuSection: React.FC<MenuSectionProps> = ({ language = "fr" }) => {
 
   return (
     <>
-      {/* Import de Google Fonts */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
       `}</style>
@@ -242,7 +224,6 @@ const MenuSection: React.FC<MenuSectionProps> = ({ language = "fr" }) => {
         id="menu"
         className="py-12 bg-gradient-to-b from-black via-gray-900 to-black text-white overflow-hidden"
       >
-        {/* Effets de fond subtils */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <motion.div
             className="absolute top-1/4 left-1/4 w-48 h-48 bg-gradient-to-r from-yellow-400/6 to-amber-500/6 rounded-full blur-3xl"
@@ -270,7 +251,6 @@ const MenuSection: React.FC<MenuSectionProps> = ({ language = "fr" }) => {
             }}
           />
 
-          {/* Particules discrètes */}
           {[...Array(8)].map((_, i) => (
             <motion.div
               key={i}
@@ -324,7 +304,6 @@ const MenuSection: React.FC<MenuSectionProps> = ({ language = "fr" }) => {
               {t.description}
             </motion.p>
 
-            {/* Ligne décorative */}
             <motion.div
               className="h-0.5 w-16 mx-auto mt-4 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full"
               initial={{ scaleX: 0 }}
@@ -366,7 +345,6 @@ const MenuSection: React.FC<MenuSectionProps> = ({ language = "fr" }) => {
             </motion.button>
           </div>
 
-          {/* Modal de catégorie sélectionnée */}
           <AnimatePresence>
             {selectedCategory && (
               <motion.div
@@ -405,7 +383,6 @@ const MenuSection: React.FC<MenuSectionProps> = ({ language = "fr" }) => {
             )}
           </AnimatePresence>
 
-          {/* Modal menu complet */}
           <AnimatePresence>
             {showFullMenu && (
               <MenuOverlay

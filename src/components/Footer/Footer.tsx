@@ -3,15 +3,13 @@ import { motion } from "framer-motion";
 import {
   Facebook,
   Instagram,
-  Twitter,
+  X,
   MapPin,
   Phone,
   Star,
   Sparkles,
   Heart,
 } from "lucide-react";
-
-// Simulation des translations pour la démo
 const translations = {
   fr: {
     footer: {
@@ -86,15 +84,12 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
 
   return (
     <>
-      {/* Import de Google Fonts */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Dancing+Script:wght@400;500;600&display=swap');
       `}</style>
 
       <footer className="relative bg-gradient-to-b from-black via-gray-900 to-black text-white overflow-hidden">
-        {/* Effets de fond décoratifs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {/* Orbes lumineux */}
           <motion.div
             className="absolute -top-20 -left-20 w-40 h-40 bg-gradient-to-r from-yellow-400/10 to-amber-500/10 rounded-full blur-3xl"
             animate={{
@@ -121,7 +116,6 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
             }}
           />
 
-          {/* Particules flottantes */}
           {[...Array(8)].map((_, i) => (
             <motion.div
               key={i}
@@ -152,7 +146,6 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
           ))}
         </div>
 
-        {/* Ligne décorative supérieure */}
         <motion.div
           className="h-1 bg-gradient-to-r from-transparent via-yellow-400 to-transparent"
           initial={{ scaleX: 0 }}
@@ -169,7 +162,6 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
           >
-            {/* Logo et description */}
             <motion.div variants={itemVariants} className="lg:col-span-1">
               <motion.div
                 className="mb-6"
@@ -212,7 +204,6 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
                 {t.tagline}
               </motion.p>
 
-              {/* Éléments décoratifs */}
               <motion.div
                 className="flex items-center space-x-2 mt-4"
                 initial={{ opacity: 0, x: -20 }}
@@ -236,7 +227,6 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
               </motion.div>
             </motion.div>
 
-            {/* Contact avec icônes */}
             <motion.div variants={itemVariants}>
               <h3
                 className="text-xl font-bold mb-6 flex items-center space-x-2"
@@ -290,7 +280,6 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
               </address>
             </motion.div>
 
-            {/* Liens rapides */}
             <motion.div variants={itemVariants}>
               <h3
                 className="text-xl font-bold mb-6 flex items-center space-x-2"
@@ -346,7 +335,6 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
               </ul>
             </motion.div>
 
-            {/* Réseaux sociaux */}
             <motion.div variants={itemVariants}>
               <h3
                 className="text-xl font-bold mb-6 flex items-center space-x-2"
@@ -368,7 +356,7 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
                 {[
                   {
                     Icon: Facebook,
-                    href: "https://facebook.com",
+                    href: "https://www.facebook.com/profile.php?id=61577275866665",
                     color: "hover:text-blue-400",
                   },
                   {
@@ -377,9 +365,9 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
                     color: "hover:text-pink-400",
                   },
                   {
-                    Icon: Twitter,
-                    href: "https://twitter.com",
-                    color: "hover:text-cyan-400",
+                    Icon: X,
+                    href: "https://x.com",
+                    color: "hover:text-gray-300",
                   },
                 ].map((social, index) => (
                   <motion.a
@@ -417,7 +405,6 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
             </motion.div>
           </motion.div>
 
-          {/* Ligne de séparation animée */}
           <motion.div
             className="relative mt-16 mb-8"
             initial={{ opacity: 0 }}
@@ -433,7 +420,6 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
             />
           </motion.div>
 
-          {/* Copyright avec effet */}
           <motion.div
             className="text-center"
             initial={{ opacity: 0, y: 20 }}

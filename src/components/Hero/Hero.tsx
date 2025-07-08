@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { MapPin, Clock, BookOpen, Star } from "lucide-react";
-
-// Simulation des translations pour la démo
 const translations = {
   fr: {
     hero: {
@@ -27,8 +25,6 @@ interface HeroProps {
 const Hero: React.FC<HeroProps> = ({ language = "fr" }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const t = translations[language].hero;
-
-  // Images de fond pour le carousel
   const backgroundImages = [
     "/image2.jpg",
     "/plat2.jpeg",
@@ -36,8 +32,6 @@ const Hero: React.FC<HeroProps> = ({ language = "fr" }) => {
     "https://images.pexels.com/photos/1640772/pexels-photo-1640772.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=2",
     "https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=2",
   ];
-
-  // Carousel automatique toutes les 4 secondes
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) =>
@@ -53,12 +47,10 @@ const Hero: React.FC<HeroProps> = ({ language = "fr" }) => {
       className="h-screen flex items-center justify-center relative overflow-hidden"
       id="home"
     >
-      {/* Import de Google Fonts via CSS */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600;700&display=swap');
       `}</style>
 
-      {/* Carousel d'images de fond */}
       <div className="absolute inset-0 z-0">
         {backgroundImages.map((image, index) => (
           <div
@@ -75,7 +67,6 @@ const Hero: React.FC<HeroProps> = ({ language = "fr" }) => {
         ))}
       </div>
 
-      {/* Particules dorées flottantes améliorées */}
       <div className="absolute inset-0 z-5 pointer-events-none overflow-hidden">
         {[...Array(12)].map((_, i) => (
           <motion.div
@@ -117,7 +108,6 @@ const Hero: React.FC<HeroProps> = ({ language = "fr" }) => {
         ))}
       </div>
 
-      {/* Orbes lumineux de fond */}
       <div className="absolute inset-0 z-1 pointer-events-none">
         <motion.div
           className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-r from-yellow-400/10 to-amber-500/10 rounded-full blur-3xl"
@@ -146,7 +136,6 @@ const Hero: React.FC<HeroProps> = ({ language = "fr" }) => {
         />
       </div>
 
-      {/* Glassmorphism overlay pour le contenu */}
       <div className="absolute inset-0 z-10 flex items-center justify-center">
         <motion.div
           className="backdrop-blur-lg bg-gradient-to-br from-black/20 to-black/30 rounded-3xl border border-white/30 shadow-2xl p-12 md:p-12 lg:p-16 mx-4 max-w-5xl relative overflow-hidden"
@@ -154,7 +143,6 @@ const Hero: React.FC<HeroProps> = ({ language = "fr" }) => {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
         >
-          {/* Effet de bordure animée */}
           <motion.div
             className="absolute inset-0 rounded-3xl"
             style={{
@@ -175,7 +163,6 @@ const Hero: React.FC<HeroProps> = ({ language = "fr" }) => {
               transition={{ duration: 1, delay: 0.3 }}
               className="max-w-4xl mx-auto"
             >
-              {/* Logo principal avec typographie améliorée */}
               <motion.h1
                 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 relative"
                 style={{ fontFamily: "Playfair Display, serif" }}
@@ -197,23 +184,8 @@ const Hero: React.FC<HeroProps> = ({ language = "fr" }) => {
                 >
                   CONTINENG
                 </motion.span>
-
-                {/* Effet de brillance animé amélioré */}
-                {/* <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
-                  initial={{ x: '-100%', skewX: -20 }}
-                  animate={{ x: '200%' }}
-                  transition={{ 
-                    duration: 2.5, 
-                    delay: 1.5,
-                    repeat: Infinity, 
-                    repeatDelay: 10,
-                    ease: "easeInOut" 
-                  }}
-                /> */}
               </motion.h1>
 
-              {/* Sous-titre avec meilleure typographie */}
               <motion.p
                 className="text-white text-xl md:text-2xl lg:text-3xl xl:text-4xl mb-8 font-light drop-shadow-lg leading-relaxed tracking-wide"
                 style={{ fontFamily: "Dancing Script, cursive" }}
@@ -224,7 +196,6 @@ const Hero: React.FC<HeroProps> = ({ language = "fr" }) => {
                 {t.subtitle}
               </motion.p>
 
-              {/* Informations avec icônes */}
               <motion.div
                 className="text-white/95 text-base md:text-lg lg:text-xl mb-12 space-y-4"
                 style={{ fontFamily: "Inter, sans-serif" }}
@@ -271,7 +242,6 @@ const Hero: React.FC<HeroProps> = ({ language = "fr" }) => {
                 </motion.div>
               </motion.div>
 
-              {/* Boutons avec effets améliorés */}
               <motion.div
                 className="flex flex-col sm:flex-row justify-center gap-6"
                 initial={{ opacity: 0, y: 20 }}
@@ -321,7 +291,6 @@ const Hero: React.FC<HeroProps> = ({ language = "fr" }) => {
         </motion.div>
       </div>
 
-      {/* Indicateurs de carousel améliorés */}
       <motion.div
         className="absolute bottom-8 right-8 z-20 flex space-x-3 bg-black/20 backdrop-blur-sm rounded-full p-3"
         initial={{ opacity: 0, x: 20 }}
@@ -352,7 +321,6 @@ const Hero: React.FC<HeroProps> = ({ language = "fr" }) => {
         ))}
       </motion.div>
 
-      {/* Indicateur de scroll redesigné et repositionné */}
       <motion.div
         className="absolute bottom-8  transform -translate-x-1/2 z-20 flex justify-center w-full"
         initial={{ opacity: 0, y: 20 }}

@@ -14,8 +14,6 @@ import {
   Sparkles,
   MapPin,
 } from "lucide-react";
-
-// Simulation des translations
 type Translation = {
   reservation: {
     title: string;
@@ -142,7 +140,6 @@ const translations: Record<"fr" | "en", Translation> = {
   },
 };
 
-// Hook de formulaire avec validation réelle
 const useForm = () => {
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -161,7 +158,6 @@ const useForm = () => {
       e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
       setFormData((prev) => ({ ...prev, [name]: e.target.value }));
-      // Clear error when user starts typing
       if (errors[name]) {
         setErrors((prev) => ({ ...prev, [name]: "" }));
       }
@@ -266,21 +262,17 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
   } = useForm();
 
   const onSubmit = async (data: SubmittedData) => {
-    // Changer ReservationFormInputs -> SubmittedData
     setIsSubmitting(true);
     setIsError(false);
 
     try {
-      console.log("Données de réservation:", data);
-
       setTimeout(() => {
         setIsSubmitting(false);
         setIsSuccess(true);
         reset();
         setTimeout(() => setIsSuccess(false), 5000);
       }, 2000);
-    } catch (error) {
-      console.error("Erreur lors de l'envoi de la réservation:", error);
+    } catch {
       setIsSubmitting(false);
       setIsError(true);
       setTimeout(() => setIsError(false), 5000);
@@ -290,8 +282,6 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   const tomorrowFormatted = tomorrow.toISOString().split("T")[0];
-
-  // Watch values for WhatsApp link
   const name = watch("name");
   const phone = watch("phone");
   const date = watch("date");
@@ -309,7 +299,6 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
 
   return (
     <>
-      {/* Import de Google Fonts */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
       `}</style>
@@ -318,7 +307,6 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
         id="reservation"
         className="relative py-12 bg-gradient-to-b from-gray-50 to-white overflow-hidden"
       >
-        {/* Effets de fond subtils */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <motion.div
             className="absolute top-1/4 right-1/4 w-48 h-48 bg-gradient-to-r from-yellow-400/5 to-amber-500/5 rounded-full blur-3xl"
@@ -370,7 +358,7 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
             >
               {t.reservation.description}
             </p>
-            {/* Ligne décorative */}
+
             <motion.div
               className="h-0.5 w-16 mx-auto mt-4 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full"
               initial={{ scaleX: 0 }}
@@ -380,7 +368,6 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            {/* Colonne 1: Formulaire de réservation */}
             <motion.div
               className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-gray-200/50"
               initial={{ opacity: 0, x: -30 }}
@@ -388,7 +375,6 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              {/* Messages de succès/erreur */}
               <AnimatePresence>
                 {isSuccess && (
                   <motion.div
@@ -420,7 +406,6 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
               </AnimatePresence>
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                {/* Nom */}
                 <div>
                   <label
                     htmlFor="name"
@@ -455,7 +440,6 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
                   )}
                 </div>
 
-                {/* Téléphone */}
                 <div>
                   <label
                     htmlFor="phone"
@@ -490,7 +474,6 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
                   )}
                 </div>
 
-                {/* Date & Heure */}
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label
@@ -560,7 +543,6 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
                   </div>
                 </div>
 
-                {/* Personnes */}
                 <div>
                   <label
                     htmlFor="people"
@@ -597,7 +579,6 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
                   )}
                 </div>
 
-                {/* Message */}
                 <div>
                   <label
                     htmlFor="message"
@@ -618,7 +599,6 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
                   />
                 </div>
 
-                {/* Boutons */}
                 <div className="flex flex-col gap-3 pt-4">
                   <motion.button
                     type="submit"
@@ -681,7 +661,6 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
               </form>
             </motion.div>
 
-            {/* Colonne 2: Informations de contact et carte */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -689,7 +668,6 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
               viewport={{ once: true }}
               className="space-y-6"
             >
-              {/* Carte Google Maps */}
               <div className="relative h-64 rounded-2xl overflow-hidden shadow-lg border border-gray-200/50">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2520.392455504523!2d4.292924477142434!3d50.82389417166596!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c3c69bd4a38a03%3A0x12122ad9a38ec443!2sChauss%C3%A9e%20de%20Mons%201081%2C%201070%20Anderlecht!5e0!3m2!1sfr!2sbe!4v1749638312823!5m2!1sfr!2sbe"
@@ -703,7 +681,6 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
                 />
               </div>
 
-              {/* Informations de contact */}
               <div className="bg-white/90 backdrop-blur-sm p-6 rounded-2xl shadow-lg border border-gray-200/50">
                 <motion.h3
                   className="text-xl font-bold mb-5 flex items-center space-x-2"
@@ -723,7 +700,6 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
                 </motion.h3>
 
                 <div className="space-y-4">
-                  {/* Adresse */}
                   <motion.div
                     className="flex items-start group"
                     whileHover={{ x: 3 }}
@@ -756,7 +732,6 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
                     </div>
                   </motion.div>
 
-                  {/* Téléphone */}
                   <motion.div
                     className="flex items-start group"
                     whileHover={{ x: 3 }}
@@ -789,7 +764,6 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
                     </div>
                   </motion.div>
 
-                  {/* Horaires */}
                   <motion.div
                     className="flex items-start group"
                     whileHover={{ x: 3 }}

@@ -1,7 +1,6 @@
 import { MenuCategoryType } from "../types/menu";
 
 export const menuCategories: MenuCategoryType[] = [
-  // PDF 2 - Images séparées (bonne densité de contenu)
   {
     id: "chickenMenu",
     image:
@@ -14,8 +13,6 @@ export const menuCategories: MenuCategoryType[] = [
       "https://images.pexels.com/photos/8969237/pexels-photo-8969237.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     menuImage: "/menu/menu-poissons.jpg", // PDF 2 - droite uniquement
   },
-
-  // PDF 3 - Images séparées (bonne densité de contenu)
   {
     id: "grilledDishes",
     image:
@@ -28,8 +25,6 @@ export const menuCategories: MenuCategoryType[] = [
       "https://images.pexels.com/photos/1395319/pexels-photo-1395319.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     menuImage: "/menu/specialites-maison.jpg", // PDF 3 - droite uniquement
   },
-
-  // PDF 4 - Images combinées (groupes logiques)
   {
     id: "sideDishes", // Compléments
     image:
@@ -54,8 +49,6 @@ export const menuCategories: MenuCategoryType[] = [
       "https://images.pexels.com/photos/1283219/pexels-photo-1283219.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     menuImage: "/menu/softs-vins.jpg", // PDF 4 - droite complet (section vins visible)
   },
-
-  // PDF 5 - Image séparée (une seule section utilisée)
   {
     id: "beers",
     image:
@@ -63,8 +56,6 @@ export const menuCategories: MenuCategoryType[] = [
     menuImage: "/menu/bieres.jpg", // PDF 5 - gauche uniquement
   },
 ];
-
-// Pour le menu complet, on ajoute la présentation
 export const restaurantPresentation = {
   id: "presentation",
   name: { fr: "O CONTINENG", en: "O CONTINENG" },

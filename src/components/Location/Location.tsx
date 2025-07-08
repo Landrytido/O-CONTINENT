@@ -1,8 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Clock, Phone, MapPin, Star, Sparkles } from "lucide-react";
-
-// Simulation des translations pour la démo
 const translations = {
   fr: {
     location: {
@@ -47,7 +45,6 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
 
   return (
     <>
-      {/* Import de Google Fonts */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
       `}</style>
@@ -56,9 +53,7 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
         id="contact"
         className="relative py-16 bg-gradient-to-b from-gray-50 to-white overflow-hidden"
       >
-        {/* Effets de fond subtils */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {/* Orbes légers */}
           <motion.div
             className="absolute top-1/4 right-1/4 w-48 h-48 bg-gradient-to-r from-yellow-400/5 to-amber-500/5 rounded-full blur-3xl"
             animate={{
@@ -85,7 +80,6 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
             }}
           />
 
-          {/* Particules discrètes */}
           {[...Array(6)].map((_, i) => (
             <motion.div
               key={i}
@@ -136,7 +130,6 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
                   {t.title}
                 </span>
 
-                {/* Effet de brillance subtil */}
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-r from-transparent via-yellow-400/20 to-transparent"
                   initial={{ x: "-100%" }}
@@ -151,7 +144,6 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
               </h2>
             </motion.div>
 
-            {/* Ligne décorative */}
             <motion.div
               className="h-0.5 w-16 mx-auto bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full"
               initial={{ scaleX: 0 }}
@@ -161,7 +153,6 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-6">
-            {/* Carte Google Maps */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -180,7 +171,6 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
                 title="Restaurant O-Contineng location"
               />
 
-              {/* Overlay décoratif */}
               <motion.div
                 className="absolute inset-0 bg-gradient-to-br from-yellow-400/5 to-transparent pointer-events-none"
                 initial={{ opacity: 0 }}
@@ -189,7 +179,6 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
               />
             </motion.div>
 
-            {/* Informations de contact */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -197,7 +186,6 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
               viewport={{ once: true }}
               className="relative bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg border border-gray-200/50"
             >
-              {/* Bordure décorative subtile */}
               <motion.div
                 className="absolute inset-0 rounded-2xl bg-gradient-to-br from-yellow-400/10 via-transparent to-black/5"
                 initial={{ opacity: 0 }}
@@ -222,7 +210,6 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
                 </motion.h3>
 
                 <div className="space-y-4">
-                  {/* Adresse */}
                   <motion.div
                     className="flex items-start group"
                     whileHover={{ x: 3 }}
@@ -255,7 +242,6 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
                     </div>
                   </motion.div>
 
-                  {/* Téléphone */}
                   <motion.div
                     className="flex items-start group"
                     whileHover={{ x: 3 }}
@@ -288,7 +274,6 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
                     </div>
                   </motion.div>
 
-                  {/* Horaires */}
                   <motion.div
                     className="flex items-start group"
                     whileHover={{ x: 3 }}
@@ -336,7 +321,6 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
                     </div>
                   </motion.div>
 
-                  {/* Bouton de réservation */}
                   <motion.div className="pt-4">
                     <motion.a
                       href="#reservation"
@@ -354,7 +338,6 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
                 </div>
               </div>
 
-              {/* Particules décoratives sur la carte */}
               <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl">
                 {[...Array(4)].map((_, i) => (
                   <motion.div

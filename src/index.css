@@ -8,15 +8,20 @@
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
     @apply antialiased;
     font-family: 'Inter', sans-serif;
     font-feature-settings: 'liga' 1, 'calt' 1;
     letter-spacing: -0.01em;
   }
-  
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: 'Cormorant Garamond', serif;
     font-weight: 600;
     line-height: 1.2;
@@ -30,7 +35,7 @@
     line-height: 1.1;
   }
 
-  /* Styles pour le texte de luxe */
+
   .text-luxury {
     font-family: 'Cormorant Garamond', serif;
     font-weight: 400;
@@ -45,14 +50,15 @@
     line-height: 1.6;
   }
 
-  /* Amélioration des listes et paragraphes */
+
   p {
     line-height: 1.7;
     letter-spacing: -0.005em;
   }
 
-  /* Styles pour les boutons */
-  button, .btn {
+
+  button,
+  .btn {
     font-family: 'Inter', sans-serif;
     font-weight: 500;
     letter-spacing: 0.02em;
@@ -60,20 +66,21 @@
     font-size: 0.9rem;
   }
 
-  /* Styles pour les liens de navigation */
+
   nav a {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
     letter-spacing: 0.01em;
   }
 
-  /* Amélioration des inputs */
-  input, textarea {
+
+  input,
+  textarea {
     font-family: 'Inter', sans-serif;
     letter-spacing: -0.01em;
   }
 
-  /* Styles pour les citations et témoignages */
+
   blockquote {
     font-family: 'Cormorant Garamond', serif;
     font-weight: 400;
@@ -94,32 +101,32 @@
     text-transform: uppercase;
     font-size: 0.85rem;
   }
-  
+
   .btn-primary {
     @apply bg-gradient-to-r from-gold to-yellow-400 text-black hover:from-yellow-400 hover:to-gold;
     box-shadow: 0 8px 30px rgba(255, 215, 0, 0.3);
   }
-  
+
   .btn-primary:hover {
     box-shadow: 0 12px 40px rgba(255, 215, 0, 0.4);
     transform: translateY(-4px) scale(1.02);
   }
-  
+
   .btn-secondary {
     @apply bg-transparent border-2 border-gold text-gold hover:bg-gold/10 backdrop-blur-sm;
     box-shadow: 0 4px 20px rgba(255, 215, 0, 0.1);
   }
-  
+
   .btn-secondary:hover {
     box-shadow: 0 8px 30px rgba(255, 215, 0, 0.2);
     border-color: #ffd700;
     background: rgba(255, 215, 0, 0.1);
   }
-  
+
   .container-custom {
     @apply container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl;
   }
-  
+
   .section-title {
     font-family: 'Cormorant Garamond', serif;
     font-weight: 600;
@@ -127,14 +134,14 @@
     line-height: 1.1;
     letter-spacing: -0.02em;
   }
-  
+
   .section-title::after {
     content: "";
     @apply absolute bottom-0 left-0 w-20 h-1 bg-gradient-to-r from-gold to-yellow-400 mt-4;
     border-radius: 2px;
   }
 
-  /* Titre spécial pour le hero */
+
   .hero-title {
     font-family: 'DM Serif Display', serif;
     font-weight: 400;
@@ -143,7 +150,7 @@
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   }
 
-  /* Sous-titre élégant */
+
   .hero-subtitle {
     font-family: 'Cormorant Garamond', serif;
     font-weight: 300;
@@ -152,26 +159,26 @@
     line-height: 1.4;
   }
 
-  /* Style pour les heures d'ouverture */
+
   .opening-hours {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
     letter-spacing: 0.02em;
     font-feature-settings: 'tnum' 1;
   }
-  
+
   .section-padding {
     @apply py-20 md:py-28;
   }
 
-  /* Amélioration des cartes */
+
   .card {
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   }
 
-  /* Style pour les témoignages */
+
   .testimonial-text {
     font-family: 'Cormorant Garamond', serif;
     font-weight: 400;
@@ -186,7 +193,7 @@
     letter-spacing: 0.02em;
   }
 
-  /* Navigation moderne */
+
   .nav-link {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
@@ -211,7 +218,7 @@
     width: 100%;
   }
 
-  /* Amélioration des formulaires */
+
   .form-input {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
@@ -224,7 +231,7 @@
     border-color: #ffd700;
   }
 
-  /* Logo styling */
+
   .logo {
     font-family: 'DM Serif Display', serif;
     font-weight: 400;
