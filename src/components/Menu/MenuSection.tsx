@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Sparkles, Star } from "lucide-react";
 import { menuCategories } from "../../data/menuData";
@@ -51,12 +51,36 @@ const MenuCategory: React.FC<{
   </motion.div>
 );
 
-// ✅ GARDER le reste exactement pareil
 const MenuOverlay: React.FC<{
   onClose: () => void;
   categories: any[];
   language: string;
 }> = ({ onClose, categories, language }) => {
+  // Gestion du body scroll et position
+  useEffect(() => {
+    // Sauvegarder la position de scroll actuelle
+    const originalScrollY = window.scrollY;
+    const originalOverflow = document.body.style.overflow;
+    const originalPaddingRight = document.body.style.paddingRight;
+
+    // Calculer la largeur de la scrollbar pour éviter le jump
+    const scrollBarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+
+    // Désactiver le scroll du body et forcer le retour en haut
+    document.body.style.overflow = "hidden";
+    document.body.style.paddingRight = `${scrollBarWidth}px`;
+    window.scrollTo(0, 0);
+
+    // Restaurer le scroll du body et la position quand la modal se ferme
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.body.style.paddingRight = originalPaddingRight;
+      // Restaurer la position de scroll originale
+      window.scrollTo(0, originalScrollY);
+    };
+  }, []);
+
   // Images complètes (vos PDFs non rognés) pour le menu complet
   const fullMenuPages = [
     {
@@ -104,7 +128,7 @@ const MenuOverlay: React.FC<{
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="sticky top-0 bg-black/50 backdrop-blur-sm p-4 border-b border-white/20">
+        <div className="sticky top-0 bg-black/50 backdrop-blur-sm p-4 border-b border-white/20 z-10">
           <div className="flex justify-between items-center">
             <h2
               className="text-2xl font-bold text-white"
@@ -165,12 +189,46 @@ const MenuSection: React.FC<MenuSectionProps> = ({ language = "fr" }) => {
 
   const t = translations[language].menu;
 
+  // Gestion du body scroll pour la modal de catégorie
+  useEffect(() => {
+    if (selectedCategory) {
+      // Sauvegarder la position de scroll actuelle
+      const originalScrollY = window.scrollY;
+      const originalOverflow = document.body.style.overflow;
+      const originalPaddingRight = document.body.style.paddingRight;
+
+      // Calculer la largeur de la scrollbar pour éviter le jump
+      const scrollBarWidth =
+        window.innerWidth - document.documentElement.clientWidth;
+
+      // Désactiver le scroll du body et forcer le retour en haut
+      document.body.style.overflow = "hidden";
+      document.body.style.paddingRight = `${scrollBarWidth}px`;
+      window.scrollTo(0, 0);
+
+      return () => {
+        document.body.style.overflow = originalOverflow;
+        document.body.style.paddingRight = originalPaddingRight;
+        // Restaurer la position de scroll originale
+        window.scrollTo(0, originalScrollY);
+      };
+    }
+  }, [selectedCategory]);
+
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
   };
 
   const handleShowFullMenu = () => {
     setShowFullMenu(true);
+  };
+
+  const handleCloseCategory = () => {
+    setSelectedCategory(null);
+  };
+
+  const handleCloseFullMenu = () => {
+    setShowFullMenu(false);
   };
 
   return (
@@ -316,7 +374,7 @@ const MenuSection: React.FC<MenuSectionProps> = ({ language = "fr" }) => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-                onClick={() => setSelectedCategory(null)}
+                onClick={handleCloseCategory}
               >
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
@@ -327,7 +385,7 @@ const MenuSection: React.FC<MenuSectionProps> = ({ language = "fr" }) => {
                   onClick={(e) => e.stopPropagation()}
                 >
                   <motion.button
-                    onClick={() => setSelectedCategory(null)}
+                    onClick={handleCloseCategory}
                     className="absolute top-4 right-4 bg-white/90 hover:bg-white rounded-full p-2 transition-all z-10 shadow-lg"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
@@ -351,7 +409,7 @@ const MenuSection: React.FC<MenuSectionProps> = ({ language = "fr" }) => {
           <AnimatePresence>
             {showFullMenu && (
               <MenuOverlay
-                onClose={() => setShowFullMenu(false)}
+                onClose={handleCloseFullMenu}
                 categories={menuCategories}
                 language={language}
               />
