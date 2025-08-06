@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import emailjs from "emailjs-com";
 import {
   MessageCircle,
   User,
@@ -138,6 +139,28 @@ const translations: Record<"fr" | "en", Translation> = {
   },
 };
 
+interface FormData {
+  name: string;
+  phone: string;
+  date: string;
+  time: string;
+  people: string;
+  message: string;
+}
+
+interface SubmittedData {
+  name: string;
+  phone: string;
+  date: string;
+  time: string;
+  people: number;
+  message: string;
+}
+
+interface ReservationLocationProps {
+  language?: "fr" | "en";
+}
+
 const useForm = () => {
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -223,28 +246,6 @@ const useForm = () => {
   };
 };
 
-interface ReservationLocationProps {
-  language: "fr" | "en";
-}
-
-interface FormData {
-  name: string;
-  phone: string;
-  date: string;
-  time: string;
-  people: string;
-  message: string;
-}
-
-interface SubmittedData {
-  name: string;
-  phone: string;
-  date: string;
-  time: string;
-  people: number;
-  message: string;
-}
-
 const ReservationLocation: React.FC<ReservationLocationProps> = ({
   language = "fr",
 }) => {
@@ -266,15 +267,44 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
     setIsError(false);
 
     try {
-      setTimeout(() => {
-        setIsSubmitting(false);
-        setIsSuccess(true);
-        reset();
-        setTimeout(() => setIsSuccess(false), 5000);
-      }, 2000);
-    } catch {
+      const result = await emailjs.send(
+        "service_mbtw9dv",
+        "template_pm57osb",
+        {
+          name: data.name,
+          phone: data.phone,
+          date: data.date,
+          time: data.time,
+          people: data.people.toString(),
+          message: data.message || "Aucun message spécial",
+          current_date: new Date().toLocaleString("fr-FR", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+        },
+        "ekqY2nzD88f4w5vXZ"
+      );
+
+      console.log(
+        "✅ Réservation envoyée avec succès:",
+        result.status,
+        result.text
+      );
+
+      setIsSubmitting(false);
+      setIsSuccess(true);
+      reset();
+
+      setTimeout(() => setIsSuccess(false), 5000);
+    } catch (error) {
+      console.error("❌ Erreur lors de l'envoi de la réservation:", error);
+
       setIsSubmitting(false);
       setIsError(true);
+
       setTimeout(() => setIsError(false), 5000);
     }
   };
@@ -754,7 +784,7 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
                         {t.location.phone}
                       </h4>
                       <motion.a
-                        href="tel:+32466468778"
+                        href="tel:+32465412732"
                         className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
                         style={{ fontFamily: "Inter, sans-serif" }}
                         whileHover={{ scale: 1.02 }}
