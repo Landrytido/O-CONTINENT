@@ -14,6 +14,7 @@ import {
   Sparkles,
   MapPin,
 } from "lucide-react";
+
 type Translation = {
   reservation: {
     title: string;
@@ -47,9 +48,8 @@ type Translation = {
     phone: string;
     hours: string;
     days: {
-      mondayFriday: string;
-      saturday: string;
-      sunday: string;
+      mondayThursday: string;
+      fridaySunday: string;
     };
     closed: string;
   };
@@ -90,9 +90,8 @@ const translations: Record<"fr" | "en", Translation> = {
       phone: "Téléphone",
       hours: "Horaires d'Ouverture",
       days: {
-        mondayFriday: "Lun - Ven",
-        saturday: "Samedi",
-        sunday: "Dimanche",
+        mondayThursday: "Lun - Jeu",
+        fridaySunday: "Ven - Dim",
       },
       closed: "Fermé",
     },
@@ -131,9 +130,8 @@ const translations: Record<"fr" | "en", Translation> = {
       phone: "Phone",
       hours: "Opening Hours",
       days: {
-        mondayFriday: "Mon - Fri",
-        saturday: "Saturday",
-        sunday: "Sunday",
+        mondayThursday: "Mon - Thu",
+        fridaySunday: "Fri - Sun",
       },
       closed: "Closed",
     },
@@ -237,6 +235,7 @@ interface FormData {
   people: string;
   message: string;
 }
+
 interface SubmittedData {
   name: string;
   phone: string;
@@ -245,6 +244,7 @@ interface SubmittedData {
   people: number;
   message: string;
 }
+
 const ReservationLocation: React.FC<ReservationLocationProps> = ({
   language = "fr",
 }) => {
@@ -791,23 +791,15 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
                       >
                         <li className="flex justify-between">
                           <span className="font-medium text-gray-700">
-                            {t.location.days.mondayFriday}:
+                            {t.location.days.mondayThursday}:
                           </span>
-                          <span>11:30 - 14:30, 18:00 - 22:30</span>
+                          <span>08:00 - 00:00</span>
                         </li>
                         <li className="flex justify-between">
                           <span className="font-medium text-gray-700">
-                            {t.location.days.saturday}:
+                            {t.location.days.fridaySunday}:
                           </span>
-                          <span>18:00 - 23:00</span>
-                        </li>
-                        <li className="flex justify-between">
-                          <span className="font-medium text-gray-700">
-                            {t.location.days.sunday}:
-                          </span>
-                          <span className="text-red-500">
-                            {t.location.closed}
-                          </span>
+                          <span>08:00 - 02:00</span>
                         </li>
                       </ul>
                     </div>
