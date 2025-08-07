@@ -668,7 +668,7 @@ const ReservationLocation: React.FC<ReservationLocationProps> = ({
                   </motion.button>
 
                   <motion.a
-                    href={`https://wa.me/32484925191?text=${whatsappMessage}`}
+                    href={`https://wa.me/32465412732?text=${whatsappMessage}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="relative group w-full bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-green-500/25 transition-all duration-300"
