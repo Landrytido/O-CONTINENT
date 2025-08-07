@@ -264,7 +264,7 @@ const Location: React.FC<LocationProps> = ({ language = "fr" }) => {
                         {t.phone}
                       </h4>
                       <motion.a
-                        href="tel:+32466468778"
+                        href="tel:+32465412732"
                         className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
                         style={{ fontFamily: "Inter, sans-serif" }}
                         whileHover={{ scale: 1.02 }}
