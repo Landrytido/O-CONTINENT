@@ -237,7 +237,7 @@ const Hero: React.FC<HeroProps> = ({ language = "fr" }) => {
                     <Clock className="w-5 h-5 text-yellow-400" />
                   </motion.div>
                   <span className="font-medium tracking-wide">
-                    Lundi - Vendredi : 11h - 23h
+                    Lun-Jeu : 08h-00h | Ven-Dim : 08h-02h
                   </span>
                 </motion.div>
               </motion.div>
