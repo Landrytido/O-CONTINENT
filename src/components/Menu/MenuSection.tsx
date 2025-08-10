@@ -1,95 +1,132 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Star, Sparkles, ChefHat } from "lucide-react";
+// src/components/Menu/MenuSection.tsx
+
+import React, { useState, useCallback, lazy, Suspense, memo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChefHat, Sparkles, Loader2, Filter, X } from "lucide-react";
 import { useMenuFilters } from "./useMenuFilters";
-import { allDishes, menuCategories, menuTranslations, Dish } from "./menuData";
+import { allDishes, menuCategories, menuTranslations } from "./menuData";
 import MenuFilters from "./MenuFilters";
 import DishCard from "./DishCard";
+
+// Lazy load du modal pour améliorer les performances
+const DishModal = lazy(() => import("./DishModal"));
 
 interface MenuSectionProps {
   language: "fr" | "en";
 }
 
-const MenuSection: React.FC<MenuSectionProps> = ({ language = "fr" }) => {
-  const [selectedDish, setSelectedDish] = useState<Dish | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+// Composant de chargement
+const LoadingSpinner = memo(() => (
+  <motion.div
+    className="flex justify-center items-center py-8"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+  >
+    <Loader2 className="w-8 h-8 text-yellow-500 animate-spin" />
+  </motion.div>
+));
 
+// Composant pour l'état vide
+const EmptyState = memo(
+  ({
+    t,
+    hasActiveFilters,
+    onClearFilters,
+  }: {
+    t: any;
+    hasActiveFilters: boolean;
+    onClearFilters: () => void;
+  }) => (
+    <motion.div
+      className="text-center py-16"
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+        <ChefHat className="w-12 h-12 text-gray-400" />
+      </div>
+      <h3
+        className="text-2xl font-bold text-gray-800 mb-3"
+        style={{ fontFamily: "Playfair Display, serif" }}
+      >
+        {t.noDishes}
+      </h3>
+      <p
+        className="text-gray-600 max-w-md mx-auto mb-6"
+        style={{ fontFamily: "Inter, sans-serif" }}
+      >
+        {t.noResultsDesc}
+      </p>
+      {hasActiveFilters && (
+        <motion.button
+          onClick={onClearFilters}
+          className="bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-semibold px-6 py-3 rounded-full hover:from-yellow-300 hover:to-amber-400 transition-all duration-300"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          {t.clearFilters}
+        </motion.button>
+      )}
+    </motion.div>
+  )
+);
+
+const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
+  const [selectedDish, setSelectedDish] = useState<any | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
+
+  const t = menuTranslations[language];
+
+  // Utilisation du hook optimisé
   const {
-    activeCategory,
-    searchTerm,
-    showSignature,
-    showPopular,
-    showWeekendOnly,
+    filters,
+    displayedDishes,
+    dishCounts,
+    hasActiveFilters,
+    filterStats,
+    priceStats,
     setActiveCategory,
     setSearchTerm,
     toggleSignature,
     togglePopular,
     toggleWeekendOnly,
+    setPriceRange,
+    setSpiceLevel,
     clearAllFilters,
-    filteredDishes,
-    dishCounts,
-    hasActiveFilters,
-  } = useMenuFilters(allDishes, language);
+    loadMoreItems,
+    isLoading,
+  } = useMenuFilters(allDishes, language, 20);
 
-  const t = menuTranslations[language];
-
-  // Simulation de chargement initial
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  const handleDishClick = (dish: Dish) => {
+  const handleDishClick = useCallback((dish: any) => {
     setSelectedDish(dish);
     setIsModalOpen(true);
-  };
+  }, []);
 
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setIsModalOpen(false);
     setTimeout(() => setSelectedDish(null), 300);
-  };
+  }, []);
 
   return (
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
-        .line-clamp-1 {
-          overflow: hidden;
-          display: -webkit-box;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 1;
-        }
-        .line-clamp-2 {
-          overflow: hidden;
-          display: -webkit-box;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 2;
-        }
       `}</style>
 
       <section
         id="menu"
         className="py-16 bg-gradient-to-b from-gray-50 via-white to-gray-50 overflow-hidden"
       >
-        {/* Background Elements */}
+        {/* Background decorations */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <motion.div
-            className="absolute top-1/4 left-1/4 w-48 h-48 bg-gradient-to-r from-yellow-400/3 to-amber-500/3 rounded-full blur-3xl"
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.5, 0.3],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
+            className="absolute top-1/4 left-1/4 w-48 h-48 bg-gradient-to-r from-yellow-400/5 to-amber-500/5 rounded-full blur-3xl"
+            animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
           />
-          {/* Plus d'éléments de background... */}
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -101,26 +138,20 @@ const MenuSection: React.FC<MenuSectionProps> = ({ language = "fr" }) => {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <motion.h2
+            <h2
               className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4"
               style={{ fontFamily: "Playfair Display, serif" }}
-              whileHover={{ scale: 1.02 }}
             >
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-800 via-black to-gray-700">
                 {t.title}
               </span>
-            </motion.h2>
-
-            <motion.p
+            </h2>
+            <p
               className="max-w-3xl mx-auto text-gray-600 text-lg leading-relaxed"
               style={{ fontFamily: "Inter, sans-serif" }}
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
             >
               {t.description}
-            </motion.p>
-
+            </p>
             <motion.div
               className="h-1 w-20 mx-auto mt-6 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full"
               initial={{ scaleX: 0 }}
@@ -129,31 +160,110 @@ const MenuSection: React.FC<MenuSectionProps> = ({ language = "fr" }) => {
             />
           </motion.div>
 
-          {/* Menu Filters */}
+          {/* Mobile Filter Toggle */}
+          <div className="lg:hidden mb-6 flex justify-between items-center">
+            <div className="text-sm text-gray-600">
+              {filterStats.totalResults} {t.dishesFound}
+            </div>
+            <motion.button
+              onClick={() => setShowMobileFilters(!showMobileFilters)}
+              className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-md border border-gray-200"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Filter className="w-4 h-4" />
+              <span>Filtres</span>
+              {filterStats.activeFiltersCount > 0 && (
+                <span className="bg-yellow-400 text-black text-xs px-2 py-0.5 rounded-full">
+                  {filterStats.activeFiltersCount}
+                </span>
+              )}
+            </motion.button>
+          </div>
+
+          {/* Desktop Filters */}
           <motion.div
+            className="hidden lg:block mb-12"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
             viewport={{ once: true }}
-            className="mb-12"
           >
             <MenuFilters
               categories={menuCategories}
-              activeCategory={activeCategory}
+              activeCategory={filters.activeCategory}
               onCategoryChange={setActiveCategory}
-              searchTerm={searchTerm}
+              searchTerm={filters.searchTerm}
               onSearchChange={setSearchTerm}
-              showSignature={showSignature}
+              showSignature={filters.showSignature}
               onSignatureToggle={toggleSignature}
-              showPopular={showPopular}
+              showPopular={filters.showPopular}
               onPopularToggle={togglePopular}
-              showWeekendOnly={showWeekendOnly}
+              showWeekendOnly={filters.showWeekendOnly}
               onWeekendToggle={toggleWeekendOnly}
               language={language}
               dishCounts={dishCounts}
-              translations={t}
+              priceRange={filters.priceRange}
+              onPriceRangeChange={setPriceRange}
+              priceStats={priceStats}
+              spiceLevel={filters.spiceLevel}
+              onSpiceLevelChange={setSpiceLevel}
             />
           </motion.div>
+
+          {/* Mobile Filters Drawer */}
+          <AnimatePresence>
+            {showMobileFilters && (
+              <motion.div
+                className="lg:hidden fixed inset-0 z-50 bg-black/50"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setShowMobileFilters(false)}
+              >
+                <motion.div
+                  className="absolute right-0 top-0 h-full w-80 bg-white shadow-2xl overflow-y-auto"
+                  initial={{ x: "100%" }}
+                  animate={{ x: 0 }}
+                  exit={{ x: "100%" }}
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="p-6">
+                    <div className="flex justify-between items-center mb-6">
+                      <h3 className="text-xl font-bold">Filtres</h3>
+                      <button
+                        onClick={() => setShowMobileFilters(false)}
+                        className="p-2 hover:bg-gray-100 rounded-full"
+                      >
+                        <X className="w-5 h-5" />
+                      </button>
+                    </div>
+                    <MenuFilters
+                      categories={menuCategories}
+                      activeCategory={filters.activeCategory}
+                      onCategoryChange={setActiveCategory}
+                      searchTerm={filters.searchTerm}
+                      onSearchChange={setSearchTerm}
+                      showSignature={filters.showSignature}
+                      onSignatureToggle={toggleSignature}
+                      showPopular={filters.showPopular}
+                      onPopularToggle={togglePopular}
+                      showWeekendOnly={filters.showWeekendOnly}
+                      onWeekendToggle={toggleWeekendOnly}
+                      language={language}
+                      dishCounts={dishCounts}
+                      priceRange={filters.priceRange}
+                      onPriceRangeChange={setPriceRange}
+                      priceStats={priceStats}
+                      spiceLevel={filters.spiceLevel}
+                      onSpiceLevelChange={setSpiceLevel}
+                    />
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Menu Content */}
           <motion.div
@@ -162,60 +272,17 @@ const MenuSection: React.FC<MenuSectionProps> = ({ language = "fr" }) => {
             transition={{ duration: 0.6, delay: 0.5 }}
             viewport={{ once: true }}
           >
-            {isLoading ? (
-              <div className="text-center py-12">
-                <motion.div
-                  className="inline-block"
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                >
-                  <ChefHat className="w-12 h-12 text-yellow-500 mx-auto mb-4" />
-                </motion.div>
-                <p className="text-gray-600 text-lg">{t.loadingMenu}</p>
-              </div>
-            ) : filteredDishes.length === 0 ? (
-              /* Empty State */
-              <motion.div
-                className="text-center py-16"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-              >
-                <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <ChefHat className="w-12 h-12 text-gray-400" />
-                </div>
-
-                <h3
-                  className="text-2xl font-bold text-gray-800 mb-3"
-                  style={{ fontFamily: "Playfair Display, serif" }}
-                >
-                  {t.noDishes}
-                </h3>
-
-                <p
-                  className="text-gray-600 max-w-md mx-auto mb-6"
-                  style={{ fontFamily: "Inter, sans-serif" }}
-                >
-                  {t.noResultsDesc}
-                </p>
-
-                {hasActiveFilters && (
-                  <motion.button
-                    onClick={clearAllFilters}
-                    className="bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-semibold px-6 py-3 rounded-full hover:from-yellow-300 hover:to-amber-400 transition-all duration-300"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    {t.clearFilters}
-                  </motion.button>
-                )}
-              </motion.div>
+            {displayedDishes.length === 0 ? (
+              <EmptyState
+                t={t}
+                hasActiveFilters={hasActiveFilters}
+                onClearFilters={clearAllFilters}
+              />
             ) : (
-              /* Menu Grid */
               <>
                 {/* Results Counter */}
                 <motion.div
-                  className="flex items-center justify-between mb-8"
+                  className="hidden lg:flex items-center justify-between mb-8"
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
@@ -224,91 +291,82 @@ const MenuSection: React.FC<MenuSectionProps> = ({ language = "fr" }) => {
                     <div className="bg-yellow-100 p-2 rounded-lg">
                       <Sparkles className="w-5 h-5 text-yellow-600" />
                     </div>
-                    <div>
-                      <p
-                        className="text-lg font-semibold text-gray-800"
-                        style={{ fontFamily: "Inter, sans-serif" }}
-                      >
-                        {t.showing} {filteredDishes.length} {t.dishesFound}
-                      </p>
-                    </div>
+                    <p
+                      className="text-lg font-semibold text-gray-800"
+                      style={{ fontFamily: "Inter, sans-serif" }}
+                    >
+                      {t.showing} {displayedDishes.length} /{" "}
+                      {filterStats.totalResults} {t.dishesFound}
+                    </p>
                   </div>
                 </motion.div>
 
-                {/* Dishes Grid */}
+                {/* Dishes Grid with Lazy Loading */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
-                  {filteredDishes.map((dish, index) => (
-                    <DishCard
-                      key={dish.id}
-                      dish={dish}
-                      language={language}
-                      onViewDetails={handleDishClick}
-                      index={index}
-                      translations={t}
-                    />
-                  ))}
+                  <AnimatePresence mode="popLayout">
+                    {displayedDishes.map((dish, index) => (
+                      <motion.div
+                        key={dish.id}
+                        layout
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        transition={{
+                          duration: 0.4,
+                          delay: Math.min(index * 0.05, 0.3),
+                        }}
+                      >
+                        <DishCard
+                          dish={dish}
+                          language={language}
+                          onViewDetails={handleDishClick}
+                          index={index}
+                        />
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
                 </div>
 
-                {/* Stats Bar */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.8 }}
-                  viewport={{ once: true }}
-                  className="bg-white/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50"
-                >
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                    <div>
-                      <div className="text-2xl font-bold text-gray-800">
-                        {filteredDishes.length}
-                      </div>
-                      <div className="text-sm text-gray-600">{t.plats}</div>
-                    </div>
-                    <div>
-                      <div className="text-2xl font-bold text-yellow-600">
-                        {filteredDishes.filter((d) => d.isSignature).length}
-                      </div>
-                      <div className="text-sm text-gray-600">Signature</div>
-                    </div>
-                    <div>
-                      <div className="text-2xl font-bold text-red-600">
-                        {filteredDishes.filter((d) => d.isPopular).length}
-                      </div>
-                      <div className="text-sm text-gray-600">
-                        {t.populaires}
-                      </div>
-                    </div>
-                    <div>
-                      <div className="text-2xl font-bold text-green-600">
-                        €
-                        {filteredDishes.length > 0
-                          ? Math.min(
-                              ...filteredDishes.map((d) => d.price)
-                            ).toFixed(2)
-                          : "0.00"}{" "}
-                        - €
-                        {filteredDishes.length > 0
-                          ? Math.max(
-                              ...filteredDishes.map((d) => d.price)
-                            ).toFixed(2)
-                          : "0.00"}
-                      </div>
-                      <div className="text-sm text-gray-600">
-                        {t.priceRange}
-                      </div>
-                    </div>
+                {/* Load More Indicator */}
+                {filterStats.hasMore && (
+                  <div className="text-center">
+                    {isLoading ? (
+                      <LoadingSpinner />
+                    ) : (
+                      <motion.button
+                        onClick={loadMoreItems}
+                        className="bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-semibold px-8 py-3 rounded-full hover:from-yellow-300 hover:to-amber-400 transition-all duration-300"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        Charger plus de plats
+                      </motion.button>
+                    )}
                   </div>
-                </motion.div>
+                )}
               </>
             )}
           </motion.div>
         </div>
 
-        {/* Dish Detail Modal - Code existant... */}
-        {/* Le modal reste dans MenuSection car il est spécifique à cette section */}
+        {/* Dish Modal with Lazy Loading */}
+        <Suspense fallback={<LoadingSpinner />}>
+          <AnimatePresence>
+            {isModalOpen && selectedDish && (
+              <DishModal
+                dish={selectedDish}
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+                language={language}
+              />
+            )}
+          </AnimatePresence>
+        </Suspense>
       </section>
     </>
   );
-};
+});
+
+MenuSection.displayName = "MenuSection";
 
 export default MenuSection;
