@@ -1,5 +1,3 @@
-// src/data/menuData.ts - Base de données complète du restaurant O CONTINENG
-
 export interface Dish {
   id: string;
   name: {
@@ -33,7 +31,6 @@ export interface MenuCategory {
   description?: { fr: string; en: string };
 }
 
-// ===== CATÉGORIES =====
 export const menuCategories: MenuCategory[] = [
   {
     id: "specialites",

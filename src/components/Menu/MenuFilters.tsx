@@ -1,5 +1,3 @@
-// src/components/Menu/MenuFilters.tsx
-
 import React, { memo } from "react";
 import { motion } from "framer-motion";
 import {

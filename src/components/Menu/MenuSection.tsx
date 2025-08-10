@@ -1,5 +1,3 @@
-// src/components/Menu/MenuSection.tsx
-
 import React, { useState, useCallback, lazy, Suspense, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChefHat, Sparkles, Loader2, Filter, X } from "lucide-react";
@@ -8,14 +6,12 @@ import { allDishes, menuCategories, menuTranslations } from "./menuData";
 import MenuFilters from "./MenuFilters";
 import DishCard from "./DishCard";
 
-// Lazy load du modal pour améliorer les performances
 const DishModal = lazy(() => import("./DishModal"));
 
 interface MenuSectionProps {
   language: "fr" | "en";
 }
 
-// Composant de chargement
 const LoadingSpinner = memo(() => (
   <motion.div
     className="flex justify-center items-center py-8"
@@ -27,7 +23,6 @@ const LoadingSpinner = memo(() => (
   </motion.div>
 ));
 
-// Composant pour l'état vide
 const EmptyState = memo(
   ({
     t,
