@@ -16,8 +16,8 @@ export interface Dish {
   isWeekendOnly?: boolean;
   availability?: string;
   priceRange?: string;
-  spiceLevel?: 0 | 1 | 2 | 3; // 0: pas épicé, 1: légèrement, 2: moyennement, 3: très épicé
-  preparationTime?: number; // en minutes
+  spiceLevel?: 0 | 1 | 2 | 3;
+  preparationTime?: number;
   allergens?: string[];
   tags?: string[];
 }
@@ -38,10 +38,6 @@ export const menuCategories: MenuCategory[] = [
     icon: "Star",
     color: "from-yellow-400 to-amber-500",
     order: 1,
-    description: {
-      fr: "Nos créations uniques et plats signatures",
-      en: "Our unique creations and signature dishes",
-    },
   },
   {
     id: "viandes",
@@ -49,10 +45,6 @@ export const menuCategories: MenuCategory[] = [
     icon: "Beef",
     color: "from-red-500 to-red-600",
     order: 2,
-    description: {
-      fr: "Sélection de viandes grillées et mijotées",
-      en: "Selection of grilled and stewed meats",
-    },
   },
   {
     id: "poulets",
@@ -60,10 +52,6 @@ export const menuCategories: MenuCategory[] = [
     icon: "Bird",
     color: "from-orange-400 to-orange-500",
     order: 3,
-    description: {
-      fr: "Poulet préparé selon nos recettes traditionnelles",
-      en: "Chicken prepared according to our traditional recipes",
-    },
   },
   {
     id: "poissons",
@@ -71,10 +59,6 @@ export const menuCategories: MenuCategory[] = [
     icon: "Fish",
     color: "from-blue-400 to-blue-500",
     order: 4,
-    description: {
-      fr: "Poissons frais du jour",
-      en: "Fresh fish of the day",
-    },
   },
   {
     id: "complements",
@@ -82,54 +66,34 @@ export const menuCategories: MenuCategory[] = [
     icon: "Plus",
     color: "from-green-400 to-green-500",
     order: 5,
-    description: {
-      fr: "Accompagnements traditionnels",
-      en: "Traditional side dishes",
-    },
   },
   {
     id: "boissons",
-    name: { fr: "Boissons", en: "Beverages" },
+    name: { fr: "Softs & Eaux", en: "Soft Drinks & Water" },
     icon: "Coffee",
     color: "from-cyan-400 to-cyan-500",
     order: 6,
-    description: {
-      fr: "Boissons rafraîchissantes",
-      en: "Refreshing beverages",
-    },
-  },
-  {
-    id: "vins",
-    name: { fr: "Vins", en: "Wines" },
-    icon: "Wine",
-    color: "from-purple-600 to-purple-700",
-    order: 7,
-    description: {
-      fr: "Sélection de vins",
-      en: "Wine selection",
-    },
-  },
-  {
-    id: "liqueurs",
-    name: { fr: "Liqueurs", en: "Spirits" },
-    icon: "Martini",
-    color: "from-gray-600 to-gray-700",
-    order: 8,
-    description: {
-      fr: "Spiritueux et digestifs",
-      en: "Spirits and digestives",
-    },
   },
   {
     id: "bieres",
     name: { fr: "Bières", en: "Beers" },
     icon: "Beer",
     color: "from-amber-400 to-amber-600",
+    order: 7,
+  },
+  {
+    id: "vins",
+    name: { fr: "Vins", en: "Wines" },
+    icon: "Wine",
+    color: "from-purple-600 to-purple-700",
+    order: 8,
+  },
+  {
+    id: "liqueurs",
+    name: { fr: "Liqueurs", en: "Spirits" },
+    icon: "Martini",
+    color: "from-gray-600 to-gray-700",
     order: 9,
-    description: {
-      fr: "Bières locales et internationales",
-      en: "Local and international beers",
-    },
   },
 ];
 
@@ -161,6 +125,7 @@ export const allDishes: Dish[] = [
     price: 10,
     category: "specialites",
     image: "/images/plats/kontchap.jpg",
+    isSignature: true,
     spiceLevel: 1,
     preparationTime: 35,
   },
@@ -174,6 +139,7 @@ export const allDishes: Dish[] = [
     price: 15,
     category: "specialites",
     image: "/images/plats/ndole-mixte.jpg",
+    isSignature: true,
     isPopular: true,
     spiceLevel: 1,
     preparationTime: 40,
@@ -192,6 +158,7 @@ export const allDishes: Dish[] = [
     price: 17.5,
     category: "specialites",
     image: "/images/plats/macabo-ndole.jpg",
+    isSignature: true,
     spiceLevel: 1,
     preparationTime: 50,
   },
@@ -205,6 +172,7 @@ export const allDishes: Dish[] = [
     price: 10,
     category: "specialites",
     image: "/images/plats/brochettes.jpg",
+    isSignature: true,
     isWeekendOnly: true,
     availability: "Samedi & Dimanche",
     spiceLevel: 2,
@@ -235,12 +203,13 @@ export const allDishes: Dish[] = [
     price: 8,
     category: "specialites",
     image: "/images/plats/beignets.jpg",
+    isWeekendOnly: true,
     spiceLevel: 0,
     preparationTime: 20,
     tags: ["végétarien", "apéritif"],
   },
 
-  // ===== MENU VIANDE (Extrait - structure similaire pour tous) =====
+  // ===== MENU VIANDE =====
   {
     id: "viande-sauce-tomate",
     name: { fr: "Viande Sauce Tomate", en: "Meat in Tomato Sauce" },
@@ -269,42 +238,1203 @@ export const allDishes: Dish[] = [
     preparationTime: 45,
     allergens: ["cacahuètes"],
   },
-
-  // ... [Insérer ici tous les autres plats de votre base de données]
-  // Pour économiser de l'espace, je mets seulement quelques exemples
-  // Vous devez copier tous les plats de votre document
-
-  // ===== BOISSONS (Exemple) =====
   {
-    id: "coca-cola",
-    name: { fr: "Coca Cola", en: "Coca Cola" },
+    id: "viande-ndole",
+    name: { fr: "Viande Ndolé", en: "Meat Ndole" },
     description: {
-      fr: "Boisson rafraîchissante classique",
-      en: "Classic refreshing drink",
+      fr: "Viande tendre aux feuilles de ndolé et cacahuètes grillées",
+      en: "Tender meat with ndole leaves and roasted peanuts",
     },
-    price: 2.5,
-    category: "boissons",
-    image: "/images/boissons/coca.jpg",
-    tags: ["sans-alcool"],
+    price: 15,
+    category: "viandes",
+    image: "/images/plats/viande-ndole.jpg",
+    spiceLevel: 1,
+    preparationTime: 45,
+    allergens: ["cacahuètes"],
+  },
+  {
+    id: "viande-legumes-sautes",
+    name: { fr: "Viande Légumes Sautés", en: "Meat with Sautéed Vegetables" },
+    description: {
+      fr: "Viande accompagnée de légumes frais sautés aux épices",
+      en: "Meat served with fresh sautéed vegetables and spices",
+    },
+    price: 15,
+    category: "viandes",
+    image: "/images/plats/viande-legumes.jpg",
+    spiceLevel: 1,
+    preparationTime: 35,
+  },
+  {
+    id: "viande-sauce-pistache",
+    name: { fr: "Viande Sauce Pistache", en: "Meat in Pistache Sauce" },
+    description: {
+      fr: "Viande mijotée dans une sauce onctueuse aux graines de courge",
+      en: "Meat stewed in creamy pumpkin seed sauce",
+    },
+    price: 15,
+    category: "viandes",
+    image: "/images/plats/viande-pistache.jpg",
+    spiceLevel: 1,
+    preparationTime: 40,
+  },
+  {
+    id: "viande-sauce-gombo",
+    name: { fr: "Viande Sauce Gombo", en: "Meat in Okra Sauce" },
+    description: {
+      fr: "Viande dans une sauce épaisse au gombo, plat consistant",
+      en: "Meat in thick okra sauce, hearty dish",
+    },
+    price: 15,
+    category: "viandes",
+    image: "/images/plats/viande-gombo.jpg",
+    spiceLevel: 1,
+    preparationTime: 40,
+  },
+  {
+    id: "viande-sauce-pistache-gombo",
+    name: { fr: "Viande Sauce Pistache Gombo", en: "Meat Pistache Okra Sauce" },
+    description: {
+      fr: "Viande dans un mélange de sauce pistache et gombo, saveurs uniques",
+      en: "Meat in a blend of pistache and okra sauce, unique flavors",
+    },
+    price: 15,
+    category: "viandes",
+    image: "/images/plats/viande-pistache-gombo.jpg",
+    spiceLevel: 1,
+    preparationTime: 45,
+  },
+  {
+    id: "porc",
+    name: { fr: "Porc", en: "Pork" },
+    description: {
+      fr: "Porc grillé ou en sauce selon votre préférence",
+      en: "Grilled or sauced pork according to your preference",
+    },
+    price: 15,
+    category: "viandes",
+    image: "/images/plats/porc.jpg",
+    spiceLevel: 1,
+    preparationTime: 35,
+  },
+  {
+    id: "chevre",
+    name: { fr: "Chèvre", en: "Goat" },
+    description: {
+      fr: "Viande de chèvre grillée aux épices traditionnelles",
+      en: "Grilled goat meat with traditional spices",
+    },
+    price: 12.5,
+    category: "viandes",
+    image: "/images/plats/chevre.jpg",
+    spiceLevel: 2,
+    preparationTime: 50,
+  },
+  {
+    id: "rognons-sautes",
+    name: { fr: "Rognons Sautés", en: "Sautéed Kidneys" },
+    description: {
+      fr: "Rognons sautés aux oignons et épices, spécialité de la maison",
+      en: "Kidneys sautéed with onions and spices, house specialty",
+    },
+    price: 12.5,
+    category: "viandes",
+    image: "/images/plats/rognons.jpg",
+    spiceLevel: 2,
+    preparationTime: 30,
+  },
+  {
+    id: "tripes-sautes",
+    name: { fr: "Tripes Sautés", en: "Sautéed Tripe" },
+    description: {
+      fr: "Tripes sautés aux légumes et épices, plat traditionnel",
+      en: "Tripe sautéed with vegetables and spices, traditional dish",
+    },
+    price: 12.5,
+    category: "viandes",
+    image: "/images/plats/tripes.jpg",
+    spiceLevel: 2,
+    preparationTime: 45,
+  },
+  {
+    id: "petits-os",
+    name: { fr: "Petits Os", en: "Small Bones" },
+    description: {
+      fr: "Petits os de viande grillés, parfait pour accompagner",
+      en: "Grilled small meat bones, perfect as accompaniment",
+    },
+    price: 7,
+    category: "viandes",
+    image: "/images/plats/petits-os.jpg",
+    spiceLevel: 1,
+    preparationTime: 25,
   },
 
-  // ===== BIÈRES CAMEROUNAISES (Exemple) =====
+  // ===== MENU POULETS =====
+  {
+    id: "demi-poulet-dg",
+    name: { fr: "1/2 Poulet DG", en: "1/2 Chicken DG" },
+    description: {
+      fr: "Demi-poulet préparé à la manière Directeur Général avec légumes",
+      en: "Half chicken prepared Director General style with vegetables",
+    },
+    price: 15,
+    category: "poulets",
+    image: "/images/plats/poulet-dg.jpg",
+    isPopular: true,
+    spiceLevel: 1,
+    preparationTime: 35,
+  },
+  {
+    id: "poulet-sauce-arachide",
+    name: { fr: "Poulet Sauce d'Arachide", en: "Chicken in Peanut Sauce" },
+    description: {
+      fr: "Poulet mijoté dans une sauce crémeuse aux cacahuètes",
+      en: "Chicken stewed in creamy peanut sauce",
+    },
+    price: 15,
+    category: "poulets",
+    image: "/images/plats/poulet-arachide.jpg",
+    spiceLevel: 1,
+    preparationTime: 40,
+    allergens: ["cacahuètes"],
+  },
+  {
+    id: "poulet-ndole",
+    name: { fr: "Poulet Ndolé", en: "Chicken Ndole" },
+    description: {
+      fr: "Poulet aux feuilles de ndolé et cacahuètes grillées",
+      en: "Chicken with ndole leaves and roasted peanuts",
+    },
+    price: 15,
+    category: "poulets",
+    image: "/images/plats/poulet-ndole.jpg",
+    spiceLevel: 1,
+    preparationTime: 40,
+    allergens: ["cacahuètes"],
+  },
+  {
+    id: "poulet-legumes-sautes",
+    name: {
+      fr: "Poulet Légumes Sautés",
+      en: "Chicken with Sautéed Vegetables",
+    },
+    description: {
+      fr: "Poulet accompagné de légumes frais sautés",
+      en: "Chicken served with fresh sautéed vegetables",
+    },
+    price: 15,
+    category: "poulets",
+    image: "/images/plats/poulet-legumes.jpg",
+    spiceLevel: 1,
+    preparationTime: 30,
+  },
+  {
+    id: "poulet-sauce-pistache",
+    name: { fr: "Poulet Sauce Pistache", en: "Chicken in Pistache Sauce" },
+    description: {
+      fr: "Poulet dans une sauce onctueuse aux graines de courge",
+      en: "Chicken in creamy pumpkin seed sauce",
+    },
+    price: 15,
+    category: "poulets",
+    image: "/images/plats/poulet-pistache.jpg",
+    spiceLevel: 1,
+    preparationTime: 35,
+  },
+  {
+    id: "poulet-sauce-gombo",
+    name: { fr: "Poulet Sauce Gombo", en: "Chicken in Okra Sauce" },
+    description: {
+      fr: "Poulet dans une sauce épaisse au gombo",
+      en: "Chicken in thick okra sauce",
+    },
+    price: 15,
+    category: "poulets",
+    image: "/images/plats/poulet-gombo.jpg",
+    spiceLevel: 1,
+    preparationTime: 35,
+  },
+  {
+    id: "poulet-sauce-pistache-gombo",
+    name: {
+      fr: "Poulet Sauce Pistache Gombo",
+      en: "Chicken Pistache Okra Sauce",
+    },
+    description: {
+      fr: "Poulet dans un mélange de sauce pistache et gombo",
+      en: "Chicken in a blend of pistache and okra sauce",
+    },
+    price: 15,
+    category: "poulets",
+    image: "/images/plats/poulet-pistache-gombo.jpg",
+    spiceLevel: 1,
+    preparationTime: 40,
+  },
+  {
+    id: "poulet-sauce-tomate",
+    name: { fr: "Poulet Sauce Tomate", en: "Chicken in Tomato Sauce" },
+    description: {
+      fr: "Poulet mijoté dans une sauce tomate épicée",
+      en: "Chicken stewed in spicy tomato sauce",
+    },
+    price: 15,
+    category: "poulets",
+    image: "/images/plats/poulet-tomate.jpg",
+    spiceLevel: 2,
+    preparationTime: 35,
+  },
+  {
+    id: "poulet-braise",
+    name: { fr: "Poulet Braisé", en: "Braised Chicken" },
+    description: {
+      fr: "Poulet grillé au feu de bois, croustillant à l'extérieur",
+      en: "Wood-fired grilled chicken, crispy outside",
+    },
+    price: 15,
+    category: "poulets",
+    image: "/images/plats/poulet-braise.jpg",
+    spiceLevel: 2,
+    preparationTime: 30,
+  },
+  {
+    id: "ailes-poulets",
+    name: { fr: "Ailes de Poulets", en: "Chicken Wings" },
+    description: {
+      fr: "Ailes de poulet grillées et épicées",
+      en: "Grilled and spiced chicken wings",
+    },
+    price: 7,
+    category: "poulets",
+    image: "/images/plats/ailes-poulet.jpg",
+    spiceLevel: 2,
+    preparationTime: 20,
+  },
+
+  // ===== MENU POISSONS =====
+  {
+    id: "poisson-sauce-arachide",
+    name: { fr: "Poisson Sauce d'Arachide", en: "Fish in Peanut Sauce" },
+    description: {
+      fr: "Poisson frais dans une sauce crémeuse aux cacahuètes",
+      en: "Fresh fish in creamy peanut sauce",
+    },
+    price: 15,
+    category: "poissons",
+    image: "/images/plats/poisson-arachide.jpg",
+    spiceLevel: 1,
+    preparationTime: 35,
+    allergens: ["cacahuètes"],
+  },
+  {
+    id: "poisson-sauce-tomate",
+    name: { fr: "Poisson Sauce Tomate", en: "Fish in Tomato Sauce" },
+    description: {
+      fr: "Poisson mijoté dans une sauce tomate parfumée",
+      en: "Fish stewed in fragrant tomato sauce",
+    },
+    price: 15,
+    category: "poissons",
+    image: "/images/plats/poisson-tomate.jpg",
+    spiceLevel: 2,
+    preparationTime: 30,
+  },
+  {
+    id: "poisson-sauce-pistache",
+    name: { fr: "Poisson Sauce Pistache", en: "Fish in Pistache Sauce" },
+    description: {
+      fr: "Poisson dans une sauce onctueuse aux graines de courge",
+      en: "Fish in creamy pumpkin seed sauce",
+    },
+    price: 15,
+    category: "poissons",
+    image: "/images/plats/poisson-pistache.jpg",
+    spiceLevel: 1,
+    preparationTime: 30,
+  },
+  {
+    id: "poisson-sauce-gombo",
+    name: { fr: "Poisson Sauce Gombo", en: "Fish in Okra Sauce" },
+    description: {
+      fr: "Poisson dans une sauce épaisse au gombo",
+      en: "Fish in thick okra sauce",
+    },
+    price: 15,
+    category: "poissons",
+    image: "/images/plats/poisson-gombo.jpg",
+    spiceLevel: 1,
+    preparationTime: 30,
+  },
+  {
+    id: "poisson-sauce-pistache-gombo",
+    name: {
+      fr: "Poisson Sauce Pistache Gombo",
+      en: "Fish Pistache Okra Sauce",
+    },
+    description: {
+      fr: "Poisson dans un mélange de sauce pistache et gombo",
+      en: "Fish in a blend of pistache and okra sauce",
+    },
+    price: 15,
+    category: "poissons",
+    image: "/images/plats/poisson-pistache-gombo.jpg",
+    spiceLevel: 1,
+    preparationTime: 35,
+  },
+  {
+    id: "poisson-ndole",
+    name: { fr: "Poisson Ndolé", en: "Fish Ndole" },
+    description: {
+      fr: "Poisson aux feuilles de ndolé et cacahuètes grillées",
+      en: "Fish with ndole leaves and roasted peanuts",
+    },
+    price: 15,
+    category: "poissons",
+    image: "/images/plats/poisson-ndole.jpg",
+    spiceLevel: 1,
+    preparationTime: 35,
+    allergens: ["cacahuètes"],
+  },
+  {
+    id: "maquereau",
+    name: { fr: "Maquereau", en: "Mackerel" },
+    description: {
+      fr: "Maquereau frais grillé ou en sauce, à partir de 18€",
+      en: "Fresh grilled or sauced mackerel, starting from 18€",
+    },
+    price: 18,
+    category: "poissons",
+    image: "/images/plats/maquereau.jpg",
+    priceRange: "À partir de",
+    spiceLevel: 1,
+    preparationTime: 25,
+  },
+  {
+    id: "bar",
+    name: { fr: "Bar", en: "Sea Bass" },
+    description: {
+      fr: "Bar frais du jour, préparé selon vos envies, à partir de 25€",
+      en: "Fresh sea bass of the day, prepared to your liking, starting from 25€",
+    },
+    price: 25,
+    category: "poissons",
+    image: "/images/plats/bar.jpg",
+    priceRange: "À partir de",
+    spiceLevel: 1,
+    preparationTime: 30,
+  },
+  {
+    id: "tilapia",
+    name: { fr: "Tilapia", en: "Tilapia" },
+    description: {
+      fr: "Tilapia frais grillé ou braisé, à partir de 20€",
+      en: "Fresh grilled or braised tilapia, starting from 20€",
+    },
+    price: 20,
+    category: "poissons",
+    image: "/images/plats/tilapia.jpg",
+    priceRange: "À partir de",
+    spiceLevel: 1,
+    preparationTime: 25,
+  },
+  {
+    id: "sole",
+    name: { fr: "Sole", en: "Sole" },
+    description: {
+      fr: "Sole fraîche préparée avec finesse, poisson noble",
+      en: "Fresh sole prepared with finesse, noble fish",
+    },
+    price: 35,
+    category: "poissons",
+    image: "/images/plats/sole.jpg",
+    isSignature: true,
+    spiceLevel: 0,
+    preparationTime: 35,
+  },
+  {
+    id: "poisson-legumes-sautes",
+    name: { fr: "Poisson Légumes Sautés", en: "Fish with Sautéed Vegetables" },
+    description: {
+      fr: "Poisson accompagné de légumes frais sautés",
+      en: "Fish served with fresh sautéed vegetables",
+    },
+    price: 15,
+    category: "poissons",
+    image: "/images/plats/poisson-legumes.jpg",
+    spiceLevel: 1,
+    preparationTime: 25,
+  },
+
+  // ===== COMPLÉMENTS =====
+  {
+    id: "plantains-frits",
+    name: { fr: "Plantains Frits", en: "Fried Plantains" },
+    description: {
+      fr: "Bananes plantains dorées et croustillantes",
+      en: "Golden and crispy plantain bananas",
+    },
+    price: 3.5,
+    category: "complements",
+    image: "/images/complements/plantains-frits.jpg",
+    spiceLevel: 0,
+    preparationTime: 10,
+    tags: ["végétarien"],
+  },
+  {
+    id: "plantains-tapes",
+    name: { fr: "Plantains Tapés", en: "Mashed Plantains" },
+    description: {
+      fr: "Plantains écrasés et assaisonnés traditionnellement",
+      en: "Mashed and traditionally seasoned plantains",
+    },
+    price: 3.5,
+    category: "complements",
+    image: "/images/complements/plantains-tapes.jpg",
+    spiceLevel: 0,
+    preparationTime: 15,
+    tags: ["végétarien"],
+  },
+  {
+    id: "wata-fufu",
+    name: { fr: "Wata Fufu", en: "Wata Fufu" },
+    description: {
+      fr: "Accompagnement traditionnel à base de manioc",
+      en: "Traditional cassava-based side dish",
+    },
+    price: 5,
+    category: "complements",
+    image: "/images/complements/wata-fufu.jpg",
+    spiceLevel: 0,
+    preparationTime: 20,
+    tags: ["traditionnel"],
+  },
+  {
+    id: "igname-vapeur",
+    name: { fr: "Igname Vapeur", en: "Steamed Yam" },
+    description: {
+      fr: "Igname cuite à la vapeur, accompagnement sain",
+      en: "Steamed yam, healthy side dish",
+    },
+    price: 5,
+    category: "complements",
+    image: "/images/complements/igname.jpg",
+    spiceLevel: 0,
+    preparationTime: 25,
+    tags: ["végétarien", "sain"],
+  },
+  {
+    id: "plantain-vapeur",
+    name: { fr: "Plantain Vapeur", en: "Steamed Plantain" },
+    description: {
+      fr: "Plantain cuit à la vapeur, naturel et savoureux",
+      en: "Steamed plantain, natural and tasty",
+    },
+    price: 5,
+    category: "complements",
+    image: "/images/complements/plantain-vapeur.jpg",
+    spiceLevel: 0,
+    preparationTime: 20,
+    tags: ["végétarien"],
+  },
+  {
+    id: "patate-vapeur",
+    name: { fr: "Patate Vapeur", en: "Steamed Sweet Potato" },
+    description: {
+      fr: "Patate douce cuite à la vapeur, sucrée naturellement",
+      en: "Steamed sweet potato, naturally sweet",
+    },
+    price: 7,
+    category: "complements",
+    image: "/images/complements/patate-vapeur.jpg",
+    spiceLevel: 0,
+    preparationTime: 30,
+    tags: ["végétarien", "sucré"],
+  },
+  {
+    id: "patate-frittes",
+    name: { fr: "Patate Frittes", en: "Sweet Potato Fries" },
+    description: {
+      fr: "Frites de patate douce croustillantes et dorées",
+      en: "Crispy and golden sweet potato fries",
+    },
+    price: 5,
+    category: "complements",
+    image: "/images/complements/patate-frittes.jpg",
+    spiceLevel: 0,
+    preparationTime: 15,
+    tags: ["végétarien"],
+  },
+  {
+    id: "riz",
+    name: { fr: "Riz", en: "Rice" },
+    description: {
+      fr: "Riz blanc parfumé, accompagnement classique",
+      en: "Fragrant white rice, classic side dish",
+    },
+    price: 3.5,
+    category: "complements",
+    image: "/images/complements/riz.jpg",
+    spiceLevel: 0,
+    preparationTime: 20,
+    tags: ["végétarien"],
+  },
+  {
+    id: "semoule",
+    name: { fr: "Semoule", en: "Semolina" },
+    description: {
+      fr: "Semoule fine et légère, parfaite avec les sauces",
+      en: "Fine and light semolina, perfect with sauces",
+    },
+    price: 3.5,
+    category: "complements",
+    image: "/images/complements/semoule.jpg",
+    spiceLevel: 0,
+    preparationTime: 15,
+    tags: ["végétarien"],
+  },
+  {
+    id: "bobolo",
+    name: { fr: "Bobolo", en: "Bobolo" },
+    description: {
+      fr: "Manioc fermenté traditionnel, spécialité camerounaise",
+      en: "Traditional fermented cassava, Cameroonian specialty",
+    },
+    price: 3.5,
+    category: "complements",
+    image: "/images/complements/bobolo.jpg",
+    spiceLevel: 0,
+    preparationTime: 10,
+    tags: ["traditionnel", "camerounais"],
+  },
+
+  // ===== BIÈRES EUROPÉENNES =====
+  {
+    id: "carberg",
+    name: { fr: "Carberg", en: "Carberg" },
+    description: {
+      fr: "Bière blonde européenne rafraîchissante",
+      en: "Refreshing European blonde beer",
+    },
+    price: 3,
+    category: "bieres",
+    image: "/images/bieres/carberg.jpg",
+    tags: ["européenne", "blonde"],
+  },
+  {
+    id: "leffe-blonde",
+    name: { fr: "Leffe Blonde", en: "Leffe Blonde" },
+    description: {
+      fr: "Bière belge blonde authentique et savoureuse",
+      en: "Authentic and tasty Belgian blonde beer",
+    },
+    price: 3.5,
+    category: "bieres",
+    image: "/images/bieres/leffe-blonde.jpg",
+    tags: ["belge", "blonde"],
+  },
+  {
+    id: "leffe-brune",
+    name: { fr: "Leffe Brune", en: "Leffe Brown" },
+    description: {
+      fr: "Bière belge brune aux arômes complexes",
+      en: "Belgian brown beer with complex aromas",
+    },
+    price: 3.5,
+    category: "bieres",
+    image: "/images/bieres/leffe-brune.jpg",
+    tags: ["belge", "brune"],
+  },
+  {
+    id: "jupiler-petite",
+    name: { fr: "Jupiler Petite", en: "Jupiler Small" },
+    description: {
+      fr: "Petite Jupiler, bière belge classique",
+      en: "Small Jupiler, classic Belgian beer",
+    },
+    price: 2.5,
+    category: "bieres",
+    image: "/images/bieres/jupiler-petite.jpg",
+    tags: ["belge", "petite"],
+  },
+  {
+    id: "jupiler-grande",
+    name: { fr: "Jupiler Grande", en: "Jupiler Large" },
+    description: {
+      fr: "Grande Jupiler, format généreux",
+      en: "Large Jupiler, generous format",
+    },
+    price: 5,
+    category: "bieres",
+    image: "/images/bieres/jupiler-grande.jpg",
+    tags: ["belge", "grande"],
+  },
+  {
+    id: "guinness-europeenne",
+    name: { fr: "Guinness", en: "Guinness" },
+    description: {
+      fr: "Stout irlandaise iconique et crémeuse",
+      en: "Iconic and creamy Irish stout",
+    },
+    price: 5,
+    category: "bieres",
+    image: "/images/bieres/guinness.jpg",
+    tags: ["irlandaise", "stout"],
+  },
+  {
+    id: "canette-jb-cola",
+    name: { fr: "Canette J&B Cola", en: "J&B Cola Can" },
+    description: {
+      fr: "Mélange rafraîchissant whisky et cola en canette",
+      en: "Refreshing whisky and cola mix in can",
+    },
+    price: 5,
+    category: "bieres",
+    image: "/images/bieres/jb-cola.jpg",
+    tags: ["canette", "mélange"],
+  },
+  {
+    id: "grimbergen",
+    name: { fr: "Grimbergen", en: "Grimbergen" },
+    description: {
+      fr: "Bière d'abbaye belge aux saveurs riches",
+      en: "Belgian abbey beer with rich flavors",
+    },
+    price: 4.5,
+    category: "bieres",
+    image: "/images/bieres/grimbergen.jpg",
+    tags: ["belge", "abbaye"],
+  },
+  {
+    id: "kriek",
+    name: { fr: "Kriek", en: "Kriek" },
+    description: {
+      fr: "Bière belge aux cerises, douce et fruitée",
+      en: "Belgian cherry beer, sweet and fruity",
+    },
+    price: 3.5,
+    category: "bieres",
+    image: "/images/bieres/kriek.jpg",
+    tags: ["belge", "fruitée", "cerises"],
+  },
+  {
+    id: "heineken-petite",
+    name: { fr: "Heineken Petite", en: "Heineken Small" },
+    description: {
+      fr: "Petite Heineken, bière hollandaise premium",
+      en: "Small Heineken, premium Dutch beer",
+    },
+    price: 4,
+    category: "bieres",
+    image: "/images/bieres/heineken-petite.jpg",
+    tags: ["hollandaise", "petite"],
+  },
+  {
+    id: "heineken-grande",
+    name: { fr: "Heineken Grande", en: "Heineken Large" },
+    description: {
+      fr: "Grande Heineken, format généreux",
+      en: "Large Heineken, generous format",
+    },
+    price: 5,
+    category: "bieres",
+    image: "/images/bieres/heineken-grande.jpg",
+    tags: ["hollandaise", "grande"],
+  },
+  {
+    id: "becks",
+    name: { fr: "Beck's", en: "Beck's" },
+    description: {
+      fr: "Bière allemande pure et rafraîchissante",
+      en: "Pure and refreshing German beer",
+    },
+    price: 3,
+    category: "bieres",
+    image: "/images/bieres/becks.jpg",
+    tags: ["allemande"],
+  },
+  {
+    id: "desperade",
+    name: { fr: "Desperade", en: "Desperados" },
+    description: {
+      fr: "Bière aromatisée tequila, originale et pétillante",
+      en: "Tequila flavored beer, original and sparkling",
+    },
+    price: 4,
+    category: "bieres",
+    image: "/images/bieres/desperade.jpg",
+    tags: ["aromatisée", "tequila"],
+  },
+
+  // ===== BIÈRES CAMEROUNAISES =====
+  {
+    id: "petite-guinness-camerounaise",
+    name: { fr: "Petite Guinness", en: "Small Guinness" },
+    description: {
+      fr: "Guinness camerounaise, authentique et locale",
+      en: "Cameroonian Guinness, authentic and local",
+    },
+    price: 6,
+    category: "bieres",
+    image: "/images/bieres/guinness-cameroun.jpg",
+    isSignature: true,
+    tags: ["camerounaise", "petite"],
+  },
+  {
+    id: "grande-guinness-camerounaise",
+    name: { fr: "Grande Guinness", en: "Large Guinness" },
+    description: {
+      fr: "Grande Guinness camerounaise, format généreux",
+      en: "Large Cameroonian Guinness, generous format",
+    },
+    price: 10,
+    category: "bieres",
+    image: "/images/bieres/guinness-cameroun-grande.jpg",
+    isSignature: true,
+    tags: ["camerounaise", "grande"],
+  },
   {
     id: "33-export",
     name: { fr: "33 Export", en: "33 Export" },
     description: {
-      fr: "Bière camerounaise d'exportation, authentique",
-      en: "Authentic Cameroonian export beer",
+      fr: "Bière camerounaise d'exportation, référence locale",
+      en: "Cameroonian export beer, local reference",
     },
     price: 8,
     category: "bieres",
     image: "/images/bieres/33-export.jpg",
     isSignature: true,
-    tags: ["camerounais", "alcool"],
+    isPopular: true,
+    tags: ["camerounaise", "export"],
+  },
+  {
+    id: "kadji",
+    name: { fr: "Kadji", en: "Kadji" },
+    description: {
+      fr: "Bière camerounaise traditionnelle et authentique",
+      en: "Traditional and authentic Cameroonian beer",
+    },
+    price: 8,
+    category: "bieres",
+    image: "/images/bieres/kadji.jpg",
+    tags: ["camerounaise", "traditionnelle"],
+  },
+  {
+    id: "isenbeck",
+    name: { fr: "Isenbeck", en: "Isenbeck" },
+    description: {
+      fr: "Bière camerounaise de qualité premium",
+      en: "Premium quality Cameroonian beer",
+    },
+    price: 8,
+    category: "bieres",
+    image: "/images/bieres/isenbeck.jpg",
+    tags: ["camerounaise", "premium"],
+  },
+  {
+    id: "mutzig",
+    name: { fr: "Mutzig", en: "Mutzig" },
+    description: {
+      fr: "Bière camerounaise blonde et légère",
+      en: "Blonde and light Cameroonian beer",
+    },
+    price: 8,
+    category: "bieres",
+    image: "/images/bieres/mutzig.jpg",
+    tags: ["camerounaise", "blonde"],
+  },
+  {
+    id: "castel-cameroun",
+    name: { fr: "Castel", en: "Castel" },
+    description: {
+      fr: "Bière Castel camerounaise, goût authentique",
+      en: "Cameroonian Castel beer, authentic taste",
+    },
+    price: 8,
+    category: "bieres",
+    image: "/images/bieres/castel.jpg",
+    tags: ["camerounaise"],
+  },
+  {
+    id: "origine",
+    name: { fr: "Origine", en: "Origine" },
+    description: {
+      fr: "Bière camerounaise aux saveurs originelles",
+      en: "Cameroonian beer with original flavors",
+    },
+    price: 8,
+    category: "bieres",
+    image: "/images/bieres/origine.jpg",
+    tags: ["camerounaise", "originelle"],
+  },
+  {
+    id: "booster",
+    name: { fr: "Booster", en: "Booster" },
+    description: {
+      fr: "Bière énergisante camerounaise, forte en goût",
+      en: "Cameroonian energy beer, strong in taste",
+    },
+    price: 9,
+    category: "bieres",
+    image: "/images/bieres/booster.jpg",
+    tags: ["camerounaise", "énergisante"],
+  },
+
+  // ===== SOFTS & EAUX =====
+  {
+    id: "coca-cola",
+    name: { fr: "Coca Cola", en: "Coca Cola" },
+    description: {
+      fr: "Boisson gazeuse classique et rafraîchissante",
+      en: "Classic and refreshing carbonated drink",
+    },
+    price: 2.5,
+    category: "boissons",
+    image: "/images/boissons/coca.jpg",
+    tags: ["gazeux", "classique"],
+  },
+  {
+    id: "fanta",
+    name: { fr: "Fanta", en: "Fanta" },
+    description: {
+      fr: "Soda à l'orange pétillant et fruité",
+      en: "Sparkling and fruity orange soda",
+    },
+    price: 2.5,
+    category: "boissons",
+    image: "/images/boissons/fanta.jpg",
+    tags: ["gazeux", "orange"],
+  },
+  {
+    id: "looza",
+    name: { fr: "Looza", en: "Looza" },
+    description: {
+      fr: "Jus de fruits naturel et savoureux",
+      en: "Natural and tasty fruit juice",
+    },
+    price: 2.5,
+    category: "boissons",
+    image: "/images/boissons/looza.jpg",
+    tags: ["jus", "naturel"],
+  },
+  {
+    id: "vimto",
+    name: { fr: "Vimto", en: "Vimto" },
+    description: {
+      fr: "Boisson aux fruits exotiques, goût unique",
+      en: "Exotic fruit drink, unique taste",
+    },
+    price: 2.5,
+    category: "boissons",
+    image: "/images/boissons/vimto.jpg",
+    tags: ["exotique", "fruité"],
+  },
+  {
+    id: "ginger",
+    name: { fr: "Ginger", en: "Ginger" },
+    description: {
+      fr: "Boisson au gingembre piquante et rafraîchissante",
+      en: "Spicy and refreshing ginger drink",
+    },
+    price: 2.5,
+    category: "boissons",
+    image: "/images/boissons/ginger.jpg",
+    tags: ["gingembre", "piquant"],
+  },
+  {
+    id: "perrier",
+    name: { fr: "Perrier", en: "Perrier" },
+    description: {
+      fr: "Eau gazeuse naturelle française premium",
+      en: "Premium French natural sparkling water",
+    },
+    price: 3,
+    category: "boissons",
+    image: "/images/boissons/perrier.jpg",
+    tags: ["eau", "gazeux", "premium"],
+  },
+  {
+    id: "pellegrino",
+    name: { fr: "Pellegrino", en: "Pellegrino" },
+    description: {
+      fr: "Eau gazeuse italienne de prestige",
+      en: "Prestigious Italian sparkling water",
+    },
+    price: 3,
+    category: "boissons",
+    image: "/images/boissons/pellegrino.jpg",
+    tags: ["eau", "gazeux", "italien"],
+  },
+  {
+    id: "eau-gazeuse-spa",
+    name: { fr: "Eau Gazeuse Spa", en: "Spa Sparkling Water" },
+    description: {
+      fr: "Eau gazeuse belge pure et rafraîchissante",
+      en: "Pure and refreshing Belgian sparkling water",
+    },
+    price: 2.5,
+    category: "boissons",
+    image: "/images/boissons/spa-gazeux.jpg",
+    tags: ["eau", "gazeux", "belge"],
+  },
+  {
+    id: "eau-plate-spa",
+    name: { fr: "Eau Plate Spa", en: "Spa Still Water" },
+    description: {
+      fr: "Eau plate belge pure et naturelle",
+      en: "Pure and natural Belgian still water",
+    },
+    price: 2.5,
+    category: "boissons",
+    image: "/images/boissons/spa-plate.jpg",
+    tags: ["eau", "plate", "belge"],
+  },
+  {
+    id: "red-bull",
+    name: { fr: "Red Bull", en: "Red Bull" },
+    description: {
+      fr: "Boisson énergisante iconique et stimulante",
+      en: "Iconic and stimulating energy drink",
+    },
+    price: 4,
+    category: "boissons",
+    image: "/images/boissons/redbull.jpg",
+    tags: ["énergisant"],
+  },
+  {
+    id: "top-grenadine",
+    name: { fr: "Top Grenadine", en: "Top Grenadine" },
+    description: {
+      fr: "Sirop de grenadine rafraîchissant et coloré",
+      en: "Refreshing and colorful grenadine syrup",
+    },
+    price: 6,
+    category: "boissons",
+    image: "/images/boissons/top-grenadine.jpg",
+    tags: ["sirop", "grenadine"],
+  },
+  {
+    id: "top-pamplemousse",
+    name: { fr: "Top Pamplemousse", en: "Top Grapefruit" },
+    description: {
+      fr: "Sirop de pamplemousse acidulé et vitaminé",
+      en: "Tangy and vitamin-rich grapefruit syrup",
+    },
+    price: 6,
+    category: "boissons",
+    image: "/images/boissons/top-pamplemousse.jpg",
+    tags: ["sirop", "pamplemousse"],
+  },
+  {
+    id: "top-ananas",
+    name: { fr: "Top Ananas", en: "Top Pineapple" },
+    description: {
+      fr: "Sirop d'ananas tropical et exotique",
+      en: "Tropical and exotic pineapple syrup",
+    },
+    price: 6,
+    category: "boissons",
+    image: "/images/boissons/top-ananas.jpg",
+    tags: ["sirop", "ananas", "tropical"],
+  },
+  {
+    id: "djino",
+    name: { fr: "Djino", en: "Djino" },
+    description: {
+      fr: "Boisson africaine traditionnelle au gingembre",
+      en: "Traditional African ginger drink",
+    },
+    price: 6,
+    category: "boissons",
+    image: "/images/boissons/djino.jpg",
+    tags: ["africain", "gingembre", "traditionnel"],
+  },
+  {
+    id: "malta-guinness",
+    name: { fr: "Malta Guinness", en: "Malta Guinness" },
+    description: {
+      fr: "Boisson maltée sans alcool nutritive",
+      en: "Nutritious non-alcoholic malt drink",
+    },
+    price: 5,
+    category: "boissons",
+    image: "/images/boissons/malta-guinness.jpg",
+    tags: ["malté", "sans-alcool", "nutritif"],
+  },
+  {
+    id: "super-malt",
+    name: { fr: "Super Malt", en: "Super Malt" },
+    description: {
+      fr: "Boisson maltée énergisante et revigorante",
+      en: "Energizing and invigorating malt drink",
+    },
+    price: 3,
+    category: "boissons",
+    image: "/images/boissons/super-malt.jpg",
+    tags: ["malté", "énergisant"],
+  },
+
+  // ===== VINS =====
+  {
+    id: "petit-vin-rouge",
+    name: { fr: "Petit Vin Rouge", en: "Small Red Wine" },
+    description: {
+      fr: "Vin rouge de table, parfait pour accompagner vos plats",
+      en: "Table red wine, perfect to accompany your dishes",
+    },
+    price: 7,
+    category: "vins",
+    image: "/images/vins/rouge.jpg",
+    tags: ["rouge", "table"],
+  },
+  {
+    id: "petit-vin-blanc",
+    name: { fr: "Petit Vin Blanc", en: "Small White Wine" },
+    description: {
+      fr: "Vin blanc sec et rafraîchissant",
+      en: "Dry and refreshing white wine",
+    },
+    price: 7,
+    category: "vins",
+    image: "/images/vins/blanc.jpg",
+    tags: ["blanc", "sec"],
+  },
+  {
+    id: "petit-vin-rose",
+    name: { fr: "Petit Vin Rosé", en: "Small Rosé Wine" },
+    description: {
+      fr: "Vin rosé léger et fruité, idéal pour l'apéritif",
+      en: "Light and fruity rosé wine, ideal for aperitif",
+    },
+    price: 7,
+    category: "vins",
+    image: "/images/vins/rose.jpg",
+    tags: ["rosé", "fruité", "apéritif"],
+  },
+
+  // ===== LIQUEURS =====
+  {
+    id: "baileys",
+    name: { fr: "Baileys", en: "Baileys" },
+    description: {
+      fr: "Liqueur crémeuse irlandaise au whisky et crème",
+      en: "Irish creamy liqueur with whisky and cream",
+    },
+    price: 7,
+    category: "liqueurs",
+    image: "/images/liqueurs/baileys.jpg",
+    tags: ["crémeux", "irlandais"],
+  },
+  {
+    id: "martini",
+    name: { fr: "Martini", en: "Martini" },
+    description: {
+      fr: "Vermouth italien classique pour cocktails",
+      en: "Classic Italian vermouth for cocktails",
+    },
+    price: 7,
+    category: "liqueurs",
+    image: "/images/liqueurs/martini.jpg",
+    tags: ["vermouth", "italien"],
+  },
+  {
+    id: "malibu",
+    name: { fr: "Malibu", en: "Malibu" },
+    description: {
+      fr: "Liqueur de rhum à la noix de coco tropicale",
+      en: "Tropical coconut rum liqueur",
+    },
+    price: 7,
+    category: "liqueurs",
+    image: "/images/liqueurs/malibu.jpg",
+    tags: ["rhum", "coco", "tropical"],
+  },
+  {
+    id: "black-label",
+    name: { fr: "Black Label", en: "Black Label" },
+    description: {
+      fr: "Whisky écossais premium de 12 ans d'âge",
+      en: "Premium 12-year-old Scottish whisky",
+    },
+    price: 7,
+    category: "liqueurs",
+    image: "/images/liqueurs/black-label.jpg",
+    tags: ["whisky", "écossais", "premium"],
+  },
+  {
+    id: "red-label",
+    name: { fr: "Red Label", en: "Red Label" },
+    description: {
+      fr: "Whisky écossais blend accessible et savoureux",
+      en: "Accessible and tasty Scottish blend whisky",
+    },
+    price: 7,
+    category: "liqueurs",
+    image: "/images/liqueurs/red-label.jpg",
+    tags: ["whisky", "écossais", "blend"],
+  },
+  {
+    id: "jb-liqueur",
+    name: { fr: "J&B", en: "J&B" },
+    description: {
+      fr: "Whisky écossais rare et distinctif",
+      en: "Rare and distinctive Scottish whisky",
+    },
+    price: 7,
+    category: "liqueurs",
+    image: "/images/liqueurs/jb.jpg",
+    tags: ["whisky", "écossais", "rare"],
+  },
+  {
+    id: "jack-daniels",
+    name: { fr: "Jack Daniels", en: "Jack Daniels" },
+    description: {
+      fr: "Whiskey américain Tennessee, icône mondiale",
+      en: "American Tennessee whiskey, world icon",
+    },
+    price: 7,
+    category: "liqueurs",
+    image: "/images/liqueurs/jack-daniels.jpg",
+    tags: ["whiskey", "américain", "tennessee"],
+  },
+  {
+    id: "chivas",
+    name: { fr: "Chivas", en: "Chivas" },
+    description: {
+      fr: "Whisky écossais de luxe, blend premium",
+      en: "Luxury Scottish whisky, premium blend",
+    },
+    price: 7,
+    category: "liqueurs",
+    image: "/images/liqueurs/chivas.jpg",
+    tags: ["whisky", "écossais", "luxe"],
+  },
+  {
+    id: "remy-martin",
+    name: { fr: "Rémy Martin", en: "Rémy Martin" },
+    description: {
+      fr: "Cognac français d'exception, finesse et élégance",
+      en: "Exceptional French cognac, finesse and elegance",
+    },
+    price: 7,
+    category: "liqueurs",
+    image: "/images/liqueurs/remy-martin.jpg",
+    tags: ["cognac", "français", "exception"],
+  },
+  {
+    id: "vodka",
+    name: { fr: "Vodka", en: "Vodka" },
+    description: {
+      fr: "Vodka premium pure et cristalline",
+      en: "Pure and crystal premium vodka",
+    },
+    price: 7,
+    category: "liqueurs",
+    image: "/images/liqueurs/vodka.jpg",
+    tags: ["vodka", "premium", "pure"],
   },
 ];
 
-// ===== FONCTIONS UTILITAIRES OPTIMISÉES =====
+// ===== FONCTIONS UTILITAIRES MISES À JOUR =====
 export const getDishesByCategory = (categoryId: string): Dish[] => {
   if (categoryId === "all") return allDishes;
   return allDishes.filter((dish) => dish.category === categoryId);
@@ -349,7 +1479,7 @@ export const getDishesBySpiceLevel = (level: 0 | 1 | 2 | 3): Dish[] => {
   return allDishes.filter((dish) => dish.spiceLevel === level);
 };
 
-// ===== STATISTIQUES DU MENU =====
+// ===== STATISTIQUES DU MENU MISES À JOUR =====
 export const menuStats = {
   totalDishes: allDishes.length,
   categoriesCount: menuCategories.length,
@@ -371,21 +1501,13 @@ export const menuStats = {
   },
 };
 
-// ===== DONNÉES POUR L'AFFICHAGE =====
-export const featuredDishes = [
-  ...getSignatureDishes().slice(0, 3),
-  ...getPopularDishes()
-    .filter((d) => !d.isSignature)
-    .slice(0, 3),
-].slice(0, 6);
-
-// ===== TRADUCTIONS =====
+// ===== TRADUCTIONS MISES À JOUR =====
 export const menuTranslations = {
   fr: {
     title: "Notre Menu",
     subtitle: "Saveurs Authentiques",
     description:
-      "Découvrez notre sélection de plats traditionnels préparés avec passion",
+      "Découvrez notre sélection complète de plats traditionnels et boissons préparés avec passion",
     loadingMenu: "Chargement du menu...",
     noDishes: "Aucun plat trouvé",
     noResultsDesc: "Essayez d'ajuster vos filtres ou votre recherche",
@@ -421,7 +1543,7 @@ export const menuTranslations = {
     title: "Our Menu",
     subtitle: "Authentic Flavors",
     description:
-      "Discover our selection of traditional dishes prepared with passion",
+      "Discover our complete selection of traditional dishes and beverages prepared with passion",
     loadingMenu: "Loading menu...",
     noDishes: "No dishes found",
     noResultsDesc: "Try adjusting your filters or search",
@@ -450,6 +1572,15 @@ export const menuTranslations = {
   },
 };
 
+// ===== PLATS VEDETTES POUR L'AFFICHAGE =====
+export const featuredDishes = [
+  ...getSignatureDishes().slice(0, 3),
+  ...getPopularDishes()
+    .filter((d) => !d.isSignature)
+    .slice(0, 3),
+].slice(0, 6);
+
+// ===== EXPORT PAR DÉFAUT =====
 export default {
   allDishes,
   menuCategories,
