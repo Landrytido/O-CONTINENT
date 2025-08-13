@@ -143,7 +143,6 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
     clearAllFilters,
   } = hookResult;
 
-  // Debug effect
   useEffect(() => {
     console.log("🎯 MenuSection - Données reçues du hook:", {
       currentPage: filters.currentPage,
@@ -165,7 +164,6 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
     setTimeout(() => setSelectedDish(null), 300);
   }, []);
 
-  // Force re-render key basé sur currentPage
   const renderKey = `menu-page-${filters.currentPage}`;
 
   return (
