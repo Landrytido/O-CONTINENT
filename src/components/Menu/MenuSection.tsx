@@ -1,4 +1,11 @@
-import React, { useState, useCallback, lazy, Suspense, memo } from "react";
+import React, {
+  useState,
+  useCallback,
+  lazy,
+  Suspense,
+  memo,
+  useEffect,
+} from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChefHat,
@@ -113,6 +120,8 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
 
   const t = menuTranslations[language];
 
+  const hookResult = useMenuFilters(allDishes, language, 20);
+
   const {
     filters,
     paginatedDishes,
@@ -132,7 +141,19 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
     toggleWeekendOnly,
     setPriceRange,
     clearAllFilters,
-  } = useMenuFilters(allDishes, language, 20);
+  } = hookResult;
+
+  // Debug effect
+  useEffect(() => {
+    console.log("🎯 MenuSection - Données reçues du hook:", {
+      currentPage: filters.currentPage,
+      totalPages,
+      paginatedDishesLength: paginatedDishes.length,
+      firstDishId: paginatedDishes[0]?.id,
+      lastDishId: paginatedDishes[paginatedDishes.length - 1]?.id,
+      filterStats,
+    });
+  }, [filters.currentPage, totalPages, paginatedDishes, filterStats]);
 
   const handleDishClick = useCallback((dish: any) => {
     setSelectedDish(dish);
@@ -143,6 +164,9 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
     setIsModalOpen(false);
     setTimeout(() => setSelectedDish(null), 300);
   }, []);
+
+  // Force re-render key basé sur currentPage
+  const renderKey = `menu-page-${filters.currentPage}`;
 
   return (
     <>
@@ -221,10 +245,10 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
           </motion.div>
 
           <motion.div
+            key={renderKey} // Force re-render
             initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            viewport={{ once: true }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
           >
             {paginatedDishes.length === 0 ? (
               <EmptyState
@@ -252,7 +276,7 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
                         <>
                           Affichage {filterStats.startIndex}-
                           {filterStats.endIndex} sur {filterStats.totalResults}{" "}
-                          plats
+                          plats (Page {filters.currentPage}/{totalPages})
                         </>
                       )}
                     </p>
@@ -264,28 +288,24 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
                 </motion.div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
-                  <AnimatePresence mode="wait">
-                    {paginatedDishes.map((dish, index) => (
-                      <motion.div
-                        key={`${dish.id}-${filters.currentPage}`}
-                        layout
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.8 }}
-                        transition={{
-                          duration: 0.4,
-                          delay: Math.min(index * 0.05, 0.3),
-                        }}
-                      >
-                        <DishCard
-                          dish={dish}
-                          language={language}
-                          onViewDetails={handleDishClick}
-                          index={index}
-                        />
-                      </motion.div>
-                    ))}
-                  </AnimatePresence>
+                  {paginatedDishes.map((dish, index) => (
+                    <motion.div
+                      key={`${dish.id}`}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        duration: 0.3,
+                        delay: index * 0.05,
+                      }}
+                    >
+                      <DishCard
+                        dish={dish}
+                        language={language}
+                        onViewDetails={handleDishClick}
+                        index={index}
+                      />
+                    </motion.div>
+                  ))}
                 </div>
 
                 {totalPages > 1 && (
@@ -296,7 +316,10 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
                     transition={{ duration: 0.5 }}
                   >
                     <PaginationButton
-                      onClick={goToPreviousPage}
+                      onClick={() => {
+                        console.log("🔙 Clic précédent");
+                        goToPreviousPage();
+                      }}
                       disabled={!filterStats.hasPreviousPage}
                     >
                       <ChevronLeft className="w-4 h-4" />
@@ -308,7 +331,10 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
                           <span className="px-2 text-gray-400">...</span>
                         ) : (
                           <PaginationButton
-                            onClick={() => setCurrentPage(pageNum)}
+                            onClick={() => {
+                              console.log("🔢 Clic page:", pageNum);
+                              setCurrentPage(pageNum);
+                            }}
                             isActive={pageNum === filters.currentPage}
                           >
                             {pageNum}
@@ -318,7 +344,10 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
                     ))}
 
                     <PaginationButton
-                      onClick={goToNextPage}
+                      onClick={() => {
+                        console.log("🔜 Clic suivant");
+                        goToNextPage();
+                      }}
                       disabled={!filterStats.hasNextPage}
                     >
                       <ChevronRight className="w-4 h-4" />

@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { Dish } from "./menuData";
 
 interface FilterState {
@@ -17,7 +17,6 @@ export const useMenuFilters = (
   language: "fr" | "en",
   itemsPerPage: number = 20
 ) => {
-  // État des filtres
   const [filters, setFilters] = useState<FilterState>({
     activeCategory: "all",
     searchTerm: "",
@@ -29,7 +28,6 @@ export const useMenuFilters = (
     itemsPerPage: itemsPerPage,
   });
 
-  // Calcul des prix min et max
   const priceStats = useMemo(() => {
     const prices = dishes.map((d) => d.price);
     return {
@@ -38,18 +36,22 @@ export const useMenuFilters = (
     };
   }, [dishes]);
 
-  // Filtrage optimisé avec mémorisation
-  const filteredDishes = useMemo(() => {
-    let result = dishes;
+  useEffect(() => {
+    setFilters((prev) => ({
+      ...prev,
+      priceRange: [priceStats.min, priceStats.max],
+    }));
+  }, [priceStats.min, priceStats.max]);
 
-    // Filtre par catégorie
+  const filteredDishes = useMemo(() => {
+    let result = [...dishes];
+
     if (filters.activeCategory !== "all") {
       result = result.filter(
         (dish) => dish.category === filters.activeCategory
       );
     }
 
-    // Filtre par recherche
     if (filters.searchTerm.trim()) {
       const term = filters.searchTerm.toLowerCase().trim();
       result = result.filter(
@@ -60,7 +62,6 @@ export const useMenuFilters = (
       );
     }
 
-    // Filtres par badges
     if (filters.showSignature) {
       result = result.filter((dish) => dish.isSignature);
     }
@@ -71,7 +72,6 @@ export const useMenuFilters = (
       result = result.filter((dish) => dish.isWeekendOnly);
     }
 
-    // Filtre par prix
     if (
       filters.priceRange[0] > priceStats.min ||
       filters.priceRange[1] < priceStats.max
@@ -96,48 +96,50 @@ export const useMenuFilters = (
     priceStats,
   ]);
 
-  // Calcul de la pagination
   const totalPages = useMemo(() => {
-    return Math.ceil(filteredDishes.length / filters.itemsPerPage);
+    const pages = Math.ceil(filteredDishes.length / filters.itemsPerPage);
+    return Math.max(1, pages);
   }, [filteredDishes.length, filters.itemsPerPage]);
 
-  // Plats de la page actuelle
   const paginatedDishes = useMemo(() => {
     const startIndex = (filters.currentPage - 1) * filters.itemsPerPage;
     const endIndex = startIndex + filters.itemsPerPage;
     return filteredDishes.slice(startIndex, endIndex);
   }, [filteredDishes, filters.currentPage, filters.itemsPerPage]);
 
-  // Calcul des numéros de pages à afficher
+  useEffect(() => {
+    if (filters.currentPage > totalPages && totalPages > 0) {
+      setFilters((prev) => ({
+        ...prev,
+        currentPage: Math.min(prev.currentPage, totalPages),
+      }));
+    }
+  }, [totalPages]);
+
   const pageNumbers = useMemo(() => {
     const pages: number[] = [];
     const maxVisiblePages = 5;
 
     if (totalPages <= maxVisiblePages) {
-      // Si moins de 5 pages, on les affiche toutes
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
       }
     } else {
-      // Logique pour afficher ... quand il y a beaucoup de pages
       const currentPage = filters.currentPage;
 
       if (currentPage <= 3) {
-        // Début : 1 2 3 4 ... dernière
         for (let i = 1; i <= 4; i++) {
           pages.push(i);
         }
-        pages.push(-1); // -1 représente "..."
+        pages.push(-1);
         pages.push(totalPages);
       } else if (currentPage >= totalPages - 2) {
-        // Fin : 1 ... avant-avant-dernière avant-dernière dernière
         pages.push(1);
         pages.push(-1);
         for (let i = totalPages - 3; i <= totalPages; i++) {
           pages.push(i);
         }
       } else {
-        // Milieu : 1 ... current-1 current current+1 ... dernière
         pages.push(1);
         pages.push(-1);
         pages.push(currentPage - 1);
@@ -151,7 +153,6 @@ export const useMenuFilters = (
     return pages;
   }, [totalPages, filters.currentPage]);
 
-  // Comptage des plats par catégorie
   const dishCounts = useMemo(() => {
     const counts: Record<string, number> = { all: filteredDishes.length };
 
@@ -191,7 +192,6 @@ export const useMenuFilters = (
     return counts;
   }, [dishes, filters, language, priceStats]);
 
-  // Vérifier si des filtres sont actifs
   const hasActiveFilters = useMemo(() => {
     return (
       filters.activeCategory !== "all" ||
@@ -204,65 +204,71 @@ export const useMenuFilters = (
     );
   }, [filters, priceStats]);
 
-  // Fonctions de mise à jour optimisées
-  const updateFilter = useCallback(
-    <K extends keyof FilterState>(key: K, value: FilterState[K]) => {
-      setFilters((prev) => ({
-        ...prev,
-        [key]: value,
-        // Reset à la page 1 quand on change les filtres
-        currentPage: key !== "currentPage" ? 1 : prev.currentPage,
-      }));
-    },
-    []
-  );
+  const setActiveCategory = useCallback((category: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      activeCategory: category,
+      currentPage: 1,
+    }));
+  }, []);
 
-  const setActiveCategory = useCallback(
-    (category: string) => {
-      updateFilter("activeCategory", category);
-    },
-    [updateFilter]
-  );
-
-  const setSearchTerm = useCallback(
-    (term: string) => {
-      updateFilter("searchTerm", term);
-    },
-    [updateFilter]
-  );
+  const setSearchTerm = useCallback((term: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      searchTerm: term,
+      currentPage: 1,
+    }));
+  }, []);
 
   const toggleSignature = useCallback(() => {
-    updateFilter("showSignature", !filters.showSignature);
-  }, [filters.showSignature, updateFilter]);
+    setFilters((prev) => ({
+      ...prev,
+      showSignature: !prev.showSignature,
+      currentPage: 1,
+    }));
+  }, []);
 
   const togglePopular = useCallback(() => {
-    updateFilter("showPopular", !filters.showPopular);
-  }, [filters.showPopular, updateFilter]);
+    setFilters((prev) => ({
+      ...prev,
+      showPopular: !prev.showPopular,
+      currentPage: 1,
+    }));
+  }, []);
 
   const toggleWeekendOnly = useCallback(() => {
-    updateFilter("showWeekendOnly", !filters.showWeekendOnly);
-  }, [filters.showWeekendOnly, updateFilter]);
+    setFilters((prev) => ({
+      ...prev,
+      showWeekendOnly: !prev.showWeekendOnly,
+      currentPage: 1,
+    }));
+  }, []);
 
-  const setPriceRange = useCallback(
-    (range: [number, number]) => {
-      updateFilter("priceRange", range);
-    },
-    [updateFilter]
-  );
+  const setPriceRange = useCallback((range: [number, number]) => {
+    setFilters((prev) => ({
+      ...prev,
+      priceRange: range,
+      currentPage: 1,
+    }));
+  }, []);
 
   const setCurrentPage = useCallback(
     (page: number) => {
-      // Validation de la page
       if (page >= 1 && page <= totalPages) {
-        updateFilter("currentPage", page);
-        // Scroll vers le haut de la section menu
-        const menuSection = document.getElementById("menu");
-        if (menuSection) {
-          menuSection.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
+        setFilters((prev) => ({
+          ...prev,
+          currentPage: page,
+        }));
+
+        setTimeout(() => {
+          const menuSection = document.getElementById("menu");
+          if (menuSection) {
+            menuSection.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }, 100);
       }
     },
-    [updateFilter, totalPages]
+    [totalPages]
   );
 
   const goToNextPage = useCallback(() => {
@@ -290,9 +296,11 @@ export const useMenuFilters = (
     });
   }, [priceStats, itemsPerPage]);
 
-  // Statistiques des filtres
   const filterStats = useMemo(() => {
-    const startIndex = (filters.currentPage - 1) * filters.itemsPerPage + 1;
+    const startIndex =
+      filteredDishes.length > 0
+        ? (filters.currentPage - 1) * filters.itemsPerPage + 1
+        : 0;
     const endIndex = Math.min(
       filters.currentPage * filters.itemsPerPage,
       filteredDishes.length
@@ -302,8 +310,8 @@ export const useMenuFilters = (
       totalResults: filteredDishes.length,
       totalPages: totalPages,
       currentPage: filters.currentPage,
-      startIndex: filteredDishes.length > 0 ? startIndex : 0,
-      endIndex: endIndex,
+      startIndex,
+      endIndex,
       hasNextPage: filters.currentPage < totalPages,
       hasPreviousPage: filters.currentPage > 1,
       activeFiltersCount: [
@@ -319,27 +327,22 @@ export const useMenuFilters = (
   }, [filteredDishes, filters, totalPages, priceStats]);
 
   return {
-    // État des filtres
     filters,
 
-    // Données filtrées et paginées
     filteredDishes,
     paginatedDishes,
 
-    // Pagination
     totalPages,
     pageNumbers,
     setCurrentPage,
     goToNextPage,
     goToPreviousPage,
 
-    // Statistiques
     dishCounts,
     hasActiveFilters,
     filterStats,
     priceStats,
 
-    // Fonctions de mise à jour des filtres
     setActiveCategory,
     setSearchTerm,
     toggleSignature,
