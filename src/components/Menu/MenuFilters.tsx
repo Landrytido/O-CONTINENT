@@ -10,12 +10,10 @@ import {
   Wine,
   Beer,
   Martini,
-  Sparkles,
-  Clock,
   TrendingUp,
+  Clock,
   Search,
   X,
-  Flame,
   Euro,
 } from "lucide-react";
 
@@ -41,12 +39,9 @@ interface MenuFiltersProps {
   onWeekendToggle: () => void;
   language: "fr" | "en";
   dishCounts: Record<string, number>;
-  // Nouvelles props pour les filtres avancés
   priceRange?: [number, number];
   onPriceRangeChange?: (range: [number, number]) => void;
   priceStats?: { min: number; max: number };
-  spiceLevel?: number | null;
-  onSpiceLevelChange?: (level: number | null) => void;
 }
 
 const iconMap = {
@@ -79,8 +74,6 @@ const MenuFilters: React.FC<MenuFiltersProps> = memo(
     priceRange = [0, 100],
     onPriceRangeChange,
     priceStats = { min: 0, max: 100 },
-    spiceLevel,
-    onSpiceLevelChange,
   }) => {
     const allCategories = [
       {
@@ -98,45 +91,170 @@ const MenuFilters: React.FC<MenuFiltersProps> = memo(
       return IconComponent;
     };
 
-    const spiceLevels = [
-      { value: 0, label: { fr: "Doux", en: "Mild" }, icon: "🌱" },
-      {
-        value: 1,
-        label: { fr: "Légèrement épicé", en: "Slightly spicy" },
-        icon: "🌶️",
+    const translations = {
+      fr: {
+        signature: "Signature",
+        popular: "Populaire",
+        weekend: "Weekend",
+        searchPlaceholder: "Rechercher un plat...",
+        clearAll: "Effacer tout",
+        activeFilters: "Filtres actifs:",
       },
-      {
-        value: 2,
-        label: { fr: "Moyennement épicé", en: "Medium spicy" },
-        icon: "🌶️🌶️",
+      en: {
+        signature: "Signature",
+        popular: "Popular",
+        weekend: "Weekend",
+        searchPlaceholder: "Search for a dish...",
+        clearAll: "Clear all",
+        activeFilters: "Active filters:",
       },
-      {
-        value: 3,
-        label: { fr: "Très épicé", en: "Very spicy" },
-        icon: "🌶️🌶️🌶️",
-      },
-    ];
+    };
+
+    const t = translations[language];
 
     return (
-      <div className="space-y-6">
-        {/* Search Bar */}
+      <div className="space-y-4">
+        {/* LIGNE 1 : Catégories */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative max-w-md mx-auto"
+          transition={{ duration: 0.5 }}
+          className="flex flex-wrap justify-center gap-2"
         >
-          <div className="relative">
+          {allCategories.map((category, index) => {
+            const IconComponent = getIcon(category.icon);
+            const isActive = activeCategory === category.id;
+            const count = dishCounts[category.id] || 0;
+
+            return (
+              <motion.button
+                key={category.id}
+                onClick={() => onCategoryChange(category.id)}
+                className={`relative flex items-center gap-2 px-4 py-2.5 rounded-full transition-all duration-300 ${
+                  isActive
+                    ? `bg-gradient-to-r ${category.color} text-white shadow-lg`
+                    : "bg-white border border-gray-200 text-gray-600 hover:border-yellow-400 hover:shadow-md"
+                }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.03 }}
+              >
+                <IconComponent
+                  className={`w-4 h-4 ${
+                    isActive ? "text-white" : "text-gray-500"
+                  }`}
+                />
+                <span
+                  className="text-sm font-medium"
+                  style={{ fontFamily: "Inter, sans-serif" }}
+                >
+                  {category.name[language]}
+                </span>
+                {count > 0 && (
+                  <span
+                    className={`text-xs font-bold px-1.5 py-0.5 rounded-full ${
+                      isActive
+                        ? "bg-white/20 text-white"
+                        : "bg-yellow-100 text-yellow-700"
+                    }`}
+                  >
+                    {count}
+                  </span>
+                )}
+              </motion.button>
+            );
+          })}
+        </motion.div>
+
+        {/* LIGNE 2 : Filtres spéciaux */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="flex flex-wrap justify-center gap-3"
+        >
+          <motion.button
+            onClick={onSignatureToggle}
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+              showSignature
+                ? "bg-gradient-to-r from-yellow-400 to-amber-500 text-black shadow-lg"
+                : "bg-white border border-gray-200 text-gray-600 hover:border-yellow-400"
+            }`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Star className="w-4 h-4" />
+            <span>{t.signature}</span>
+            {showSignature && (
+              <motion.div
+                className="w-2 h-2 bg-black/30 rounded-full"
+                animate={{ scale: [1, 1.3, 1] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              />
+            )}
+          </motion.button>
+
+          <motion.button
+            onClick={onPopularToggle}
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+              showPopular
+                ? "bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg"
+                : "bg-white border border-gray-200 text-gray-600 hover:border-red-400"
+            }`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <TrendingUp className="w-4 h-4" />
+            <span>{t.popular}</span>
+            {showPopular && (
+              <motion.div
+                className="w-2 h-2 bg-white/40 rounded-full"
+                animate={{ scale: [1, 1.3, 1] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              />
+            )}
+          </motion.button>
+
+          <motion.button
+            onClick={onWeekendToggle}
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+              showWeekendOnly
+                ? "bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-lg"
+                : "bg-white border border-gray-200 text-gray-600 hover:border-purple-400"
+            }`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Clock className="w-4 h-4" />
+            <span>{t.weekend}</span>
+            {showWeekendOnly && (
+              <motion.div
+                className="w-2 h-2 bg-white/40 rounded-full"
+                animate={{ scale: [1, 1.3, 1] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              />
+            )}
+          </motion.button>
+        </motion.div>
+
+        {/* LIGNE 3 : Recherche et Prix */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="flex flex-col sm:flex-row gap-4 max-w-3xl mx-auto"
+        >
+          {/* Barre de recherche */}
+          <div className="relative flex-1">
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               type="text"
-              placeholder={
-                language === "fr"
-                  ? "Rechercher un plat..."
-                  : "Search for a dish..."
-              }
+              placeholder={t.searchPlaceholder}
               value={searchTerm}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="w-full pl-12 pr-10 py-3 bg-white border border-gray-200 rounded-full focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-all"
+              className="w-full pl-12 pr-10 py-3 bg-white border border-gray-200 rounded-full focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-all text-sm"
               style={{ fontFamily: "Inter, sans-serif" }}
             />
             {searchTerm && (
@@ -150,210 +268,66 @@ const MenuFilters: React.FC<MenuFiltersProps> = memo(
               </motion.button>
             )}
           </div>
-        </motion.div>
 
-        {/* Special Filters */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="flex flex-wrap justify-center gap-3"
-        >
-          <motion.button
-            onClick={onSignatureToggle}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
-              showSignature
-                ? "bg-gradient-to-r from-yellow-400 to-amber-500 text-black shadow-lg"
-                : "bg-white border border-gray-200 text-gray-600 hover:border-yellow-400"
-            }`}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Sparkles className="w-4 h-4" />
-            {language === "fr" ? "Signature" : "Signature"}
-          </motion.button>
-
-          <motion.button
-            onClick={onPopularToggle}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
-              showPopular
-                ? "bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg"
-                : "bg-white border border-gray-200 text-gray-600 hover:border-red-400"
-            }`}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <TrendingUp className="w-4 h-4" />
-            {language === "fr" ? "Populaire" : "Popular"}
-          </motion.button>
-
-          <motion.button
-            onClick={onWeekendToggle}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
-              showWeekendOnly
-                ? "bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-lg"
-                : "bg-white border border-gray-200 text-gray-600 hover:border-purple-400"
-            }`}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Clock className="w-4 h-4" />
-            {language === "fr" ? "Weekend" : "Weekend"}
-          </motion.button>
-        </motion.div>
-
-        {/* Advanced Filters (Price & Spice) */}
-        {(onPriceRangeChange || onSpiceLevelChange) && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 }}
-            className="flex flex-wrap justify-center gap-4 pb-4 border-b border-gray-200"
-          >
-            {/* Price Range Slider */}
-            {onPriceRangeChange && (
-              <div className="flex items-center gap-3">
-                <Euro className="w-4 h-4 text-gray-500" />
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-600">
-                    €{priceRange[0]}
-                  </span>
-                  <div className="relative w-32">
-                    <input
-                      type="range"
-                      min={priceStats.min}
-                      max={priceStats.max}
-                      value={priceRange[1]}
-                      onChange={(e) =>
-                        onPriceRangeChange([
-                          priceRange[0],
-                          Number(e.target.value),
-                        ])
-                      }
-                      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
-                    />
-                  </div>
-                  <span className="text-sm text-gray-600">
-                    €{priceRange[1]}
-                  </span>
-                </div>
+          {/* Filtre de prix */}
+          {onPriceRangeChange && (
+            <div className="flex items-center gap-3 bg-white border border-gray-200 rounded-full px-5 py-2.5">
+              <Euro className="w-4 h-4 text-gray-500" />
+              <span className="text-sm text-gray-600 font-medium">
+                {priceRange[0]}€
+              </span>
+              <div className="relative w-32">
+                <input
+                  type="range"
+                  min={priceStats.min}
+                  max={priceStats.max}
+                  value={priceRange[1]}
+                  onChange={(e) =>
+                    onPriceRangeChange([priceRange[0], Number(e.target.value)])
+                  }
+                  className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                  style={{
+                    background: `linear-gradient(to right, #fbbf24 0%, #fbbf24 ${
+                      ((priceRange[1] - priceStats.min) /
+                        (priceStats.max - priceStats.min)) *
+                      100
+                    }%, #e5e7eb ${
+                      ((priceRange[1] - priceStats.min) /
+                        (priceStats.max - priceStats.min)) *
+                      100
+                    }%, #e5e7eb 100%)`,
+                  }}
+                />
+                <style>{`
+                  input[type="range"]::-webkit-slider-thumb {
+                    appearance: none;
+                    width: 16px;
+                    height: 16px;
+                    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+                    border: 2px solid white;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                  }
+                  input[type="range"]::-moz-range-thumb {
+                    width: 16px;
+                    height: 16px;
+                    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+                    border: 2px solid white;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                  }
+                `}</style>
               </div>
-            )}
-
-            {/* Spice Level Filter */}
-            {onSpiceLevelChange && (
-              <div className="flex items-center gap-2">
-                <Flame className="w-4 h-4 text-orange-500" />
-                <div className="flex gap-1">
-                  <button
-                    onClick={() => onSpiceLevelChange(null)}
-                    className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
-                      spiceLevel === null
-                        ? "bg-gray-600 text-white"
-                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                    }`}
-                  >
-                    {language === "fr" ? "Tous" : "All"}
-                  </button>
-                  {spiceLevels.map((level) => (
-                    <button
-                      key={level.value}
-                      onClick={() => onSpiceLevelChange(level.value)}
-                      className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
-                        spiceLevel === level.value
-                          ? "bg-orange-500 text-white"
-                          : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                      }`}
-                      title={level.label[language]}
-                    >
-                      {level.icon}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </motion.div>
-        )}
-
-        {/* Category Filters */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="overflow-x-auto pb-2"
-        >
-          <div className="flex gap-3 min-w-max px-4 justify-center flex-wrap lg:flex-nowrap">
-            {allCategories.map((category, index) => {
-              const IconComponent = getIcon(category.icon);
-              const isActive = activeCategory === category.id;
-              const count = dishCounts[category.id] || 0;
-
-              return (
-                <motion.button
-                  key={category.id}
-                  onClick={() => onCategoryChange(category.id)}
-                  className={`relative flex flex-col items-center min-w-[100px] p-3 rounded-2xl transition-all duration-300 ${
-                    isActive
-                      ? `bg-gradient-to-br ${category.color} text-white shadow-xl scale-105`
-                      : "bg-white border border-gray-200 text-gray-600 hover:border-yellow-400 hover:shadow-md"
-                  }`}
-                  whileHover={{ scale: isActive ? 1.05 : 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                >
-                  <motion.div
-                    className={`p-2 rounded-full mb-1 ${
-                      isActive ? "bg-white/20" : "bg-gray-100"
-                    }`}
-                    whileHover={{ rotate: 360 }}
-                    transition={{ duration: 0.6 }}
-                  >
-                    <IconComponent
-                      className={`w-4 h-4 ${
-                        isActive ? "text-white" : "text-gray-600"
-                      }`}
-                    />
-                  </motion.div>
-
-                  <span
-                    className="text-xs font-medium text-center leading-tight"
-                    style={{ fontFamily: "Inter, sans-serif" }}
-                  >
-                    {category.name[language]}
-                  </span>
-
-                  {count > 0 && (
-                    <motion.div
-                      className={`absolute -top-2 -right-2 w-5 h-5 rounded-full text-xs font-bold flex items-center justify-center ${
-                        isActive
-                          ? "bg-white text-gray-800"
-                          : "bg-yellow-400 text-black"
-                      }`}
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ delay: 0.3 }}
-                    >
-                      {count}
-                    </motion.div>
-                  )}
-
-                  {isActive && (
-                    <motion.div
-                      className="absolute inset-0 rounded-2xl border-2 border-white/50"
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  )}
-                </motion.button>
-              );
-            })}
-          </div>
+              <span className="text-sm text-gray-600 font-medium">
+                {priceRange[1]}€
+              </span>
+            </div>
+          )}
         </motion.div>
 
-        {/* Active Filters Summary */}
+        {/* Résumé des filtres actifs */}
         {(searchTerm ||
           showSignature ||
           showPopular ||
@@ -361,26 +335,25 @@ const MenuFilters: React.FC<MenuFiltersProps> = memo(
           activeCategory !== "all" ||
           (priceRange &&
             (priceRange[0] > priceStats.min ||
-              priceRange[1] < priceStats.max)) ||
-          spiceLevel !== null) && (
+              priceRange[1] < priceStats.max))) && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
-            className="bg-gray-50 rounded-xl p-4"
+            className="bg-gray-50 rounded-xl p-3"
           >
-            <div className="flex flex-wrap items-center gap-2 text-sm text-gray-600">
-              <span className="font-medium">
-                {language === "fr" ? "Filtres actifs:" : "Active filters:"}
+            <div className="flex flex-wrap items-center gap-2 text-sm">
+              <span className="text-gray-600 font-medium">
+                {t.activeFilters}
               </span>
 
               {searchTerm && (
-                <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">
                   "{searchTerm}"
                 </span>
               )}
 
               {activeCategory !== "all" && (
-                <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">
+                <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">
                   {
                     allCategories.find((c) => c.id === activeCategory)?.name[
                       language
@@ -390,36 +363,30 @@ const MenuFilters: React.FC<MenuFiltersProps> = memo(
               )}
 
               {showSignature && (
-                <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">
-                  Signature
+                <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">
+                  {t.signature}
                 </span>
               )}
 
               {showPopular && (
-                <span className="bg-red-100 text-red-800 px-2 py-1 rounded-full">
-                  {language === "fr" ? "Populaire" : "Popular"}
+                <span className="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs">
+                  {t.popular}
                 </span>
               )}
 
               {showWeekendOnly && (
-                <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded-full">
-                  Weekend
+                <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">
+                  {t.weekend}
                 </span>
               )}
 
               {priceRange &&
                 (priceRange[0] > priceStats.min ||
                   priceRange[1] < priceStats.max) && (
-                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full">
+                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">
                     €{priceRange[0]} - €{priceRange[1]}
                   </span>
                 )}
-
-              {spiceLevel !== null && (
-                <span className="bg-orange-100 text-orange-800 px-2 py-1 rounded-full">
-                  {spiceLevels.find((l) => l.value === spiceLevel)?.icon}
-                </span>
-              )}
 
               <motion.button
                 onClick={() => {
@@ -430,12 +397,11 @@ const MenuFilters: React.FC<MenuFiltersProps> = memo(
                   if (showWeekendOnly) onWeekendToggle();
                   if (onPriceRangeChange)
                     onPriceRangeChange([priceStats.min, priceStats.max]);
-                  if (onSpiceLevelChange) onSpiceLevelChange(null);
                 }}
-                className="ml-2 text-gray-400 hover:text-gray-600 text-xs underline"
+                className="ml-auto text-gray-500 hover:text-gray-700 text-xs underline"
                 whileHover={{ scale: 1.05 }}
               >
-                {language === "fr" ? "Effacer tout" : "Clear all"}
+                {t.clearAll}
               </motion.button>
             </div>
           </motion.div>

@@ -1,6 +1,12 @@
 import React, { useState, useCallback, lazy, Suspense, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChefHat, Sparkles, Loader2, Filter, X } from "lucide-react";
+import {
+  ChefHat,
+  Sparkles,
+  Loader2,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { useMenuFilters } from "./useMenuFilters";
 import { allDishes, menuCategories, menuTranslations } from "./menuData";
 import MenuFilters from "./MenuFilters";
@@ -68,17 +74,54 @@ const EmptyState = memo(
   )
 );
 
+const PaginationButton = memo(
+  ({
+    onClick,
+    disabled,
+    children,
+    isActive = false,
+  }: {
+    onClick: () => void;
+    disabled?: boolean;
+    children: React.ReactNode;
+    isActive?: boolean;
+  }) => (
+    <motion.button
+      onClick={onClick}
+      disabled={disabled}
+      className={`
+        px-4 py-2 rounded-full font-medium transition-all duration-300
+        ${
+          isActive
+            ? "bg-gradient-to-r from-yellow-400 to-amber-500 text-black shadow-lg"
+            : disabled
+            ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+            : "bg-white border border-gray-200 text-gray-600 hover:border-yellow-400 hover:shadow-md"
+        }
+      `}
+      whileHover={!disabled ? { scale: 1.05 } : {}}
+      whileTap={!disabled ? { scale: 0.95 } : {}}
+    >
+      {children}
+    </motion.button>
+  )
+);
+
 const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
   const [selectedDish, setSelectedDish] = useState<any | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   const t = menuTranslations[language];
 
-  // Utilisation du hook optimisé
+  // Utilisation du hook avec pagination
   const {
     filters,
-    displayedDishes,
+    paginatedDishes,
+    totalPages,
+    pageNumbers,
+    setCurrentPage,
+    goToNextPage,
+    goToPreviousPage,
     dishCounts,
     hasActiveFilters,
     filterStats,
@@ -89,10 +132,7 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
     togglePopular,
     toggleWeekendOnly,
     setPriceRange,
-    setSpiceLevel,
     clearAllFilters,
-    loadMoreItems,
-    isLoading,
   } = useMenuFilters(allDishes, language, 20);
 
   const handleDishClick = useCallback((dish: any) => {
@@ -155,30 +195,9 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
             />
           </motion.div>
 
-          {/* Mobile Filter Toggle */}
-          <div className="lg:hidden mb-6 flex justify-between items-center">
-            <div className="text-sm text-gray-600">
-              {filterStats.totalResults} {t.dishesFound}
-            </div>
-            <motion.button
-              onClick={() => setShowMobileFilters(!showMobileFilters)}
-              className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-md border border-gray-200"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Filter className="w-4 h-4" />
-              <span>Filtres</span>
-              {filterStats.activeFiltersCount > 0 && (
-                <span className="bg-yellow-400 text-black text-xs px-2 py-0.5 rounded-full">
-                  {filterStats.activeFiltersCount}
-                </span>
-              )}
-            </motion.button>
-          </div>
-
-          {/* Desktop Filters */}
+          {/* Filters */}
           <motion.div
-            className="hidden lg:block mb-12"
+            className="mb-12"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
@@ -201,64 +220,8 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
               priceRange={filters.priceRange}
               onPriceRangeChange={setPriceRange}
               priceStats={priceStats}
-              spiceLevel={filters.spiceLevel}
-              onSpiceLevelChange={setSpiceLevel}
             />
           </motion.div>
-
-          {/* Mobile Filters Drawer */}
-          <AnimatePresence>
-            {showMobileFilters && (
-              <motion.div
-                className="lg:hidden fixed inset-0 z-50 bg-black/50"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setShowMobileFilters(false)}
-              >
-                <motion.div
-                  className="absolute right-0 top-0 h-full w-80 bg-white shadow-2xl overflow-y-auto"
-                  initial={{ x: "100%" }}
-                  animate={{ x: 0 }}
-                  exit={{ x: "100%" }}
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <div className="p-6">
-                    <div className="flex justify-between items-center mb-6">
-                      <h3 className="text-xl font-bold">Filtres</h3>
-                      <button
-                        onClick={() => setShowMobileFilters(false)}
-                        className="p-2 hover:bg-gray-100 rounded-full"
-                      >
-                        <X className="w-5 h-5" />
-                      </button>
-                    </div>
-                    <MenuFilters
-                      categories={menuCategories}
-                      activeCategory={filters.activeCategory}
-                      onCategoryChange={setActiveCategory}
-                      searchTerm={filters.searchTerm}
-                      onSearchChange={setSearchTerm}
-                      showSignature={filters.showSignature}
-                      onSignatureToggle={toggleSignature}
-                      showPopular={filters.showPopular}
-                      onPopularToggle={togglePopular}
-                      showWeekendOnly={filters.showWeekendOnly}
-                      onWeekendToggle={toggleWeekendOnly}
-                      language={language}
-                      dishCounts={dishCounts}
-                      priceRange={filters.priceRange}
-                      onPriceRangeChange={setPriceRange}
-                      priceStats={priceStats}
-                      spiceLevel={filters.spiceLevel}
-                      onSpiceLevelChange={setSpiceLevel}
-                    />
-                  </div>
-                </motion.div>
-              </motion.div>
-            )}
-          </AnimatePresence>
 
           {/* Menu Content */}
           <motion.div
@@ -267,7 +230,7 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
             transition={{ duration: 0.6, delay: 0.5 }}
             viewport={{ once: true }}
           >
-            {displayedDishes.length === 0 ? (
+            {paginatedDishes.length === 0 ? (
               <EmptyState
                 t={t}
                 hasActiveFilters={hasActiveFilters}
@@ -277,7 +240,7 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
               <>
                 {/* Results Counter */}
                 <motion.div
-                  className="hidden lg:flex items-center justify-between mb-8"
+                  className="flex items-center justify-between mb-8"
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
@@ -290,18 +253,28 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
                       className="text-lg font-semibold text-gray-800"
                       style={{ fontFamily: "Inter, sans-serif" }}
                     >
-                      {t.showing} {displayedDishes.length} /{" "}
-                      {filterStats.totalResults} {t.dishesFound}
+                      {filterStats.totalResults > 0 && (
+                        <>
+                          Affichage {filterStats.startIndex}-
+                          {filterStats.endIndex} sur {filterStats.totalResults}{" "}
+                          plats
+                        </>
+                      )}
                     </p>
+                  </div>
+
+                  {/* Page indicator for mobile */}
+                  <div className="lg:hidden text-sm text-gray-600">
+                    Page {filterStats.currentPage}/{totalPages}
                   </div>
                 </motion.div>
 
-                {/* Dishes Grid with Lazy Loading */}
+                {/* Dishes Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
-                  <AnimatePresence mode="popLayout">
-                    {displayedDishes.map((dish, index) => (
+                  <AnimatePresence mode="wait">
+                    {paginatedDishes.map((dish, index) => (
                       <motion.div
-                        key={dish.id}
+                        key={`${dish.id}-${filters.currentPage}`}
                         layout
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
@@ -322,22 +295,46 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
                   </AnimatePresence>
                 </div>
 
-                {/* Load More Indicator */}
-                {filterStats.hasMore && (
-                  <div className="text-center">
-                    {isLoading ? (
-                      <LoadingSpinner />
-                    ) : (
-                      <motion.button
-                        onClick={loadMoreItems}
-                        className="bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-semibold px-8 py-3 rounded-full hover:from-yellow-300 hover:to-amber-400 transition-all duration-300"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        Charger plus de plats
-                      </motion.button>
-                    )}
-                  </div>
+                {/* Pagination Controls */}
+                {totalPages > 1 && (
+                  <motion.div
+                    className="flex flex-wrap items-center justify-center gap-2"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    {/* Previous Button */}
+                    <PaginationButton
+                      onClick={goToPreviousPage}
+                      disabled={!filterStats.hasPreviousPage}
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                    </PaginationButton>
+
+                    {/* Page Numbers */}
+                    {pageNumbers.map((pageNum, index) => (
+                      <React.Fragment key={index}>
+                        {pageNum === -1 ? (
+                          <span className="px-2 text-gray-400">...</span>
+                        ) : (
+                          <PaginationButton
+                            onClick={() => setCurrentPage(pageNum)}
+                            isActive={pageNum === filters.currentPage}
+                          >
+                            {pageNum}
+                          </PaginationButton>
+                        )}
+                      </React.Fragment>
+                    ))}
+
+                    {/* Next Button */}
+                    <PaginationButton
+                      onClick={goToNextPage}
+                      disabled={!filterStats.hasNextPage}
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </PaginationButton>
+                  </motion.div>
                 )}
               </>
             )}

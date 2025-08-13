@@ -16,7 +16,6 @@ export interface Dish {
   isWeekendOnly?: boolean;
   availability?: string;
   priceRange?: string;
-  spiceLevel?: 0 | 1 | 2 | 3;
   preparationTime?: number;
   allergens?: string[];
   tags?: string[];
@@ -97,9 +96,7 @@ export const menuCategories: MenuCategory[] = [
   },
 ];
 
-// ===== BASE DE DONNÉES COMPLÈTE =====
 export const allDishes: Dish[] = [
-  // ===== SPÉCIALITÉS MAISON =====
   {
     id: "eru",
     name: { fr: "Eru", en: "Eru" },
@@ -111,7 +108,6 @@ export const allDishes: Dish[] = [
     category: "specialites",
     image: "/images/plats/eru.jpg",
     isSignature: true,
-    spiceLevel: 2,
     preparationTime: 45,
     tags: ["traditionnel", "camerounais"],
   },
@@ -126,7 +122,6 @@ export const allDishes: Dish[] = [
     category: "specialites",
     image: "/images/plats/kontchap.jpg",
     isSignature: true,
-    spiceLevel: 1,
     preparationTime: 35,
   },
   {
@@ -141,7 +136,6 @@ export const allDishes: Dish[] = [
     image: "/images/plats/ndole-mixte.jpg",
     isSignature: true,
     isPopular: true,
-    spiceLevel: 1,
     preparationTime: 40,
     allergens: ["cacahuètes"],
   },
@@ -159,52 +153,47 @@ export const allDishes: Dish[] = [
     category: "specialites",
     image: "/images/plats/macabo-ndole.jpg",
     isSignature: true,
-    spiceLevel: 1,
     preparationTime: 50,
   },
   {
     id: "brochettes",
     name: { fr: "Brochettes", en: "Skewers" },
     description: {
-      fr: "Brochettes de viande grillée aux épices africaines, disponible weekends uniquement",
-      en: "Grilled meat skewers with African spices, available weekends only",
+      fr: "Brochettes de viande grillée aux épices africaines, saveurs authentiques",
+      en: "Grilled meat skewers with African spices, authentic flavors",
     },
     price: 10,
     category: "specialites",
     image: "/images/plats/brochettes.jpg",
     isSignature: true,
-    isWeekendOnly: true,
-    availability: "Samedi & Dimanche",
-    spiceLevel: 2,
     preparationTime: 25,
   },
   {
     id: "taro-sauce-jaune",
     name: { fr: "Taro Sauce Jaune", en: "Taro Yellow Sauce" },
     description: {
-      fr: "Taro accompagné d'une sauce jaune épicée, spécialité weekend",
-      en: "Taro served with spicy yellow sauce, weekend specialty",
+      fr: "Taro accompagné d'une sauce jaune épicée, spécialité weekend uniquement",
+      en: "Taro served with spicy yellow sauce, weekend specialty only",
     },
     price: 15,
     category: "specialites",
     image: "/images/plats/taro-sauce.jpg",
     isWeekendOnly: true,
     availability: "Samedi & Dimanche",
-    spiceLevel: 2,
     preparationTime: 45,
   },
   {
     id: "beignets-haricot",
     name: { fr: "Beignets Haricot", en: "Bean Fritters" },
     description: {
-      fr: "Beignets croustillants aux haricots, spécialité locale parfaite pour l'apéritif",
-      en: "Crispy bean fritters, local specialty perfect as appetizer",
+      fr: "Beignets croustillants aux haricots, spécialité weekend parfaite pour l'apéritif",
+      en: "Crispy bean fritters, weekend specialty perfect as appetizer",
     },
     price: 8,
     category: "specialites",
     image: "/images/plats/beignets.jpg",
     isWeekendOnly: true,
-    spiceLevel: 0,
+    availability: "Samedi & Dimanche",
     preparationTime: 20,
     tags: ["végétarien", "apéritif"],
   },
@@ -220,7 +209,6 @@ export const allDishes: Dish[] = [
     price: 15,
     category: "viandes",
     image: "/images/plats/viande-tomate.jpg",
-    spiceLevel: 2,
     preparationTime: 40,
   },
   {
@@ -234,7 +222,6 @@ export const allDishes: Dish[] = [
     category: "viandes",
     image: "/images/plats/viande-arachide.jpg",
     isPopular: true,
-    spiceLevel: 1,
     preparationTime: 45,
     allergens: ["cacahuètes"],
   },
@@ -248,7 +235,6 @@ export const allDishes: Dish[] = [
     price: 15,
     category: "viandes",
     image: "/images/plats/viande-ndole.jpg",
-    spiceLevel: 1,
     preparationTime: 45,
     allergens: ["cacahuètes"],
   },
@@ -262,7 +248,6 @@ export const allDishes: Dish[] = [
     price: 15,
     category: "viandes",
     image: "/images/plats/viande-legumes.jpg",
-    spiceLevel: 1,
     preparationTime: 35,
   },
   {
@@ -275,7 +260,6 @@ export const allDishes: Dish[] = [
     price: 15,
     category: "viandes",
     image: "/images/plats/viande-pistache.jpg",
-    spiceLevel: 1,
     preparationTime: 40,
   },
   {
@@ -288,7 +272,6 @@ export const allDishes: Dish[] = [
     price: 15,
     category: "viandes",
     image: "/images/plats/viande-gombo.jpg",
-    spiceLevel: 1,
     preparationTime: 40,
   },
   {
@@ -301,7 +284,6 @@ export const allDishes: Dish[] = [
     price: 15,
     category: "viandes",
     image: "/images/plats/viande-pistache-gombo.jpg",
-    spiceLevel: 1,
     preparationTime: 45,
   },
   {
@@ -314,7 +296,6 @@ export const allDishes: Dish[] = [
     price: 15,
     category: "viandes",
     image: "/images/plats/porc.jpg",
-    spiceLevel: 1,
     preparationTime: 35,
   },
   {
@@ -327,7 +308,6 @@ export const allDishes: Dish[] = [
     price: 12.5,
     category: "viandes",
     image: "/images/plats/chevre.jpg",
-    spiceLevel: 2,
     preparationTime: 50,
   },
   {
@@ -340,7 +320,6 @@ export const allDishes: Dish[] = [
     price: 12.5,
     category: "viandes",
     image: "/images/plats/rognons.jpg",
-    spiceLevel: 2,
     preparationTime: 30,
   },
   {
@@ -353,7 +332,6 @@ export const allDishes: Dish[] = [
     price: 12.5,
     category: "viandes",
     image: "/images/plats/tripes.jpg",
-    spiceLevel: 2,
     preparationTime: 45,
   },
   {
@@ -366,7 +344,6 @@ export const allDishes: Dish[] = [
     price: 7,
     category: "viandes",
     image: "/images/plats/petits-os.jpg",
-    spiceLevel: 1,
     preparationTime: 25,
   },
 
@@ -382,7 +359,6 @@ export const allDishes: Dish[] = [
     category: "poulets",
     image: "/images/plats/poulet-dg.jpg",
     isPopular: true,
-    spiceLevel: 1,
     preparationTime: 35,
   },
   {
@@ -395,7 +371,6 @@ export const allDishes: Dish[] = [
     price: 15,
     category: "poulets",
     image: "/images/plats/poulet-arachide.jpg",
-    spiceLevel: 1,
     preparationTime: 40,
     allergens: ["cacahuètes"],
   },
@@ -409,7 +384,6 @@ export const allDishes: Dish[] = [
     price: 15,
     category: "poulets",
     image: "/images/plats/poulet-ndole.jpg",
-    spiceLevel: 1,
     preparationTime: 40,
     allergens: ["cacahuètes"],
   },
@@ -426,7 +400,6 @@ export const allDishes: Dish[] = [
     price: 15,
     category: "poulets",
     image: "/images/plats/poulet-legumes.jpg",
-    spiceLevel: 1,
     preparationTime: 30,
   },
   {
@@ -439,7 +412,6 @@ export const allDishes: Dish[] = [
     price: 15,
     category: "poulets",
     image: "/images/plats/poulet-pistache.jpg",
-    spiceLevel: 1,
     preparationTime: 35,
   },
   {
@@ -452,7 +424,6 @@ export const allDishes: Dish[] = [
     price: 15,
     category: "poulets",
     image: "/images/plats/poulet-gombo.jpg",
-    spiceLevel: 1,
     preparationTime: 35,
   },
   {
@@ -468,7 +439,6 @@ export const allDishes: Dish[] = [
     price: 15,
     category: "poulets",
     image: "/images/plats/poulet-pistache-gombo.jpg",
-    spiceLevel: 1,
     preparationTime: 40,
   },
   {
@@ -481,7 +451,6 @@ export const allDishes: Dish[] = [
     price: 15,
     category: "poulets",
     image: "/images/plats/poulet-tomate.jpg",
-    spiceLevel: 2,
     preparationTime: 35,
   },
   {
@@ -494,7 +463,7 @@ export const allDishes: Dish[] = [
     price: 15,
     category: "poulets",
     image: "/images/plats/poulet-braise.jpg",
-    spiceLevel: 2,
+    isPopular: true,
     preparationTime: 30,
   },
   {
@@ -507,7 +476,6 @@ export const allDishes: Dish[] = [
     price: 7,
     category: "poulets",
     image: "/images/plats/ailes-poulet.jpg",
-    spiceLevel: 2,
     preparationTime: 20,
   },
 
@@ -522,7 +490,6 @@ export const allDishes: Dish[] = [
     price: 15,
     category: "poissons",
     image: "/images/plats/poisson-arachide.jpg",
-    spiceLevel: 1,
     preparationTime: 35,
     allergens: ["cacahuètes"],
   },
@@ -536,7 +503,7 @@ export const allDishes: Dish[] = [
     price: 15,
     category: "poissons",
     image: "/images/plats/poisson-tomate.jpg",
-    spiceLevel: 2,
+    isPopular: true,
     preparationTime: 30,
   },
   {
@@ -549,7 +516,6 @@ export const allDishes: Dish[] = [
     price: 15,
     category: "poissons",
     image: "/images/plats/poisson-pistache.jpg",
-    spiceLevel: 1,
     preparationTime: 30,
   },
   {
@@ -562,7 +528,6 @@ export const allDishes: Dish[] = [
     price: 15,
     category: "poissons",
     image: "/images/plats/poisson-gombo.jpg",
-    spiceLevel: 1,
     preparationTime: 30,
   },
   {
@@ -578,7 +543,6 @@ export const allDishes: Dish[] = [
     price: 15,
     category: "poissons",
     image: "/images/plats/poisson-pistache-gombo.jpg",
-    spiceLevel: 1,
     preparationTime: 35,
   },
   {
@@ -591,7 +555,6 @@ export const allDishes: Dish[] = [
     price: 15,
     category: "poissons",
     image: "/images/plats/poisson-ndole.jpg",
-    spiceLevel: 1,
     preparationTime: 35,
     allergens: ["cacahuètes"],
   },
@@ -606,7 +569,6 @@ export const allDishes: Dish[] = [
     category: "poissons",
     image: "/images/plats/maquereau.jpg",
     priceRange: "À partir de",
-    spiceLevel: 1,
     preparationTime: 25,
   },
   {
@@ -620,7 +582,6 @@ export const allDishes: Dish[] = [
     category: "poissons",
     image: "/images/plats/bar.jpg",
     priceRange: "À partir de",
-    spiceLevel: 1,
     preparationTime: 30,
   },
   {
@@ -634,7 +595,6 @@ export const allDishes: Dish[] = [
     category: "poissons",
     image: "/images/plats/tilapia.jpg",
     priceRange: "À partir de",
-    spiceLevel: 1,
     preparationTime: 25,
   },
   {
@@ -647,8 +607,6 @@ export const allDishes: Dish[] = [
     price: 35,
     category: "poissons",
     image: "/images/plats/sole.jpg",
-    isSignature: true,
-    spiceLevel: 0,
     preparationTime: 35,
   },
   {
@@ -661,7 +619,6 @@ export const allDishes: Dish[] = [
     price: 15,
     category: "poissons",
     image: "/images/plats/poisson-legumes.jpg",
-    spiceLevel: 1,
     preparationTime: 25,
   },
 
@@ -676,7 +633,7 @@ export const allDishes: Dish[] = [
     price: 3.5,
     category: "complements",
     image: "/images/complements/plantains-frits.jpg",
-    spiceLevel: 0,
+    isPopular: true,
     preparationTime: 10,
     tags: ["végétarien"],
   },
@@ -690,7 +647,6 @@ export const allDishes: Dish[] = [
     price: 3.5,
     category: "complements",
     image: "/images/complements/plantains-tapes.jpg",
-    spiceLevel: 0,
     preparationTime: 15,
     tags: ["végétarien"],
   },
@@ -704,7 +660,6 @@ export const allDishes: Dish[] = [
     price: 5,
     category: "complements",
     image: "/images/complements/wata-fufu.jpg",
-    spiceLevel: 0,
     preparationTime: 20,
     tags: ["traditionnel"],
   },
@@ -718,7 +673,6 @@ export const allDishes: Dish[] = [
     price: 5,
     category: "complements",
     image: "/images/complements/igname.jpg",
-    spiceLevel: 0,
     preparationTime: 25,
     tags: ["végétarien", "sain"],
   },
@@ -732,7 +686,6 @@ export const allDishes: Dish[] = [
     price: 5,
     category: "complements",
     image: "/images/complements/plantain-vapeur.jpg",
-    spiceLevel: 0,
     preparationTime: 20,
     tags: ["végétarien"],
   },
@@ -746,7 +699,6 @@ export const allDishes: Dish[] = [
     price: 7,
     category: "complements",
     image: "/images/complements/patate-vapeur.jpg",
-    spiceLevel: 0,
     preparationTime: 30,
     tags: ["végétarien", "sucré"],
   },
@@ -760,7 +712,6 @@ export const allDishes: Dish[] = [
     price: 5,
     category: "complements",
     image: "/images/complements/patate-frittes.jpg",
-    spiceLevel: 0,
     preparationTime: 15,
     tags: ["végétarien"],
   },
@@ -774,7 +725,6 @@ export const allDishes: Dish[] = [
     price: 3.5,
     category: "complements",
     image: "/images/complements/riz.jpg",
-    spiceLevel: 0,
     preparationTime: 20,
     tags: ["végétarien"],
   },
@@ -788,7 +738,6 @@ export const allDishes: Dish[] = [
     price: 3.5,
     category: "complements",
     image: "/images/complements/semoule.jpg",
-    spiceLevel: 0,
     preparationTime: 15,
     tags: ["végétarien"],
   },
@@ -802,7 +751,6 @@ export const allDishes: Dish[] = [
     price: 3.5,
     category: "complements",
     image: "/images/complements/bobolo.jpg",
-    spiceLevel: 0,
     preparationTime: 10,
     tags: ["traditionnel", "camerounais"],
   },
@@ -965,7 +913,7 @@ export const allDishes: Dish[] = [
     tags: ["aromatisée", "tequila"],
   },
 
-  // ===== BIÈRES CAMEROUNAISES =====
+  // ===== BIÈRES CAMEROUNAISES (TOUTES SIGNATURE) =====
   {
     id: "petite-guinness-camerounaise",
     name: { fr: "Petite Guinness", en: "Small Guinness" },
@@ -1016,6 +964,7 @@ export const allDishes: Dish[] = [
     price: 8,
     category: "bieres",
     image: "/images/bieres/kadji.jpg",
+    isSignature: true,
     tags: ["camerounaise", "traditionnelle"],
   },
   {
@@ -1028,6 +977,7 @@ export const allDishes: Dish[] = [
     price: 8,
     category: "bieres",
     image: "/images/bieres/isenbeck.jpg",
+    isSignature: true,
     tags: ["camerounaise", "premium"],
   },
   {
@@ -1040,6 +990,7 @@ export const allDishes: Dish[] = [
     price: 8,
     category: "bieres",
     image: "/images/bieres/mutzig.jpg",
+    isSignature: true,
     tags: ["camerounaise", "blonde"],
   },
   {
@@ -1052,6 +1003,7 @@ export const allDishes: Dish[] = [
     price: 8,
     category: "bieres",
     image: "/images/bieres/castel.jpg",
+    isSignature: true,
     tags: ["camerounaise"],
   },
   {
@@ -1064,6 +1016,7 @@ export const allDishes: Dish[] = [
     price: 8,
     category: "bieres",
     image: "/images/bieres/origine.jpg",
+    isSignature: true,
     tags: ["camerounaise", "originelle"],
   },
   {
@@ -1076,6 +1029,7 @@ export const allDishes: Dish[] = [
     price: 9,
     category: "bieres",
     image: "/images/bieres/booster.jpg",
+    isSignature: true,
     tags: ["camerounaise", "énergisante"],
   },
 
@@ -1434,7 +1388,7 @@ export const allDishes: Dish[] = [
   },
 ];
 
-// ===== FONCTIONS UTILITAIRES MISES À JOUR =====
+// ===== FONCTIONS UTILITAIRES MISES À JOUR (SANS SPICE LEVEL) =====
 export const getDishesByCategory = (categoryId: string): Dish[] => {
   if (categoryId === "all") return allDishes;
   return allDishes.filter((dish) => dish.category === categoryId);
@@ -1473,10 +1427,6 @@ export const getDishById = (id: string): Dish | undefined => {
 
 export const getDishesByPriceRange = (min: number, max: number): Dish[] => {
   return allDishes.filter((dish) => dish.price >= min && dish.price <= max);
-};
-
-export const getDishesBySpiceLevel = (level: 0 | 1 | 2 | 3): Dish[] => {
-  return allDishes.filter((dish) => dish.spiceLevel === level);
 };
 
 // ===== STATISTIQUES DU MENU MISES À JOUR =====
@@ -1520,13 +1470,6 @@ export const menuTranslations = {
     priceFrom: "À partir de",
     preparationTime: "Temps de préparation",
     minutes: "minutes",
-    spiceLevel: "Niveau d'épice",
-    spiceLevels: [
-      "Doux",
-      "Légèrement épicé",
-      "Moyennement épicé",
-      "Très épicé",
-    ],
     allergens: "Allergènes",
     signature: "Signature",
     popular: "Populaire",
@@ -1535,7 +1478,6 @@ export const menuTranslations = {
       all: "Tout",
       search: "Rechercher...",
       priceRange: "Gamme de prix",
-      spiceLevel: "Niveau d'épice",
       category: "Catégorie",
     },
   },
@@ -1556,8 +1498,6 @@ export const menuTranslations = {
     priceFrom: "Starting from",
     preparationTime: "Preparation time",
     minutes: "minutes",
-    spiceLevel: "Spice level",
-    spiceLevels: ["Mild", "Slightly spicy", "Moderately spicy", "Very spicy"],
     allergens: "Allergens",
     signature: "Signature",
     popular: "Popular",
@@ -1566,7 +1506,6 @@ export const menuTranslations = {
       all: "All",
       search: "Search...",
       priceRange: "Price Range",
-      spiceLevel: "Spice Level",
       category: "Category",
     },
   },
@@ -1593,6 +1532,5 @@ export default {
   searchDishes,
   getDishById,
   getDishesByPriceRange,
-  getDishesBySpiceLevel,
   featuredDishes,
 };

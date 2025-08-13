@@ -1,6 +1,4 @@
-// src/hooks/useMenuFilters.ts
-
-import { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { Dish } from "./menuData";
 
 interface FilterState {
@@ -10,7 +8,6 @@ interface FilterState {
   showPopular: boolean;
   showWeekendOnly: boolean;
   priceRange: [number, number];
-  spiceLevel: number | null;
   currentPage: number;
   itemsPerPage: number;
 }
@@ -18,7 +15,7 @@ interface FilterState {
 export const useMenuFilters = (
   dishes: Dish[],
   language: "fr" | "en",
-  initialItemsPerPage: number = 12
+  itemsPerPage: number = 20
 ) => {
   // État des filtres
   const [filters, setFilters] = useState<FilterState>({
@@ -28,14 +25,9 @@ export const useMenuFilters = (
     showPopular: false,
     showWeekendOnly: false,
     priceRange: [0, 100],
-    spiceLevel: null,
     currentPage: 1,
-    itemsPerPage: initialItemsPerPage,
+    itemsPerPage: itemsPerPage,
   });
-
-  // État pour le lazy loading
-  const [displayedItems, setDisplayedItems] = useState(initialItemsPerPage);
-  const [isLoading, setIsLoading] = useState(false);
 
   // Calcul des prix min et max
   const priceStats = useMemo(() => {
@@ -91,11 +83,6 @@ export const useMenuFilters = (
       );
     }
 
-    // Filtre par niveau d'épice
-    if (filters.spiceLevel !== null) {
-      result = result.filter((dish) => dish.spiceLevel === filters.spiceLevel);
-    }
-
     return result;
   }, [
     dishes,
@@ -105,21 +92,66 @@ export const useMenuFilters = (
     filters.showPopular,
     filters.showWeekendOnly,
     filters.priceRange,
-    filters.spiceLevel,
     language,
     priceStats,
   ]);
 
+  // Calcul de la pagination
+  const totalPages = useMemo(() => {
+    return Math.ceil(filteredDishes.length / filters.itemsPerPage);
+  }, [filteredDishes.length, filters.itemsPerPage]);
+
+  // Plats de la page actuelle
   const paginatedDishes = useMemo(() => {
     const startIndex = (filters.currentPage - 1) * filters.itemsPerPage;
     const endIndex = startIndex + filters.itemsPerPage;
     return filteredDishes.slice(startIndex, endIndex);
   }, [filteredDishes, filters.currentPage, filters.itemsPerPage]);
 
-  const displayedDishes = useMemo(() => {
-    return filteredDishes.slice(0, displayedItems);
-  }, [filteredDishes, displayedItems]);
+  // Calcul des numéros de pages à afficher
+  const pageNumbers = useMemo(() => {
+    const pages: number[] = [];
+    const maxVisiblePages = 5;
 
+    if (totalPages <= maxVisiblePages) {
+      // Si moins de 5 pages, on les affiche toutes
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      // Logique pour afficher ... quand il y a beaucoup de pages
+      const currentPage = filters.currentPage;
+
+      if (currentPage <= 3) {
+        // Début : 1 2 3 4 ... dernière
+        for (let i = 1; i <= 4; i++) {
+          pages.push(i);
+        }
+        pages.push(-1); // -1 représente "..."
+        pages.push(totalPages);
+      } else if (currentPage >= totalPages - 2) {
+        // Fin : 1 ... avant-avant-dernière avant-dernière dernière
+        pages.push(1);
+        pages.push(-1);
+        for (let i = totalPages - 3; i <= totalPages; i++) {
+          pages.push(i);
+        }
+      } else {
+        // Milieu : 1 ... current-1 current current+1 ... dernière
+        pages.push(1);
+        pages.push(-1);
+        pages.push(currentPage - 1);
+        pages.push(currentPage);
+        pages.push(currentPage + 1);
+        pages.push(-1);
+        pages.push(totalPages);
+      }
+    }
+
+    return pages;
+  }, [totalPages, filters.currentPage]);
+
+  // Comptage des plats par catégorie
   const dishCounts = useMemo(() => {
     const counts: Record<string, number> = { all: filteredDishes.length };
 
@@ -149,10 +181,6 @@ export const useMenuFilters = (
           dish.price <= filters.priceRange[1];
       }
 
-      if (filters.spiceLevel !== null) {
-        passes = passes && dish.spiceLevel === filters.spiceLevel;
-      }
-
       return passes;
     });
 
@@ -172,8 +200,7 @@ export const useMenuFilters = (
       filters.showPopular ||
       filters.showWeekendOnly ||
       filters.priceRange[0] > priceStats.min ||
-      filters.priceRange[1] < priceStats.max ||
-      filters.spiceLevel !== null
+      filters.priceRange[1] < priceStats.max
     );
   }, [filters, priceStats]);
 
@@ -183,11 +210,11 @@ export const useMenuFilters = (
       setFilters((prev) => ({
         ...prev,
         [key]: value,
-        currentPage: 1, // Reset page on filter change
+        // Reset à la page 1 quand on change les filtres
+        currentPage: key !== "currentPage" ? 1 : prev.currentPage,
       }));
-      setDisplayedItems(initialItemsPerPage); // Reset lazy loading
     },
-    [initialItemsPerPage]
+    []
   );
 
   const setActiveCategory = useCallback(
@@ -223,19 +250,32 @@ export const useMenuFilters = (
     [updateFilter]
   );
 
-  const setSpiceLevel = useCallback(
-    (level: number | null) => {
-      updateFilter("spiceLevel", level);
-    },
-    [updateFilter]
-  );
-
   const setCurrentPage = useCallback(
     (page: number) => {
-      updateFilter("currentPage", page);
+      // Validation de la page
+      if (page >= 1 && page <= totalPages) {
+        updateFilter("currentPage", page);
+        // Scroll vers le haut de la section menu
+        const menuSection = document.getElementById("menu");
+        if (menuSection) {
+          menuSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
     },
-    [updateFilter]
+    [updateFilter, totalPages]
   );
+
+  const goToNextPage = useCallback(() => {
+    if (filters.currentPage < totalPages) {
+      setCurrentPage(filters.currentPage + 1);
+    }
+  }, [filters.currentPage, totalPages, setCurrentPage]);
+
+  const goToPreviousPage = useCallback(() => {
+    if (filters.currentPage > 1) {
+      setCurrentPage(filters.currentPage - 1);
+    }
+  }, [filters.currentPage, setCurrentPage]);
 
   const clearAllFilters = useCallback(() => {
     setFilters({
@@ -245,49 +285,27 @@ export const useMenuFilters = (
       showPopular: false,
       showWeekendOnly: false,
       priceRange: [priceStats.min, priceStats.max],
-      spiceLevel: null,
       currentPage: 1,
-      itemsPerPage: initialItemsPerPage,
+      itemsPerPage: itemsPerPage,
     });
-    setDisplayedItems(initialItemsPerPage);
-  }, [priceStats, initialItemsPerPage]);
-
-  // Fonction pour charger plus d'éléments (lazy loading)
-  const loadMoreItems = useCallback(() => {
-    if (displayedItems < filteredDishes.length && !isLoading) {
-      setIsLoading(true);
-
-      // Simuler un délai de chargement
-      setTimeout(() => {
-        setDisplayedItems((prev) =>
-          Math.min(prev + initialItemsPerPage, filteredDishes.length)
-        );
-        setIsLoading(false);
-      }, 500);
-    }
-  }, [displayedItems, filteredDishes.length, initialItemsPerPage, isLoading]);
-
-  // Fonction pour détecter le scroll
-  useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.innerHeight + window.scrollY >=
-        document.documentElement.scrollHeight - 100
-      ) {
-        loadMoreItems();
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [loadMoreItems]);
+  }, [priceStats, itemsPerPage]);
 
   // Statistiques des filtres
-  const filterStats = useMemo(
-    () => ({
+  const filterStats = useMemo(() => {
+    const startIndex = (filters.currentPage - 1) * filters.itemsPerPage + 1;
+    const endIndex = Math.min(
+      filters.currentPage * filters.itemsPerPage,
+      filteredDishes.length
+    );
+
+    return {
       totalResults: filteredDishes.length,
-      totalPages: Math.ceil(filteredDishes.length / filters.itemsPerPage),
-      hasMore: displayedItems < filteredDishes.length,
+      totalPages: totalPages,
+      currentPage: filters.currentPage,
+      startIndex: filteredDishes.length > 0 ? startIndex : 0,
+      endIndex: endIndex,
+      hasNextPage: filters.currentPage < totalPages,
+      hasPreviousPage: filters.currentPage > 1,
       activeFiltersCount: [
         filters.activeCategory !== "all",
         filters.searchTerm.length > 0,
@@ -296,20 +314,24 @@ export const useMenuFilters = (
         filters.showWeekendOnly,
         filters.priceRange[0] > priceStats.min ||
           filters.priceRange[1] < priceStats.max,
-        filters.spiceLevel !== null,
       ].filter(Boolean).length,
-    }),
-    [filteredDishes, filters, displayedItems, priceStats]
-  );
+    };
+  }, [filteredDishes, filters, totalPages, priceStats]);
 
   return {
     // État des filtres
     filters,
 
-    // Données filtrées
+    // Données filtrées et paginées
     filteredDishes,
     paginatedDishes,
-    displayedDishes,
+
+    // Pagination
+    totalPages,
+    pageNumbers,
+    setCurrentPage,
+    goToNextPage,
+    goToPreviousPage,
 
     // Statistiques
     dishCounts,
@@ -317,19 +339,13 @@ export const useMenuFilters = (
     filterStats,
     priceStats,
 
-    // Fonctions de mise à jour
+    // Fonctions de mise à jour des filtres
     setActiveCategory,
     setSearchTerm,
     toggleSignature,
     togglePopular,
     toggleWeekendOnly,
     setPriceRange,
-    setSpiceLevel,
-    setCurrentPage,
     clearAllFilters,
-    loadMoreItems,
-
-    // État du chargement
-    isLoading,
   };
 };
