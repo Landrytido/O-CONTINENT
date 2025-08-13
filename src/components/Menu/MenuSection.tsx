@@ -113,7 +113,6 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
 
   const t = menuTranslations[language];
 
-  // Utilisation du hook avec pagination
   const {
     filters,
     paginatedDishes,
@@ -165,7 +164,6 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Section Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -195,7 +193,6 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
             />
           </motion.div>
 
-          {/* Filters */}
           <motion.div
             className="mb-12"
             initial={{ opacity: 0, y: 20 }}
@@ -223,7 +220,6 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
             />
           </motion.div>
 
-          {/* Menu Content */}
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -238,7 +234,6 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
               />
             ) : (
               <>
-                {/* Results Counter */}
                 <motion.div
                   className="flex items-center justify-between mb-8"
                   initial={{ opacity: 0, y: -10 }}
@@ -263,13 +258,11 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
                     </p>
                   </div>
 
-                  {/* Page indicator for mobile */}
                   <div className="lg:hidden text-sm text-gray-600">
                     Page {filterStats.currentPage}/{totalPages}
                   </div>
                 </motion.div>
 
-                {/* Dishes Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
                   <AnimatePresence mode="wait">
                     {paginatedDishes.map((dish, index) => (
@@ -295,7 +288,6 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
                   </AnimatePresence>
                 </div>
 
-                {/* Pagination Controls */}
                 {totalPages > 1 && (
                   <motion.div
                     className="flex flex-wrap items-center justify-center gap-2"
@@ -303,7 +295,6 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                   >
-                    {/* Previous Button */}
                     <PaginationButton
                       onClick={goToPreviousPage}
                       disabled={!filterStats.hasPreviousPage}
@@ -311,7 +302,6 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
                       <ChevronLeft className="w-4 h-4" />
                     </PaginationButton>
 
-                    {/* Page Numbers */}
                     {pageNumbers.map((pageNum, index) => (
                       <React.Fragment key={index}>
                         {pageNum === -1 ? (
@@ -327,7 +317,6 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
                       </React.Fragment>
                     ))}
 
-                    {/* Next Button */}
                     <PaginationButton
                       onClick={goToNextPage}
                       disabled={!filterStats.hasNextPage}
@@ -341,7 +330,6 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
           </motion.div>
         </div>
 
-        {/* Dish Modal with Lazy Loading */}
         <Suspense fallback={<LoadingSpinner />}>
           <AnimatePresence>
             {isModalOpen && selectedDish && (
