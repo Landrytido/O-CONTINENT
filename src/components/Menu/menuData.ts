@@ -606,7 +606,7 @@ export const allDishes: Dish[] = [
     },
     price: 20,
     category: "poissons",
-    image: "/images/plats/tilapia.jpg",
+    image: "/TCHOP/tilapia.jpg",
     priceRange: "À partir de",
     preparationTime: 25,
   },
@@ -619,7 +619,7 @@ export const allDishes: Dish[] = [
     },
     price: 35,
     category: "poissons",
-    image: "/images/plats/sole.jpg",
+    image: "/TCHOP/Sole.jpeg",
     preparationTime: 35,
   },
   {
@@ -631,7 +631,7 @@ export const allDishes: Dish[] = [
     },
     price: 15,
     category: "poissons",
-    image: "/images/plats/poisson-legumes.jpg",
+    image: "/TCHOP/PoissonLégumesSautés.jpeg",
     preparationTime: 25,
   },
 
