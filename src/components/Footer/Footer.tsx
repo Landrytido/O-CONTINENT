@@ -179,18 +179,7 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
                     CONTINENG
                   </span>
 
-                  {/* Effet de brillance
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                    initial={{ x: '-100%' }}
-                    animate={{ x: '200%' }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      repeatDelay: 5,
-                      ease: "easeInOut"
-                    }}
-                  /> */}
+                  {/* logo text */}
                 </h2>
               </motion.div>
 
@@ -305,10 +294,10 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
                   { href: "#menu", label: t.quickLinks.menu },
                   { href: "#reservation", label: t.quickLinks.reservation },
 
-                  { href: "#reservation", label: t.quickLinks.contact },
+                  { href: "#contact", label: t.quickLinks.contact },
                 ].map((link, index) => (
                   <motion.li
-                    key={link.href}
+                    key={`${link.href}-${index}`}
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}

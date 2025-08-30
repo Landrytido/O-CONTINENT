@@ -147,14 +147,7 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
   const [showFullListOnMobile, setShowFullListOnMobile] = useState(false);
 
   useEffect(() => {
-    console.log("🎯 MenuSection - Données reçues du hook:", {
-      currentPage: filters.currentPage,
-      totalPages,
-      paginatedDishesLength: paginatedDishes.length,
-      firstDishId: paginatedDishes[0]?.id,
-      lastDishId: paginatedDishes[paginatedDishes.length - 1]?.id,
-      filterStats,
-    });
+    // effect retained for potential telemetry integration
   }, [filters.currentPage, totalPages, paginatedDishes, filterStats]);
 
   const handleDishClick = useCallback((dish: Dish) => {
@@ -246,7 +239,7 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
           </motion.div>
 
           <motion.div
-            key={renderKey} // Force re-render
+            key={renderKey}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
