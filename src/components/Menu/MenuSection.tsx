@@ -15,9 +15,10 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { useMenuFilters } from "./useMenuFilters";
-import { allDishes, menuCategories, menuTranslations } from "./menuData";
+import { allDishes, menuCategories, menuTranslations, Dish } from "./menuData";
 import MenuFilters from "./MenuFilters";
 import DishCard from "./DishCard";
+import MenuRowCarousel from "./MenuRowCarousel";
 
 const DishModal = lazy(() => import("./DishModal"));
 
@@ -42,7 +43,7 @@ const EmptyState = memo(
     hasActiveFilters,
     onClearFilters,
   }: {
-    t: any;
+    t: (typeof menuTranslations)["fr"] | (typeof menuTranslations)["en"];
     hasActiveFilters: boolean;
     onClearFilters: () => void;
   }) => (
@@ -115,7 +116,7 @@ const PaginationButton = memo(
 );
 
 const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
-  const [selectedDish, setSelectedDish] = useState<any | null>(null);
+  const [selectedDish, setSelectedDish] = useState<Dish | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const t = menuTranslations[language];
@@ -143,6 +144,8 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
     clearAllFilters,
   } = hookResult;
 
+  const [showFullListOnMobile, setShowFullListOnMobile] = useState(false);
+
   useEffect(() => {
     console.log("🎯 MenuSection - Données reçues du hook:", {
       currentPage: filters.currentPage,
@@ -154,7 +157,7 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
     });
   }, [filters.currentPage, totalPages, paginatedDishes, filterStats]);
 
-  const handleDishClick = useCallback((dish: any) => {
+  const handleDishClick = useCallback((dish: Dish) => {
     setSelectedDish(dish);
     setIsModalOpen(true);
   }, []);
@@ -282,10 +285,19 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
 
                   <div className="lg:hidden text-sm text-gray-600">
                     Page {filterStats.currentPage}/{totalPages}
+                    <button
+                      onClick={() => setShowFullListOnMobile((s) => !s)}
+                      className="ml-3 text-yellow-600 underline text-sm"
+                    >
+                      {showFullListOnMobile
+                        ? "Voir carrousels"
+                        : "Voir la liste complète"}
+                    </button>
                   </div>
                 </motion.div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
+                {/* Desktop / Tablet Grid */}
+                <div className="hidden lg:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
                   {paginatedDishes.map((dish, index) => (
                     <motion.div
                       key={`${dish.id}`}
@@ -304,6 +316,44 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
                       />
                     </motion.div>
                   ))}
+                </div>
+
+                {/* Mobile: chunk paginatedDishes into rows of size 8 and render as horizontal carousels or show full vertical list */}
+                <div className="lg:hidden space-y-6 mb-12">
+                  {showFullListOnMobile ? (
+                    <div className="flex flex-col gap-4">
+                      {paginatedDishes.map((dish, index) => (
+                        <DishCard
+                          key={dish.id}
+                          dish={dish}
+                          language={language}
+                          onViewDetails={handleDishClick}
+                          index={index}
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    (() => {
+                      const chunkSize = 8;
+                      const rows: Dish[][] = [];
+                      for (
+                        let i = 0;
+                        i < paginatedDishes.length;
+                        i += chunkSize
+                      ) {
+                        rows.push(paginatedDishes.slice(i, i + chunkSize));
+                      }
+                      return rows.map((row, idx) => (
+                        <MenuRowCarousel
+                          key={`row-${idx}`}
+                          dishes={row}
+                          language={language}
+                          onViewDetails={handleDishClick}
+                          rowIndex={idx}
+                        />
+                      ));
+                    })()
+                  )}
                 </div>
 
                 {totalPages > 1 && (

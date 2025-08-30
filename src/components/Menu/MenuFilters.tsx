@@ -119,7 +119,7 @@ const MenuFilters: React.FC<MenuFiltersProps> = memo(
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex flex-wrap justify-center gap-2"
+          className="flex gap-2 overflow-x-auto no-scrollbar py-2 px-2 snap-x"
         >
           {allCategories.map((category, index) => {
             const IconComponent = getIcon(category.icon);
@@ -130,7 +130,7 @@ const MenuFilters: React.FC<MenuFiltersProps> = memo(
               <motion.button
                 key={category.id}
                 onClick={() => onCategoryChange(category.id)}
-                className={`relative flex items-center gap-2 px-4 py-2.5 rounded-full transition-all duration-300 ${
+                className={`relative flex-shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-full transition-all duration-300 ${
                   isActive
                     ? `bg-gradient-to-r ${category.color} text-white shadow-lg`
                     : "bg-white border border-gray-200 text-gray-600 hover:border-yellow-400 hover:shadow-md"
@@ -173,11 +173,11 @@ const MenuFilters: React.FC<MenuFiltersProps> = memo(
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="flex flex-wrap justify-center gap-3"
+          className="flex gap-3 overflow-x-auto no-scrollbar py-2 px-2"
         >
           <motion.button
             onClick={onSignatureToggle}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+            className={`flex-shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
               showSignature
                 ? "bg-gradient-to-r from-yellow-400 to-amber-500 text-black shadow-lg"
                 : "bg-white border border-gray-200 text-gray-600 hover:border-yellow-400"
@@ -198,7 +198,7 @@ const MenuFilters: React.FC<MenuFiltersProps> = memo(
 
           <motion.button
             onClick={onPopularToggle}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+            className={`flex-shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
               showPopular
                 ? "bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg"
                 : "bg-white border border-gray-200 text-gray-600 hover:border-red-400"
@@ -219,7 +219,7 @@ const MenuFilters: React.FC<MenuFiltersProps> = memo(
 
           <motion.button
             onClick={onWeekendToggle}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+            className={`flex-shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
               showWeekendOnly
                 ? "bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-lg"
                 : "bg-white border border-gray-200 text-gray-600 hover:border-purple-400"
