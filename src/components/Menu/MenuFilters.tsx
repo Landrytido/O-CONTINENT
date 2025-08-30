@@ -114,130 +114,132 @@ const MenuFilters: React.FC<MenuFiltersProps> = memo(
 
     return (
       <div className="space-y-4">
-        {/* LIGNE 1 : Catégories */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="flex gap-2 overflow-x-auto no-scrollbar py-2 px-2 snap-x"
-        >
-          {allCategories.map((category, index) => {
-            const IconComponent = getIcon(category.icon);
-            const isActive = activeCategory === category.id;
-            const count = dishCounts[category.id] || 0;
+        <div className="md:max-w-4xl md:mx-auto">
+          {/* LIGNE 1 : Catégories */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="flex gap-2 flex-nowrap md:flex-wrap overflow-x-auto md:overflow-visible no-scrollbar py-2 px-2 snap-x md:justify-center"
+          >
+            {allCategories.map((category, index) => {
+              const IconComponent = getIcon(category.icon);
+              const isActive = activeCategory === category.id;
+              const count = dishCounts[category.id] || 0;
 
-            return (
-              <motion.button
-                key={category.id}
-                onClick={() => onCategoryChange(category.id)}
-                className={`relative flex-shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-full transition-all duration-300 ${
-                  isActive
-                    ? `bg-gradient-to-r ${category.color} text-white shadow-lg`
-                    : "bg-white border border-gray-200 text-gray-600 hover:border-yellow-400 hover:shadow-md"
-                }`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.03 }}
-              >
-                <IconComponent
-                  className={`w-4 h-4 ${
-                    isActive ? "text-white" : "text-gray-500"
+              return (
+                <motion.button
+                  key={category.id}
+                  onClick={() => onCategoryChange(category.id)}
+                  className={`relative flex-shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-full transition-all duration-300 ${
+                    isActive
+                      ? `bg-gradient-to-r ${category.color} text-white shadow-lg`
+                      : "bg-white border border-gray-200 text-gray-600 hover:border-yellow-400 hover:shadow-md"
                   }`}
-                />
-                <span
-                  className="text-sm font-medium"
-                  style={{ fontFamily: "Inter, sans-serif" }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.98 }}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.03 }}
                 >
-                  {category.name[language]}
-                </span>
-                {count > 0 && (
-                  <span
-                    className={`text-xs font-bold px-1.5 py-0.5 rounded-full ${
-                      isActive
-                        ? "bg-white/20 text-white"
-                        : "bg-yellow-100 text-yellow-700"
+                  <IconComponent
+                    className={`w-4 h-4 ${
+                      isActive ? "text-white" : "text-gray-500"
                     }`}
+                  />
+                  <span
+                    className="text-sm font-medium"
+                    style={{ fontFamily: "Inter, sans-serif" }}
                   >
-                    {count}
+                    {category.name[language]}
                   </span>
-                )}
-              </motion.button>
-            );
-          })}
-        </motion.div>
+                  {count > 0 && (
+                    <span
+                      className={`text-xs font-bold px-1.5 py-0.5 rounded-full ${
+                        isActive
+                          ? "bg-white/20 text-white"
+                          : "bg-yellow-100 text-yellow-700"
+                      }`}
+                    >
+                      {count}
+                    </span>
+                  )}
+                </motion.button>
+              );
+            })}
+          </motion.div>
 
-        {/* LIGNE 2 : Filtres spéciaux */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="flex gap-3 overflow-x-auto no-scrollbar py-2 px-2"
-        >
-          <motion.button
-            onClick={onSignatureToggle}
-            className={`flex-shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-              showSignature
-                ? "bg-gradient-to-r from-yellow-400 to-amber-500 text-black shadow-lg"
-                : "bg-white border border-gray-200 text-gray-600 hover:border-yellow-400"
-            }`}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+          {/* LIGNE 2 : Filtres spéciaux */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="flex gap-3 flex-nowrap md:flex-wrap overflow-x-auto md:overflow-visible no-scrollbar py-2 px-2 md:justify-center md:max-w-3xl md:mx-auto"
           >
-            <Star className="w-4 h-4" />
-            <span>{t.signature}</span>
-            {showSignature && (
-              <motion.div
-                className="w-2 h-2 bg-black/30 rounded-full"
-                animate={{ scale: [1, 1.3, 1] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              />
-            )}
-          </motion.button>
+            <motion.button
+              onClick={onSignatureToggle}
+              className={`flex-shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+                showSignature
+                  ? "bg-gradient-to-r from-yellow-400 to-amber-500 text-black shadow-lg"
+                  : "bg-white border border-gray-200 text-gray-600 hover:border-yellow-400"
+              }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Star className="w-4 h-4" />
+              <span>{t.signature}</span>
+              {showSignature && (
+                <motion.div
+                  className="w-2 h-2 bg-black/30 rounded-full"
+                  animate={{ scale: [1, 1.3, 1] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                />
+              )}
+            </motion.button>
 
-          <motion.button
-            onClick={onPopularToggle}
-            className={`flex-shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-              showPopular
-                ? "bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg"
-                : "bg-white border border-gray-200 text-gray-600 hover:border-red-400"
-            }`}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <TrendingUp className="w-4 h-4" />
-            <span>{t.popular}</span>
-            {showPopular && (
-              <motion.div
-                className="w-2 h-2 bg-white/40 rounded-full"
-                animate={{ scale: [1, 1.3, 1] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              />
-            )}
-          </motion.button>
+            <motion.button
+              onClick={onPopularToggle}
+              className={`flex-shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+                showPopular
+                  ? "bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg"
+                  : "bg-white border border-gray-200 text-gray-600 hover:border-red-400"
+              }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <TrendingUp className="w-4 h-4" />
+              <span>{t.popular}</span>
+              {showPopular && (
+                <motion.div
+                  className="w-2 h-2 bg-white/40 rounded-full"
+                  animate={{ scale: [1, 1.3, 1] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                />
+              )}
+            </motion.button>
 
-          <motion.button
-            onClick={onWeekendToggle}
-            className={`flex-shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-              showWeekendOnly
-                ? "bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-lg"
-                : "bg-white border border-gray-200 text-gray-600 hover:border-purple-400"
-            }`}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Clock className="w-4 h-4" />
-            <span>{t.weekend}</span>
-            {showWeekendOnly && (
-              <motion.div
-                className="w-2 h-2 bg-white/40 rounded-full"
-                animate={{ scale: [1, 1.3, 1] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              />
-            )}
-          </motion.button>
-        </motion.div>
+            <motion.button
+              onClick={onWeekendToggle}
+              className={`flex-shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+                showWeekendOnly
+                  ? "bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-lg"
+                  : "bg-white border border-gray-200 text-gray-600 hover:border-purple-400"
+              }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Clock className="w-4 h-4" />
+              <span>{t.weekend}</span>
+              {showWeekendOnly && (
+                <motion.div
+                  className="w-2 h-2 bg-white/40 rounded-full"
+                  animate={{ scale: [1, 1.3, 1] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                />
+              )}
+            </motion.button>
+          </motion.div>
+        </div>
 
         {/* LIGNE 3 : Recherche et Prix */}
         <motion.div
