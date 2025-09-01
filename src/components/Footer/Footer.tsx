@@ -173,12 +173,11 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
                   style={{ fontFamily: "Playfair Display, serif" }}
                 >
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-amber-500">
-                    O '
+                    O'
                   </span>
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-600 ml-2">
-                    CONTINENG
-                  </span>
-
+                    CONTINENT
+                  </span>{" "}
                   {/* logo text */}
                 </h2>
               </motion.div>
@@ -420,7 +419,7 @@ const Footer: React.FC<FooterProps> = ({ language = "fr" }) => {
               style={{ fontFamily: "Inter, sans-serif" }}
             >
               <span>
-                &copy; {currentYear} O CONTINENG - {t.copyright}
+                &copy; {currentYear} O'CONTINENG - {t.copyright}
               </span>
             </p>
           </motion.div>

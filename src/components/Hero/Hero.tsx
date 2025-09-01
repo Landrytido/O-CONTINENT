@@ -218,7 +218,7 @@ const Hero: React.FC<HeroProps> = ({ language = "fr" }) => {
                     <MapPin className="w-5 h-5 text-yellow-400" />
                   </motion.div>
                   <span className="font-medium tracking-wide">
-                    Chaussé de Mons 1081, 1070 Anderlecht
+                    Chaussée de Mons 1081, 1070 Anderlecht
                   </span>
                 </motion.div>
 

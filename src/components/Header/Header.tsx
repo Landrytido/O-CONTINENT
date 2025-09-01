@@ -9,7 +9,7 @@ const Logo = () => (
   >
     <div className="text-2xl font-bold">
       <span className="text-yellow-400">O '</span>
-      <span className="text-red-500 ml-1">CONTINENG</span>
+      <span className="text-red-500 ml-1">CONTINENT</span>
     </div>
   </motion.div>
 );
