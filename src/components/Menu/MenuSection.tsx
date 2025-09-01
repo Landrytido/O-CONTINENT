@@ -146,9 +146,12 @@ const MenuSection: React.FC<MenuSectionProps> = memo(({ language = "fr" }) => {
 
   const [showFullListOnMobile, setShowFullListOnMobile] = useState(false);
 
-  useEffect(() => {
-    // effect retained for potential telemetry integration
-  }, [filters.currentPage, totalPages, paginatedDishes, filterStats]);
+  useEffect(() => {}, [
+    filters.currentPage,
+    totalPages,
+    paginatedDishes,
+    filterStats,
+  ]);
 
   const handleDishClick = useCallback((dish: Dish) => {
     setSelectedDish(dish);

@@ -335,7 +335,7 @@ const DishModal: React.FC<DishModalProps> = ({
 
                   {/* WhatsApp Button */}
                   <motion.a
-                    href={`https://wa.me/32484925191?text=${reservationMessage}`}
+                    href={`https://wa.me/32465412732?text=${reservationMessage}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white font-bold py-4 px-6 rounded-xl hover:from-green-400 hover:to-green-500 transition-all duration-300 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl text-lg"
